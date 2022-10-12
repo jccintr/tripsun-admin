@@ -1,0 +1,48 @@
+
+.cidades {
+   
+   
+   
+    .cidadesContainer {
+       
+        flex:6;
+        align-items: center;
+
+        .cityCard {
+            display: flex;
+            flex-direction: column;
+            width: 250px;
+            height: 150px;
+            justify-content:center;
+            align-items: center;
+           margin: 10px;
+        
+           &:hover {
+            opacity: .7;
+            
+          }
+          }
+          .cityImage {
+            width: 250px;
+            height: 120px;
+            
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        
+          }
+          .cityNameText {
+           width: 250px;
+           height: 25px;
+           color: #fff;
+           font-weight: 700;
+           background-color: #f00;
+           text-align: center;
+           
+           border-bottom-left-radius: 15px;
+           border-bottom-right-radius: 15px;
+          }
+    }
+}
+
+
+

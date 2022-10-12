@@ -1,0 +1,10 @@
+.parceiros {
+    display: flex;
+    flex:1;
+    background-color: white;
+   
+    .parceirosContainer {
+        background-color: lightblue;
+        flex:6;
+    }
+}

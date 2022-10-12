@@ -1,0 +1,10 @@
+.categorias {
+    display: flex;
+    flex:1;
+    background-color: white;
+   
+    .categoriasContainer {
+        background-color: lightblue;
+        flex:6;
+    }
+}

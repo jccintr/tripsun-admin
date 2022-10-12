@@ -1,0 +1,25 @@
+.cidades {
+    display: flex;
+    flex:1;
+    flex-direction: column;
+    background-color: white;
+   
+   
+    .cidadesContainer {
+        width: 100%;
+       
+  
+        
+       
+     .gridContainer {
+        margin-top: 50px;;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        
+        justify-content: center;
+        align-items: flex-start;
+       
+     }   
+    }
+}

@@ -1,0 +1,10 @@
+.usuarios {
+    display: flex;
+    flex:1;
+    background-color: white;
+   
+    .usuariosContainer {
+        background-color: lightblue;
+        flex:6;
+    }
+}

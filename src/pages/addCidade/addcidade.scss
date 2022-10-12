@@ -1,0 +1,19 @@
+.addCidade {
+    display: flex;
+    flex:1;
+    background-color: white;
+   
+    .addCidadeContainer {
+        
+        background-color: lightblue;
+        flex:6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .form {
+        align-items: center;
+        justify-content: center;
+    }
+}
