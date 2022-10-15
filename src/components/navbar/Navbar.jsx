@@ -2,9 +2,10 @@ import React from 'react'
 import "./navbar.scss";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { Button } from '@chakra-ui/react';
 
 
-const Navbar = () => {
+const Navbar = ({onClick}) => {
   const navigate = useNavigate();
   return (
     <div className='navbar'>
@@ -16,7 +17,7 @@ const Navbar = () => {
                 <input type="text" placeholder="Pesquisar..." />
                 <FaSearch className="icon" size={18} /> 
             </div>
-            <button className="buttonAdd" onClick={()=>{navigate('/cidades/add');}}>Adicionar</button>
+            <Button color='red'  onClick={onClick}>Adicionar</Button>
       </div>
     </div>
   )
