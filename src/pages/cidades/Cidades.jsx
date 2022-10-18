@@ -1,11 +1,8 @@
 import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
-import CardCity from '../../components/cardcity/CardCity';
 import Navbar from '../../components/navbar/Navbar';
-import Sidebar from '../../components/sidebar/Sidebar';
 import { useNavigate } from "react-router-dom";
 import { useToast } from '@chakra-ui/react'
-
 import "./cidades.scss";
 //import "./style.css";
 import imagemVazia from "../../assets/empty-image.png";
@@ -23,6 +20,7 @@ import {useDisclosure,Input,Select,
   FormLabel,
   AlertDescription,
 } from '@chakra-ui/react'
+import TableCidades from '../../components/tableCidades/TableCidades';
 
 
 
@@ -38,6 +36,7 @@ const Cidades = () => {
   const imgRef = useRef();
   const navigate = useNavigate();
   const toast = useToast();
+  const [filter,setFilter] = useState('');
 
 
 
@@ -108,9 +107,19 @@ const Cidades = () => {
         status: 'success',
         duration: 3000,
         isClosable: true,
-      })
+      });
+      onClose();
+   } else {
+    toast({
+      title: 'Atenção !',
+      description: "Preencha todos os campos por favor.",
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    })
+
    }
-   onClose();
+  
     
 }
 
@@ -133,14 +142,11 @@ const onSelect = (e) => {
 
   return (
     <div className="cidades">
-     
-     <Navbar onClick={onOpen}/>
+       <Navbar onClick={onOpen} setFilter={setFilter} title="Cidades"/>
       <div className="cidadesContainer">
-     
+         <TableCidades cidades={cidades} filter={filter}/>
         <div className="gridContainer">
-          {cidades.map((cidade) => (
-               <CardCity key={cidade.id} cidade={cidade}/>
-              ))}
+         
         </div>
      
       </div>

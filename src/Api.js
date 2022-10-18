@@ -1,12 +1,12 @@
 
 // --host=192.168.0.107
 //const BASE_API = 'localhost:8000/api';
-//const BASE_API = 'http://192.168.0.107:8000/api';
-const BASE_API = 'http://177.104.209.216:8000/api';
+const BASE_API = 'http://192.168.0.107:8000/api';
+//const BASE_API = 'http://177.104.209.216:8000/api';
 
 export default {
-    //base_storage: 'http://192.168.0.107:8000/storage',
-    base_storage: 'http://177.104.209.216:8000/storage',
+    base_storage: 'http://192.168.0.107:8000/storage',
+   // base_storage: 'http://177.104.209.216:8000/storage',
     checkToken: async (token) => {
         const req = await fetch(`${BASE_API}/auth/refresh`, {
             method: 'POST',
@@ -78,6 +78,36 @@ export default {
     },
     addCidade: async (fd) => {
         const response = await fetch(`${BASE_API}/cidades`, {
+            method: 'POST',
+           
+            body: fd
+        });
+      //  const json = await req.json();        
+       // return json;
+       return response;
+    },
+    getCategorias: async () => {
+        const req = await fetch(`${BASE_API}/categorias`);
+        const json = await req.json();
+        return json;
+    },
+    addCategoria: async (fd) => {
+        const response = await fetch(`${BASE_API}/categorias`, {
+            method: 'POST',
+           
+            body: fd
+        });
+      //  const json = await req.json();        
+       // return json;
+       return response;
+    },
+    getSubcategorias: async () => {
+        const req = await fetch(`${BASE_API}/subcategorias`);
+        const json = await req.json();
+        return json;
+    },
+    addSubcategoria: async (fd) => {
+        const response = await fetch(`${BASE_API}/subcategorias`, {
             method: 'POST',
            
             body: fd

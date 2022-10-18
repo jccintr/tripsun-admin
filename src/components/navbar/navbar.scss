@@ -24,11 +24,14 @@
 
     .search {
       width: 500px;
+      height: 40px;
+      border-radius: 10px;
+      
       display: flex;
       align-items: center;
       justify-content: space-between;
       border: 0.5px solid lightgray;
-      padding: 3px;
+      padding: 5px;
       
       input {
         border: none;
