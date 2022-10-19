@@ -36,7 +36,7 @@ const Sidebar = () => {
                         <FaCity className="icon" size={18} /> 
                         <span>Cidades</span>
                     </li>
-                </Link>
+                </Link> 
                 <Link to="/categorias" style={{ textDecoration: "none" }}>
                 <li>
                     <FaTheaterMasks className="icon" size={18} /> 

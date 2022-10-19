@@ -43,13 +43,17 @@
         }
   
         li {
+          
           display: flex;
+          width: 90%;
           align-items: center;
           padding: 5px;
           cursor: pointer;
+          border-radius: 10px;
   
           &:hover {
             background-color: #ece8ff;
+            
           }
   
           .icon {
@@ -62,6 +66,9 @@
               font-weight: 600;
               color: yellow;
               margin-left: 10px;
+          }
+          span:hover{
+            color:#EB0303;
           }
         }
       }

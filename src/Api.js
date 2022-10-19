@@ -116,6 +116,21 @@ export default {
        // return json;
        return response;
     },
+    getParceiros: async () => {
+        const req = await fetch(`${BASE_API}/prestadores`);
+        const json = await req.json();
+        return json;
+    },
+    addParceiro: async (fd) => {
+        const response = await fetch(`${BASE_API}/prestadores`, {
+            method: 'POST',
+           
+            body: fd
+        });
+      //  const json = await req.json();        
+       // return json;
+       return response;
+    },
   
    
 };

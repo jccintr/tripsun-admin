@@ -22,7 +22,7 @@ const TableParceiros = ({parceiros,filter}) => {
         <Th>id</Th>
         <Th>Nome</Th>
         <Th>Cidade</Th>
-        <Th>Logotipo</Th>
+        <Th>Imagem</Th>
       </Tr>
     </Thead>
     <Tbody>
@@ -33,13 +33,13 @@ const TableParceiros = ({parceiros,filter}) => {
               
               <Td isNumeric>{parceiro.id}</Td>
               <Td>{parceiro.nome}</Td>
-              
+              <Td>{parceiro.nome_cidade}</Td>
               <Td>
                   <Image
                     boxSize='50px'
                     borderRadius='10px'
                     objectFit='cover'
-                    src={`${Api.base_storage}/${parceiro.imagem}`}
+                    src={`${Api.base_storage}/${parceiro.logotipo}`}
                     alt={parceiro.nome}
                   />
               </Td>
