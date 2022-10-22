@@ -29,6 +29,7 @@ import TableCidades from '../../components/tableCidades/TableCidades';
 const Cidades = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [cidades,setCidades] = useState([]);
+  const [cidade,setCidade] = useState(null);
   const [nome,setNome] = useState('');
   const [estado,setEstado] = useState('')
   const [imagem,setImagem] = useState('');
@@ -37,6 +38,7 @@ const Cidades = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const [filter,setFilter] = useState('');
+  const [editando,setEditando] = useState(false);
 
 
 
@@ -81,9 +83,7 @@ const Cidades = () => {
     getCidades();
   }, []);
 
-  const onTeste = () => {
-    alert("ddd");
-  }
+  
 
   const onSalvar = async (e) => {
     e.preventDefault();
@@ -126,11 +126,13 @@ const Cidades = () => {
 const handlerImagem = (e) => {
 
   if(e.target.files[0]){
+   
     imgRef.current.src = URL.createObjectURL(e.target.files[0]);
-    setImagemCarregada(true);
+  
+    
   }
- 
   setImagem(e.target.files[0]);
+ 
 
 }
 
@@ -139,12 +141,32 @@ const onSelect = (e) => {
   alert(e.target.value);
 }
 
+const onAdd = () => {
+  setNome('');
+  setEstado('');
+  setImagem('');
+  setEditando(false);
+  onOpen();
+}
+
+const onEdit = async (id) => {
+  let json = await Api.getCidadebyId(id);
+  setNome(json.nome);
+  setEstado(json.estado);
+  setImagem(`${Api.base_storage}/${json.imagem}`)
+  
+  setImagemCarregada(false);
+  setEditando(true);
+  onOpen();
+ 
+}
+
 
   return (
     <div className="cidades">
-       <Navbar onClick={onOpen} setFilter={setFilter} title="Cidades"/>
+       <Navbar onClick={onAdd} setFilter={setFilter} title="Cidades"/>
       <div className="cidadesContainer">
-         <TableCidades cidades={cidades} filter={filter}/>
+         <TableCidades cidades={cidades} filter={filter} onEdit={onEdit}/>
         <div className="gridContainer">
          
         </div>
@@ -153,7 +175,7 @@ const onSelect = (e) => {
         <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Nova Cidade</ModalHeader>
+          <ModalHeader>{editando?'Editando':'Nova'} Cidade</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
              <form id="add" onSubmit={onSalvar}>
@@ -187,9 +209,13 @@ const onSelect = (e) => {
                   <input type="file" id="imagem" name="imagem" onChange={handlerImagem}/>
                 </FormControl>
                
-                <FormControl>
-                  <img  style={{marginTop:20,borderRadius:10}} className="imagem" ref={imgRef}/>
+                  <FormControl>
+
+                    <img  style={{marginTop:20,borderRadius:10}} className="imagem"  ref={imgRef} alt="Imagem da Cidade"/>
+                   
+                 
                 </FormControl>
+              
                
              </form>
           </ModalBody>

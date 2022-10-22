@@ -64,6 +64,11 @@ export default {
         const json = await req.json();
         return json;
     },
+    getCidadebyId: async (id) => {
+        const req = await fetch(`${BASE_API}/cidade/${id}`);
+        const json = await req.json();
+        return json;
+    },
     getCidade: async (id,lat,lng) => {
         const req = await fetch(`${BASE_API}/cidade`, {
             method: 'POST',

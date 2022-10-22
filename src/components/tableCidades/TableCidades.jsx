@@ -1,5 +1,7 @@
 import React  from 'react'
 import Api from '../../Api';
+import { BiEdit } from "react-icons/bi";
+
 import {
     Table,
     Thead,
@@ -11,8 +13,9 @@ import {
     TableCaption,
     TableContainer,Image,
   } from '@chakra-ui/react'
+  
 
-const TableCidades = ({cidades,filter}) => {
+const TableCidades = ({cidades,filter,onEdit}) => {
   return (
     <TableContainer>
   <Table variant='striped'>
@@ -23,6 +26,7 @@ const TableCidades = ({cidades,filter}) => {
         <Th>Nome</Th>
         <Th>Estado</Th>
         <Th>Imagem</Th>
+        <Th></Th>
       </Tr>
     </Thead>
     <Tbody>
@@ -43,6 +47,7 @@ const TableCidades = ({cidades,filter}) => {
                     alt={cidade.nome}
                   />
               </Td>
+              <Td><BiEdit style={{color: '#f00'}} size={30} onClick={()=>onEdit(cidade.id)}/></Td>
              
              
             </Tr>
