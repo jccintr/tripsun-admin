@@ -4,9 +4,6 @@ import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
 import { useToast } from '@chakra-ui/react'
 import "./cidades.scss";
-//import "./style.css";
-import imagemVazia from "../../assets/empty-image.png";
-
 import {useDisclosure,Input,Select,
   Button,
   Modal,
@@ -18,30 +15,22 @@ import {useDisclosure,Input,Select,
   ModalCloseButton,
   FormControl,
   FormLabel,
-  AlertDescription,
 } from '@chakra-ui/react'
 import TableCidades from '../../components/tableCidades/TableCidades';
-
-
-
-
 
 const Cidades = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [cidades,setCidades] = useState([]);
-  const [cidade,setCidade] = useState(null);
+  const [idCidade,setIdCidade] = useState(null);
   const [nome,setNome] = useState('');
-  const [estado,setEstado] = useState('')
+  const [estado,setEstado] = useState('');
   const [imagem,setImagem] = useState('');
-  const [imagemCarregada,setImagemCarregada] = useState(false);
   const imgRef = useRef();
   const navigate = useNavigate();
   const toast = useToast();
   const [filter,setFilter] = useState('');
   const [editando,setEditando] = useState(false);
-
-
-
+  const initialRef = useRef(null)
   
   const estados = [
     { sigla: 'AC',nome: 'Acre' },
@@ -76,49 +65,71 @@ const Cidades = () => {
 
   useEffect(()=>{
     const getCidades = async () => {
-    
        let json = await Api.getCidades();
        setCidades(json);
     }
     getCidades();
   }, []);
 
-  
-
   const onSalvar = async (e) => {
     e.preventDefault();
     const fd = new FormData();
-   
-
     fd.append('nome',nome);
     fd.append('estado',estado);
     fd.append('imagem',imagem);
    
-    let response = await Api.addCidade(fd);
-    if(response.status===201){
-       let json = await Api.getCidades();
-       setNome('');
-       setEstado('');
-       setImagem('');
-       setCidades(json);
-       toast({
+    if(!editando){
+        let response = await Api.addCidade(fd);
+        if(response.status===201){
+          let json = await Api.getCidades();
+          setNome('');
+          setEstado('');
+          setImagem('');
+          setCidades(json);
+          toast({
+            title: 'Parabéns !',
+            description: "Você adicionou uma nova cidade.",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          });
+          onClose();
+      } else {
+        toast({
+          title: 'Atenção !',
+          description: "Preencha todos os campos por favor.",
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
+      }
+  } else {
+    let response = await Api.updateCidade(idCidade,fd);
+    if(response.status===200){
+      let json = await Api.getCidades();
+      setNome('');
+      setEstado('');
+      setImagem('');
+      setCidades(json);
+      toast({
         title: 'Parabéns !',
-        description: "Você adicionou uma nova cidade.",
+        description: "Você atualizou uma cidade.",
         status: 'success',
         duration: 3000,
         isClosable: true,
       });
       onClose();
-   } else {
+  } else {
     toast({
       title: 'Atenção !',
-      description: "Preencha todos os campos por favor.",
+      description: "Campos obrigatórios não informados.",
       status: 'error',
       duration: 3000,
       isClosable: true,
     })
+  }
 
-   }
+  }
   
     
 }
@@ -126,40 +137,34 @@ const Cidades = () => {
 const handlerImagem = (e) => {
 
   if(e.target.files[0]){
-   
-    imgRef.current.src = URL.createObjectURL(e.target.files[0]);
-  
-    
+     imgRef.current.src = URL.createObjectURL(e.target.files[0]);
   }
   setImagem(e.target.files[0]);
  
-
 }
 
 const onSelect = (e) => {
   setEstado(e.target.value);
-  alert(e.target.value);
 }
 
 const onAdd = () => {
   setNome('');
   setEstado('');
   setImagem('');
+  setIdCidade(null);
   setEditando(false);
   onOpen();
 }
 
 const onEdit = async (id) => {
   let json = await Api.getCidadebyId(id);
+  setIdCidade(json.id);
   setNome(json.nome);
   setEstado(json.estado);
   setImagem(`${Api.base_storage}/${json.imagem}`)
-  
-  setImagemCarregada(false);
   setEditando(true);
   onOpen();
- 
-}
+ }
 
 
   return (
@@ -172,7 +177,7 @@ const onEdit = async (id) => {
         </div>
      
       </div>
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal  initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{editando?'Editando':'Nova'} Cidade</ModalHeader>
@@ -187,6 +192,7 @@ const onEdit = async (id) => {
                         value={nome}
                         onChange={e => setNome(e.target.value)}
                         placeholder='Nome da cidade...'
+                        ref={initialRef}
                       />
                 </FormControl>
                 <FormControl style={{marginBottom:10}}>
@@ -206,25 +212,19 @@ const onEdit = async (id) => {
                   <FormLabel>
                     Imagem:
                   </FormLabel>
-                  <input type="file" id="imagem" name="imagem" onChange={handlerImagem}/>
+                  <input type="file"  id="imagem" name="imagem" onChange={handlerImagem}/>
                 </FormControl>
-               
-                  <FormControl>
-
-                    <img  style={{marginTop:20,borderRadius:10}} className="imagem"  ref={imgRef} alt="Imagem da Cidade"/>
-                   
-                 
+                <FormControl>
+                  <img  style={{marginTop:20,borderRadius:10}} className="imagem" ref={imgRef}  />
                 </FormControl>
-              
-               
+         
              </form>
           </ModalBody>
-
           <ModalFooter>
             <Button type="submit" form="add" colorScheme='red' mr={3} >
               Salvar
             </Button>
-           
+        
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -232,4 +232,4 @@ const onEdit = async (id) => {
   )
 }
 
-export default Cidades
+export default Cidades 

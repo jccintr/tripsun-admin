@@ -59,6 +59,7 @@ export default {
         return json;
     },
     */
+   // Rotas da Cidade
     getCidades: async () => {
         const req = await fetch(`${BASE_API}/cidades`);
         const json = await req.json();
@@ -87,10 +88,16 @@ export default {
            
             body: fd
         });
-      //  const json = await req.json();        
-       // return json;
        return response;
     },
+    updateCidade: async (id,fd) => {
+        const response = await fetch(`${BASE_API}/cidade/${id}/update`, {
+            method: 'POST',
+            body: fd
+        });
+       return response;
+    },
+    // Rotas da Categoria ===========================================================
     getCategorias: async () => {
         const req = await fetch(`${BASE_API}/categorias`);
         const json = await req.json();
@@ -99,13 +106,23 @@ export default {
     addCategoria: async (fd) => {
         const response = await fetch(`${BASE_API}/categorias`, {
             method: 'POST',
-           
             body: fd
         });
-      //  const json = await req.json();        
-       // return json;
        return response;
     },
+    getCategoriabyId: async (id) => {
+        const req = await fetch(`${BASE_API}/categoria/${id}`);
+        const json = await req.json();
+        return json;
+    },
+    updateCategoria: async (id,fd) => {
+        const response = await fetch(`${BASE_API}/categoria/${id}/update`, {
+            method: 'POST',
+            body: fd
+        });
+       return response;
+    },
+    // Rotas da Subcategoria =======================================================
     getSubcategorias: async () => {
         const req = await fetch(`${BASE_API}/subcategorias`);
         const json = await req.json();
@@ -114,13 +131,23 @@ export default {
     addSubcategoria: async (fd) => {
         const response = await fetch(`${BASE_API}/subcategorias`, {
             method: 'POST',
-           
             body: fd
         });
-      //  const json = await req.json();        
-       // return json;
+        return response;
+    },
+    getSubcategoriabyId: async (id) => {
+        const req = await fetch(`${BASE_API}/subcategoria/${id}`);
+        const json = await req.json();
+        return json;
+    },
+    updatesubcategoria: async (id,fd) => {
+        const response = await fetch(`${BASE_API}/subcategoria/${id}/update`, {
+            method: 'POST',
+            body: fd
+        });
        return response;
     },
+    // Rotas dos Parceiros ========================================================
     getParceiros: async () => {
         const req = await fetch(`${BASE_API}/prestadores`);
         const json = await req.json();
@@ -129,12 +156,9 @@ export default {
     addParceiro: async (fd) => {
         const response = await fetch(`${BASE_API}/prestadores`, {
             method: 'POST',
-           
             body: fd
         });
-      //  const json = await req.json();        
-       // return json;
-       return response;
+      return response;
     },
   
    

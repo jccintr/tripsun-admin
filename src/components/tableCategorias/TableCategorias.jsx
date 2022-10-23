@@ -9,10 +9,10 @@ import {
     Th,
     Td,
     TableCaption,
-    TableContainer,Image,
+    TableContainer,Image,Button,
   } from '@chakra-ui/react'
 
-const TableCategorias = ({categorias,filter}) => {
+const TableCategorias = ({categorias,filter,onEdit}) => {
   return (
     <TableContainer>
   <Table variant='striped'>
@@ -21,10 +21,11 @@ const TableCategorias = ({categorias,filter}) => {
       <Tr>
         <Th>id</Th>
         <Th>Nome</Th>
-       
         <Th>Imagem</Th>
+        <Th></Th>
       </Tr>
     </Thead>
+
     <Tbody>
     {categorias.filter(
       (categoria) =>
@@ -33,7 +34,6 @@ const TableCategorias = ({categorias,filter}) => {
               
               <Td isNumeric>{categoria.id}</Td>
               <Td>{categoria.nome}</Td>
-              
               <Td>
                   <Image
                     boxSize='50px'
@@ -43,7 +43,11 @@ const TableCategorias = ({categorias,filter}) => {
                     alt={categoria.nome}
                   />
               </Td>
-             
+              <Td>
+                 <Button onClick={()=>onEdit(categoria.id)} colorScheme='red' mr={3} >
+                    Editar
+                  </Button>
+              </Td>
              
             </Tr>
               ))}

@@ -24,97 +24,114 @@ import {useDisclosure,Input,Select,
 
 const Subcategorias = () => {
   
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [categorias,setCategorias] = useState([]);
-  const [subcategorias,setSubcategorias] = useState([]);
-  const [idCategoria,setIdCategoria] = useState([]);
-  const [nome,setNome] = useState('');
-  const [imagem,setImagem] = useState('');
-  const [imagemCarregada,setImagemCarregada] = useState(false);
-  const imgRef = useRef();
-  const navigate = useNavigate();
-  const toast = useToast();
-  const [filter,setFilter] = useState('');
+const { isOpen, onOpen, onClose } = useDisclosure()
+const [categorias,setCategorias] = useState([]);
+const [subcategorias,setSubcategorias] = useState([]);
+const [idSubcategoria,setIdSubcategoria] = useState(null);
+const [idCategoria,setIdCategoria] = useState(null);
+const [nome,setNome] = useState('');
+const [imagem,setImagem] = useState('');
+const imgRef = useRef();
+const navigate = useNavigate();
+const toast = useToast();
+const [filter,setFilter] = useState('');
+const [editando,setEditando] = useState(false);
+const initialRef = useRef(null)
 
 
-    useEffect(()=>{
-        const getSubcategorias = async () => {
-        
-           let json = await Api.getSubcategorias();
-           setSubcategorias(json);
-          
-        }
-        getSubcategorias();
-      }, []);
 
-      useEffect(()=>{
-        const getCategorias = async () => {
-        
-           let json = await Api.getCategorias();
-           setCategorias(json);
-           
-        }
-        getCategorias();
-      }, []);
+useEffect(()=>{
+    const getSubcategorias = async () => {
+        let json = await Api.getSubcategorias();
+        setSubcategorias(json);
+    }
+    getSubcategorias();
+  }, []);
 
-
-      const onSalvar = async (e) => {
-        e.preventDefault();
-        const fd = new FormData();
-       
-    
-        fd.append('nome',nome);
-        fd.append('categoria_id',idCategoria);
-        fd.append('imagem',imagem);
-       
-        let response = await Api.addSubcategoria(fd);
-        if(response.status===201){
-           let json = await Api.getSubcategorias();
-           setNome('');
-           setIdCategoria('');
-           setImagem('');
-           setSubcategorias(json);
-           toast({
-            title: 'Parabéns !',
-            description: "Você adicionou uma nova subcategoria.",
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-          });
-          onClose();
-       } else {
-        toast({
-          title: 'Atenção !',
-          description: "Preencha todos os campos por favor.",
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        })
-    
-       }
+useEffect(()=>{
+  const getCategorias = async () => {
+  
+      let json = await Api.getCategorias();
+      setCategorias(json);
       
-        
+  }
+  getCategorias();
+}, []);
+
+
+  const onSalvar = async (e) => {
+    e.preventDefault();
+    const fd = new FormData();
+    
+    fd.append('nome',nome);
+    fd.append('categoria_id',idCategoria);
+    fd.append('imagem',imagem);
+    
+    let response = await Api.addSubcategoria(fd);
+    if(response.status===201){
+        let json = await Api.getSubcategorias();
+        setNome('');
+        setIdCategoria('');
+        setImagem('');
+        setSubcategorias(json);
+        toast({
+        title: 'Parabéns !',
+        description: "Você adicionou uma nova subcategoria.",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      onClose();
+    } else {
+    toast({
+      title: 'Atenção !',
+      description: "Preencha todos os campos por favor.",
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    })
+
     }
+      
+}
     
-    const handlerImagem = (e) => {
+const handlerImagem = (e) => {
+
+  if(e.target.files[0]){
+    imgRef.current.src = URL.createObjectURL(e.target.files[0]);
     
-      if(e.target.files[0]){
-        imgRef.current.src = URL.createObjectURL(e.target.files[0]);
-        setImagemCarregada(true);
-      }
-     
-      setImagem(e.target.files[0]);
+  }
+  
+  setImagem(e.target.files[0]);
+
+}
     
-    }
-    
-   
+const onAdd = () => {
+  setNome('');
+  setImagem('');
+  setIdCategoria(null);
+  setIdSubcategoria(null);
+  setEditando(false);
+  onOpen();
+  
+}
+
+const onEdit = async (id) => {
+  let json = await Api.getSubcategoriabyId(id);
+  setIdSubcategoria(json.id);
+  setIdCategoria(json.categoria_id);
+  setNome(json.nome);
+  setImagem(`${Api.base_storage}/${json.imagem}`)
+  setEditando(true);
+  onOpen();
+ }
     
 
     return (
         <div className="subcategorias">
-           <Navbar onClick={onOpen} setFilter={setFilter} title="Subcategorias"/>
+           <Navbar onClick={onAdd} setFilter={setFilter} title="Subcategorias"/>
           <div className="subcategoriasContainer">
-             <TableSubcategorias subCategorias={subcategorias} filter={filter}/>
+             <TableSubcategorias subCategorias={subcategorias} filter={filter} onEdit={onEdit}/>
             <div className="gridContainer">
              
             </div>
@@ -123,7 +140,7 @@ const Subcategorias = () => {
             <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader>Nova Subcategoria</ModalHeader>
+              <ModalHeader>{editando?'Editando':'Nova'} Subcategoria</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
                  <form id="add" onSubmit={onSalvar}>
