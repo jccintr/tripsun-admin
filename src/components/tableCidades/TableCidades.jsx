@@ -26,7 +26,7 @@ const TableCidades = ({cidades,filter,onEdit}) => {
         <Th>Imagem</Th>
         <Th></Th>
       </Tr>
-    </Thead>
+    </Thead> 
 
     <Tbody>
     {cidades.filter(

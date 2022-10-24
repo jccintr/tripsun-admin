@@ -67,6 +67,7 @@ useEffect(()=>{
     fd.append('categoria_id',idCategoria);
     fd.append('imagem',imagem);
     
+    if(!editando){
     let response = await Api.addSubcategoria(fd);
     if(response.status===201){
         let json = await Api.getSubcategorias();
@@ -92,6 +93,31 @@ useEffect(()=>{
     })
 
     }
+  } else {
+    let response = await Api.updateSubcategoria(idSubcategoria,fd);
+    if(response.status===200){
+      let json = await Api.getSubcategorias();
+      setNome('');
+      setImagem('');
+      setSubcategorias(json);
+      toast({
+        title: 'Parabéns !',
+        description: "Você atualizou uma Subcategoria.",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      onClose();
+  } else {
+    toast({
+      title: 'Atenção !',
+      description: "Campos obrigatórios não informados.",
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    })
+  }
+  }
       
 }
     
@@ -137,7 +163,7 @@ const onEdit = async (id) => {
             </div>
          
           </div>
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
               <ModalHeader>{editando?'Editando':'Nova'} Subcategoria</ModalHeader>
@@ -152,6 +178,7 @@ const onEdit = async (id) => {
                             value={nome}
                             onChange={e => setNome(e.target.value)}
                             placeholder='Nome da subcategoria...'
+                            ref={initialRef}
                           />
                     </FormControl>
                     <FormControl style={{marginBottom:10}}>

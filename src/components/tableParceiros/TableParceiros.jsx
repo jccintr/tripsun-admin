@@ -9,10 +9,10 @@ import {
     Th,
     Td,
     TableCaption,
-    TableContainer,Image,
+    TableContainer,Image,Button,
   } from '@chakra-ui/react'
 
-const TableParceiros = ({parceiros,filter}) => {
+const TableParceiros = ({parceiros,filter,onEdit}) => {
   return (
     <TableContainer>
   <Table variant='striped'>
@@ -22,7 +22,8 @@ const TableParceiros = ({parceiros,filter}) => {
         <Th>id</Th>
         <Th>Nome</Th>
         <Th>Cidade</Th>
-        <Th>Imagem</Th>
+        <Th>Imagem</Th> 
+        <Th></Th>
       </Tr>
     </Thead>
     <Tbody>
@@ -42,6 +43,11 @@ const TableParceiros = ({parceiros,filter}) => {
                     src={`${Api.base_storage}/${parceiro.logotipo}`}
                     alt={parceiro.nome}
                   />
+              </Td>
+              <Td>
+                 <Button onClick={()=>onEdit(parceiro.id)} colorScheme='red' mr={3} >
+                    Editar
+                  </Button>
               </Td>
              
              

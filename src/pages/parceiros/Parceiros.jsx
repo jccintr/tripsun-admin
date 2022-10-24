@@ -24,58 +24,79 @@ import {useDisclosure,Input,Select,
 
 const Parceiros = () => {
   
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [parceiros,setParceiros] = useState([]);
-  const [cidades,setCidades] = useState([]);
-  const [idCidade,setIdCidade] = useState([]);
-  const [nome,setNome] = useState('');
-  const [imagem,setImagem] = useState('');
-  const [imagemCarregada,setImagemCarregada] = useState(false);
-  const imgRef = useRef();
-  const navigate = useNavigate();
-  const toast = useToast();
-  const [filter,setFilter] = useState('');
+const { isOpen, onOpen, onClose } = useDisclosure()
+const [parceiros,setParceiros] = useState([]);
+const [cidades,setCidades] = useState([]);
+const [idCidade,setIdCidade] = useState([]);
+const [idParceiro,setIdParceiro] = useState(null);
+const [nome,setNome] = useState('');
+const [endereco,setEndereco] = useState('');
+const [bairro,setBairro] = useState('');
+const [cep,setCep] = useState('');
+const [contato,setContato] = useState('');
+const [telefone,setTelefone] = useState('');
+const [cnpj,setCnpj] = useState('');
+const [ie,setIe] = useState('');
+const [imagem,setImagem] = useState('');
+const [imagemCarregada,setImagemCarregada] = useState(false);
+const imgRef = useRef();
+const navigate = useNavigate();
+const toast = useToast();
+const [filter,setFilter] = useState('');
+const [editando,setEditando] = useState(false);
+const initialRef = useRef(null)
 
 
-    useEffect(()=>{
-        const getParceiros = async () => {
-        
-           let json = await Api.getParceiros();
-           setParceiros(json);
-           
-        }
-        getParceiros();
-      }, []);
+useEffect(()=>{
+    const getParceiros = async () => {
+    let json = await Api.getParceiros();
+        setParceiros(json);
+  }
+    getParceiros();
+  }, []);
 
-      useEffect(()=>{
-        const getCidades = async () => {
-        
-           let json = await Api.getCidades();
-           setCidades(json);
-           
-        }
-        getCidades();
-      }, []);
+useEffect(()=>{
+  const getCidades = async () => {
+  
+      let json = await Api.getCidades();
+      setCidades(json);
+      
+  }
+  getCidades();
+}, []);
 
-
-
-      const onSalvar = async (e) => {
-        e.preventDefault();
-        const fd = new FormData();
-       
+  const onSalvar = async (e) => {
+    e.preventDefault();
+    const fd = new FormData();
     
-        fd.append('nome',nome);
-        fd.append('cidade_id',idCidade);
-        fd.append('logotipo',imagem);
-       
+
+    fd.append('nome',nome);
+    fd.append('cidade_id',idCidade);
+    fd.append('logotipo',imagem);
+    fd.append('endereco',endereco);
+    fd.append('bairro',bairro);
+    fd.append('cep',cep);
+    fd.append('contato',contato);
+    fd.append('telefone',telefone);
+    fd.append('cnpj',cnpj);
+    fd.append('ie',ie);
+    
+    if(!editando){
         let response = await Api.addParceiro(fd);
         if(response.status===201){
-           let json = await Api.getParceiros();
-           setNome('');
-           setIdCidade('');
-           setImagem('');
-           setParceiros(json);
-           toast({
+            let json = await Api.getParceiros();
+            setNome('');
+            setIdCidade('');
+            setImagem('');
+            setEndereco('');
+            setBairro('');
+            setCep('');
+            setContato('');
+            setTelefone('');
+            setCnpj('');
+            setIe('');
+            setParceiros(json);
+            toast({
             title: 'Parabéns !',
             description: "Você adicionou uma novo parceiro.",
             status: 'success',
@@ -83,7 +104,7 @@ const Parceiros = () => {
             isClosable: true,
           });
           onClose();
-       } else {
+        } else {
         toast({
           title: 'Atenção !',
           description: "Preencha todos os campos por favor.",
@@ -91,40 +112,107 @@ const Parceiros = () => {
           duration: 3000,
           isClosable: true,
         })
+
+        }
+   } else {
+
+    let response = await Api.updateParceiro(idParceiro,fd);
+    if(response.status===200){
+      let json = await Api.getParceiros();
+      setNome('');
+      setIdCidade('');
+      setImagem('');
+      setEndereco('');
+      setBairro('');
+      setCep('');
+      setContato('');
+      setTelefone('');
+      setCnpj('');
+      setIe('');
+      toast({
+        title: 'Parabéns !',
+        description: "Você atualizou um parceiro.",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      onClose();
+  } else {
+    toast({
+      title: 'Atenção !',
+      description: "Campos obrigatórios não informados.",
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    })
+  }
+
+
+  }
+
     
-       }
-      
-        
+  }
+    
+  const handlerImagem = (e) => {
+  
+    if(e.target.files[0]){
+      imgRef.current.src = URL.createObjectURL(e.target.files[0]);
+      setImagemCarregada(true);
     }
     
-    const handlerImagem = (e) => {
+    setImagem(e.target.files[0]);
+  
+  }
+
+  
     
-      if(e.target.files[0]){
-        imgRef.current.src = URL.createObjectURL(e.target.files[0]);
-        setImagemCarregada(true);
-      }
-     
-      setImagem(e.target.files[0]);
-    
-    }
-    
+  const onAdd = () => {
+    setIdParceiro(null);
+    setNome('');
+    setEndereco('');
+    setBairro('');
+    setCep('');
+    setContato('');
+    setTelefone('');
+    setCnpj('');
+    setIe('');
+    setImagem('');
+    setIdCidade(null);
+    setEditando(false);
+    onOpen();
+  }
    
+  const onEdit = async (id) => {
+    let json = await Api.getParceirobyId(id);
+    setIdParceiro(json.id);
+    setNome(json.nome);
+    setEndereco(json.endereco);
+    setBairro(json.bairro);
+    setCep(json.bairro);
+    setContato(json.contato);
+    setTelefone(json.telefone);
+    setCnpj(json.cnpj);
+    setIe(json.ie);
+    setImagem(`${Api.base_storage}/${json.imagem}`)
+    setEditando(true);
+    onOpen(); 
+    }
     
 
     return (
         <div className="parceiros">
-           <Navbar onClick={onOpen} setFilter={setFilter} title="Parceiros"/>
+           <Navbar onClick={onAdd} setFilter={setFilter} title="Parceiros"/>
           <div className="parceirosContainer">
-             <TableParceiros parceiros={parceiros} filter={filter}/>
+             <TableParceiros parceiros={parceiros} filter={filter} onEdit={onEdit}/>
             <div className="gridContainer">
              
             </div>
          
           </div>
-            <Modal isOpen={isOpen} onClose={onClose} size='xl' >
+            <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose} size='xl' >
             <ModalOverlay />
             <ModalContent>
-              <ModalHeader>Novo Parceiro</ModalHeader>
+              <ModalHeader>{editando?'Editando':'Novo'} Parceiro</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
                  <form id="add" onSubmit={onSalvar}>
@@ -136,6 +224,7 @@ const Parceiros = () => {
                             value={nome}
                             onChange={e => setNome(e.target.value)}
                             placeholder='Nome do parceiro...'
+                            ref={initialRef}
                           />
                     </FormControl>
                   

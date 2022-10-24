@@ -140,7 +140,7 @@ export default {
         const json = await req.json();
         return json;
     },
-    updatesubcategoria: async (id,fd) => {
+    updateSubcategoria: async (id,fd) => {
         const response = await fetch(`${BASE_API}/subcategoria/${id}/update`, {
             method: 'POST',
             body: fd
@@ -159,6 +159,18 @@ export default {
             body: fd
         });
       return response;
+    },
+    getParceirobyId: async (id) => {
+        const req = await fetch(`${BASE_API}/parceiro/${id}`);
+        const json = await req.json();
+        return json;
+    },
+    updateParceiro: async (id,fd) => {
+        const response = await fetch(`${BASE_API}/parceiro/${id}/update`, {
+            method: 'POST',
+            body: fd
+        });
+       return response;
     },
   
    

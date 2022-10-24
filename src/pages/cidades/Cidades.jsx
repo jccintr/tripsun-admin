@@ -163,7 +163,7 @@ const onEdit = async (id) => {
   setEstado(json.estado);
   setImagem(`${Api.base_storage}/${json.imagem}`)
   setEditando(true);
-  onOpen();
+  onOpen(); 
  }
 
 
@@ -177,7 +177,7 @@ const onEdit = async (id) => {
         </div>
      
       </div>
-        <Modal  initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+        <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{editando?'Editando':'Nova'} Cidade</ModalHeader>
