@@ -161,12 +161,12 @@ export default {
       return response;
     },
     getParceirobyId: async (id) => {
-        const req = await fetch(`${BASE_API}/parceiro/${id}`);
+        const req = await fetch(`${BASE_API}/prestador/${id}`);
         const json = await req.json();
         return json;
     },
     updateParceiro: async (id,fd) => {
-        const response = await fetch(`${BASE_API}/parceiro/${id}/update`, {
+        const response = await fetch(`${BASE_API}/prestador/${id}/update`, {
             method: 'POST',
             body: fd
         });

@@ -27,7 +27,7 @@ const Parceiros = () => {
 const { isOpen, onOpen, onClose } = useDisclosure()
 const [parceiros,setParceiros] = useState([]);
 const [cidades,setCidades] = useState([]);
-const [idCidade,setIdCidade] = useState([]);
+const [idCidade,setIdCidade] = useState('');
 const [idParceiro,setIdParceiro] = useState(null);
 const [nome,setNome] = useState('');
 const [endereco,setEndereco] = useState('');
@@ -119,6 +119,7 @@ useEffect(()=>{
     let response = await Api.updateParceiro(idParceiro,fd);
     if(response.status===200){
       let json = await Api.getParceiros();
+      setParceiros(json);
       setNome('');
       setIdCidade('');
       setImagem('');
@@ -188,7 +189,8 @@ useEffect(()=>{
     setNome(json.nome);
     setEndereco(json.endereco);
     setBairro(json.bairro);
-    setCep(json.bairro);
+    setIdCidade(json.cidade_id);
+    setCep(json.cep);
     setContato(json.contato);
     setTelefone(json.telefone);
     setCnpj(json.cnpj);
@@ -233,8 +235,8 @@ useEffect(()=>{
                           Endereço:
                         </FormLabel>
                         <Input 
-                            value={nome}
-                            onChange={e => setNome(e.target.value)}
+                            value={endereco}
+                            onChange={e => setEndereco(e.target.value)}
                             placeholder='Endereço...'
                           />
                           
@@ -248,8 +250,8 @@ useEffect(()=>{
                               Bairro:
                             </FormLabel>
                             <Input 
-                                value={nome}
-                                onChange={e => setNome(e.target.value)}
+                                value={bairro}
+                                onChange={e => setBairro(e.target.value)}
                                 placeholder='Bairro...'
                               />
                         </FormControl>
@@ -258,8 +260,8 @@ useEffect(()=>{
                               CEP:
                             </FormLabel>
                             <Input 
-                                value={nome}
-                                onChange={e => setNome(e.target.value)}
+                                value={cep}
+                                onChange={e => setCep(e.target.value)}
                                 placeholder='CEP...'
                               />
                         </FormControl>
@@ -286,8 +288,8 @@ useEffect(()=>{
                               Contato:
                             </FormLabel>
                             <Input 
-                                value={nome}
-                                onChange={e => setNome(e.target.value)}
+                                value={contato}
+                                onChange={e => setContato(e.target.value)}
                                 placeholder='Contato...'
                               />
                         </FormControl>
@@ -296,8 +298,8 @@ useEffect(()=>{
                               Telefone:
                             </FormLabel>
                             <Input 
-                                value={nome}
-                                onChange={e => setNome(e.target.value)}
+                                value={telefone}
+                                onChange={e => setTelefone(e.target.value)}
                                 placeholder='Telefone...'
                               />
                         </FormControl>
@@ -308,8 +310,8 @@ useEffect(()=>{
                               CNPJ/CPF:
                             </FormLabel>
                             <Input 
-                                value={nome}
-                                onChange={e => setNome(e.target.value)}
+                                value={cnpj}
+                                onChange={e => setCnpj(e.target.value)}
                                 placeholder='CNPJ ou CPF...'
                               />
                         </FormControl>
@@ -318,8 +320,8 @@ useEffect(()=>{
                               IE/RG:
                             </FormLabel>
                             <Input 
-                                value={nome}
-                                onChange={e => setNome(e.target.value)}
+                                value={ie}
+                                onChange={e => setIe(e.target.value)}
                                 placeholder='IE ou RG...'
                               />
                         </FormControl>
