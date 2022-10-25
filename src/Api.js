@@ -172,6 +172,29 @@ export default {
         });
        return response;
     },
-  
-   
+  // Rotas dos Servicos (Atividades) ========================================================
+  getAtividades: async () => {
+    const req = await fetch(`${BASE_API}/servicos`);
+    const json = await req.json();
+    return json;
+   },
+   addAtividade: async (fd) => {
+    const response = await fetch(`${BASE_API}/servicos`, {
+        method: 'POST',
+        body: fd
+    });
+  return response;
+  },
+  getAtividadebyId: async (id) => {
+    const req = await fetch(`${BASE_API}/atividade/${id}`);
+    const json = await req.json();
+    return json;
+  },
+  updateAtividade: async (id,fd) => {
+    const response = await fetch(`${BASE_API}/atividade/${id}/update`, {
+        method: 'POST',
+        body: fd
+    });
+   return response;
+},
 };

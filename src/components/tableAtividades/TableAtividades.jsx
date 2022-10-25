@@ -12,7 +12,7 @@ import {
     TableContainer,Image,Button,
   } from '@chakra-ui/react'
 
-const TableAtividades = ({prestadores,filter,onEdit}) => {
+const TableAtividades = ({servicos,filter,onEdit}) => {
   return (
     <TableContainer>
   <Table variant='striped'>
@@ -27,25 +27,25 @@ const TableAtividades = ({prestadores,filter,onEdit}) => {
       </Tr>
     </Thead>
     <Tbody>
-    {prestadores.filter(
-      (prestador) =>
-      prestador.nome.toUpperCase().includes(filter.toUpperCase())).map((prestador) => (
-              <Tr key={prestador.id}>
+    {servicos.filter(
+      (servico) =>
+      servico.nome.toUpperCase().includes(filter.toUpperCase())).map((servico) => (
+              <Tr key={servico.id}>
               
-              <Td isNumeric>{prestador.id}</Td>
-              <Td>{prestador.nome}</Td>
-              <Td>{prestador.nome_cidade}</Td>
+              <Td isNumeric>{servico.id}</Td>
+              <Td>{servico.nome}</Td>
+              <Td>{servico.nome_cidade}</Td>
               <Td>
                   <Image
                     boxSize='50px'
                     borderRadius='10px'
                     objectFit='cover'
-                    src={`${Api.base_storage}/${prestador.imagem}`}
-                    alt={prestador.nome}
+                    src={`${Api.base_storage}/${servico.imagem}`}
+                    alt={servico.nome}
                   />
               </Td>
               <Td>
-                 <Button onClick={()=>onEdit(prestador.id)} colorScheme='red' mr={3} >
+                 <Button onClick={()=>onEdit(servico.id)} colorScheme='red' mr={3} >
                     Editar
                   </Button>
               </Td>

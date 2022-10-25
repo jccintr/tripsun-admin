@@ -1,10 +1,10 @@
 .atividades {
     display: flex;
     flex:1;
+    flex-direction: column;
     background-color: white;
    
     .atividadesContainer {
-        background-color: lightblue;
-        flex:6;
+       
     }
 }
