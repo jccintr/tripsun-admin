@@ -178,22 +178,30 @@ export default {
     const json = await req.json();
     return json;
    },
-   addAtividade: async (fd) => {
+   addAtividade: async (nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,valor) => {
     const response = await fetch(`${BASE_API}/servicos`, {
         method: 'POST',
-        body: fd
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,valor})
     });
   return response;
   },
   getAtividadebyId: async (id) => {
-    const req = await fetch(`${BASE_API}/atividade/${id}`);
+    const req = await fetch(`${BASE_API}/servico/${id}`);
     const json = await req.json();
     return json;
   },
-  updateAtividade: async (id,fd) => {
-    const response = await fetch(`${BASE_API}/atividade/${id}/update`, {
+  updateAtividade: async (id,nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,valor) => {
+    const response = await fetch(`${BASE_API}/servico/${id}/update`, {
         method: 'POST',
-        body: fd
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,valor})
     });
    return response;
 },

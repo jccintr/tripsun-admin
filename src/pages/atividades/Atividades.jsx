@@ -54,7 +54,8 @@ const [itensObrigatorios,setItensObrigatorios]= useState('');
 const [itensFornecidos,setItensFornecidos]= useState('');
 const [atrativos,setAtrativos] = useState('');
 const [duracao,setDuracao] = useState('');
-const [valor,setValor] = useState(1);
+const [horario,setHorario] = useState('');
+const [valor,setValor] = useState('');
 const toast = useToast();
 const [filter,setFilter] = useState('');
 const [editando,setEditando] = useState(false);
@@ -113,16 +114,50 @@ const onSelectCategory = (e) => {
   setIdCategoria(e.target.value);
 }
 */
+
+const ClearStates = () => {
+
+  setNome('');
+  setIdCidade(null);
+  setIdCategoria(null);
+  setIdSubcategoria(null);
+  setIdParceiro(null);
+  setDestaque(false);
+  setDescricao('');
+  setEndereco('');
+  setDuracao('');
+  setValor('');
+  setItensFornecidos('');
+  setItensObrigatorios('');
+  setAtrativos('');
+  setHorario('');
+  setLatitude('');
+  setLongitude('');
+
+}
+
+
+
 const onSalvar = async (e) => {
   e.preventDefault();
   const fd = new FormData();
   fd.append('nome',nome);
-   
+  let categoria_id = idCategoria;
+ 
+  let subcategoria_id = idSubcategoria;
+  let cidade_id = idCidade;
+  let prestador_id = idParceiro; 
+  let itens_fornecidos = itensFornecidos;
+  let itens_obrigatorios = itensObrigatorios;
+  let descricao_curta = descricao;
+  let ponto_encontro = pontoEncontro;
+  
   if(!editando){
-      let response = await Api.addAtividade(fd);
+      let response = await Api.addAtividade(nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,valor);
+      //alert(response.status);
       if(response.status===201){
           let json = await Api.getAtividades();
-          setNome('');
+          ClearStates();
           setServicos(json);
           toast({
           title: 'Parabéns !',
@@ -133,7 +168,7 @@ const onSalvar = async (e) => {
         });
         onClose();
       } else {
-      toast({
+        toast({
         title: 'Atenção !',
         description: "Preencha todos os campos por favor.",
         status: 'error',
@@ -144,11 +179,11 @@ const onSalvar = async (e) => {
       }
  } else {
 
-  let response = await Api.updateAtividade(idServico,fd);
+  let response = await Api.updateAtividade(idServico,nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,valor);
   if(response.status===200){
     let json = await Api.getAtividades();
     setServicos(json);
-    setNome('');
+    ClearStates();
     toast({
       title: 'Parabéns !',
       description: "Você atualizou uma atividade.",
@@ -209,10 +244,29 @@ const onAdd = () => {
 }
  
 const onEdit = async (id) => {
+ 
   let json = await Api.getAtividadebyId(id);
   setIdServico(json.id);
+  setIdParceiro(json.prestador_id);
+  setIdCategoria(json.categoria_id);
+  setIdSubcategoria(json.subcategoria_id);
+  setIdCidade(json.cidade_id);
   setNome(json.nome);
- 
+  setDescricao(json.descricao_curta);
+  setDestaque(json.destaque);
+  setEndereco(json.endereco);
+  setPontoEncontro(json.ponto_encontro);
+  setLatitude(json.latitude);
+  setLongitude(json.longitude);
+  setItensObrigatorios(json.itens_obrigatorios);
+  setItensFornecidos(json.itens_fornecidos)
+  setAtrativos(json.atrativos);
+  setHorario(json.horario);
+  setDuracao(json.duracao);
+  setValor(json.valor);
+
+
+
   setEditando(true);
   onOpen(); 
   }
@@ -289,9 +343,8 @@ return (
                 </FormControl>
                </HStack>         
               <FormControl>
-                  <Checkbox 
-                      defaultChecked={destaque}>
-                        Atividade em Destaque
+                  <Checkbox onChange={e=>setDestaque(!destaque)} isChecked={destaque} defaultChecked={true}>
+                         Atividade em Destaque
                   </Checkbox>
               </FormControl>
               <Tabs>
@@ -407,6 +460,16 @@ return (
                         </FormControl>
                         <FormControl style={{marginBottom:10}}>
                           <FormLabel>
+                            Horário:
+                          </FormLabel>
+                          <Input 
+                              value={horario}
+                              onChange={e => setHorario(e.target.value)}
+                              placeholder='Horario da atividade...'
+                            />
+                        </FormControl>
+                        <FormControl style={{marginBottom:10}}>
+                          <FormLabel>
                             Duração:
                           </FormLabel>
                           <Input 
@@ -420,7 +483,7 @@ return (
                             Valor:
                           </FormLabel>
                           <NumberInput
-                            precision={2}
+                            precision={2} defaultValue={valor}
                           >
                             <NumberInputField 
                              value={valor}
