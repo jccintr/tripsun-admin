@@ -18,7 +18,7 @@ import {useDisclosure,Input,Select,
     FormLabel,
     HStack,Textarea,Checkbox,
     Tabs, TabList, TabPanels, Tab, TabPanel,
-    NumberInput,NumberInputField,
+    NumberInput,NumberInputField,NumberInputStepper,NumberIncrementStepper,NumberDecrementStepper
   } from '@chakra-ui/react';
 
   import TableAtividades from '../../components/tableAtividades/TableAtividades';
@@ -55,6 +55,7 @@ const [itensFornecidos,setItensFornecidos]= useState('');
 const [atrativos,setAtrativos] = useState('');
 const [duracao,setDuracao] = useState('');
 const [horario,setHorario] = useState('');
+const [percentualPlataforma,setPercentualPlataforma] = useState('');
 const [valor,setValor] = useState('');
 const toast = useToast();
 const [filter,setFilter] = useState('');
@@ -126,6 +127,7 @@ const ClearStates = () => {
   setDescricao('');
   setEndereco('');
   setDuracao('');
+  setPercentualPlataforma('');
   setValor('');
   setItensFornecidos('');
   setItensObrigatorios('');
@@ -151,10 +153,12 @@ const onSalvar = async (e) => {
   let itens_obrigatorios = itensObrigatorios;
   let descricao_curta = descricao;
   let ponto_encontro = pontoEncontro;
+  let percentual_plataforma = percentualPlataforma;
+  alert(percentualPlataforma);
   
   if(!editando){
-      let response = await Api.addAtividade(nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,valor);
-      //alert(response.status);
+      let response = await Api.addAtividade(nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,valor);
+     
       if(response.status===201){
           let json = await Api.getAtividades();
           ClearStates();
@@ -179,7 +183,7 @@ const onSalvar = async (e) => {
       }
  } else {
 
-  let response = await Api.updateAtividade(idServico,nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,valor);
+  let response = await Api.updateAtividade(idServico,nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,valor);
   if(response.status===200){
     let json = await Api.getAtividades();
     setServicos(json);
@@ -238,6 +242,7 @@ const onAdd = () => {
   setItensFornecidos('')
   setAtrativos('');
   setDuracao('')
+  setPercentualPlataforma('');
   setValor('');
   setEditando(false);
   onOpen();
@@ -263,6 +268,7 @@ const onEdit = async (id) => {
   setAtrativos(json.atrativos);
   setHorario(json.horario);
   setDuracao(json.duracao);
+  setPercentualPlataforma(json.percentual_plataforma);
   setValor(json.valor);
 
 
@@ -478,6 +484,7 @@ return (
                               placeholder='Duração da atividade...'
                             />
                         </FormControl>
+                        <HStack>
                         <FormControl style={{marginBottom:10}}>
                           <FormLabel>
                             Valor:
@@ -492,8 +499,28 @@ return (
                              
                             />
                           </NumberInput>  
-                          
-                        </FormControl>
+                         </FormControl>
+                         <FormControl style={{marginBottom:10}}>
+                          <FormLabel>
+                            Percentual da Plataforma:
+                          </FormLabel>
+                          <NumberInput
+                            precision={0} defaultValue={percentualPlataforma}
+                            onChange={(valueString) => setPercentualPlataforma(valueString)}
+                          >
+                            <NumberInputField 
+                             value={percentualPlataforma}
+                             
+                             placeholder='Percentual da plataforma...'
+                             
+                            />
+                            <NumberInputStepper>
+                                <NumberIncrementStepper />
+                                <NumberDecrementStepper />
+                            </NumberInputStepper>
+                          </NumberInput>  
+                         </FormControl>
+                         </HStack>
                     </TabPanel>
                   </TabPanels>
               </Tabs>
