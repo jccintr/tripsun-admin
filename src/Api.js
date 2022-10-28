@@ -205,4 +205,26 @@ export default {
     });
    return response;
 },
+ // Rotas dos Usuarios ========================================================
+ getUsuarios: async () => {
+    const req = await fetch(`${BASE_API}/usuarios`);
+    const json = await req.json();
+    return json;
+   },
+   getUsuariobyId: async (id) => {
+    const req = await fetch(`${BASE_API}/usuario/${id}`);
+    const json = await req.json();
+    return json;
+   },
+   updateUsuario: async (id,name,phone) => {
+    const response = await fetch(`${BASE_API}/usuario/${id}/update`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({name,phone})
+    });
+   return response;
+},
 };
