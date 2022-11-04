@@ -22,6 +22,7 @@ import {useDisclosure,Input,Select,
   } from '@chakra-ui/react';
 
   import TableAtividades from '../../components/tableAtividades/TableAtividades';
+import CardImage from '../../components/cardImage/CardImage';
 
 const Atividades = () => {
 
@@ -63,6 +64,7 @@ const toast = useToast();
 const [filter,setFilter] = useState('');
 const [editando,setEditando] = useState(false);
 const initialRef = useRef(null)
+const [novaImagem,setNovaImagem] = useState('');
 
 
 
@@ -108,15 +110,7 @@ const getSubcategorias = async () => {
 getSubcategorias();
 }, []);
 
-/*
-const onSelectCategory = (e) => {
 
-  let arr = subcategorias.filter((subcategoria)=>subcategoria.categoria_id == e.target.value);
-
-  setSubcategoriasFiltrado(arr);
-  setIdCategoria(e.target.value);
-}
-*/
 
 const ClearStates = () => {
 
@@ -214,18 +208,14 @@ const onSalvar = async (e) => {
 
 }
 
-/*
+
 const handlerImagem = (e) => {
 
-  if(e.target.files[0]){
-    imgRef.current.src = URL.createObjectURL(e.target.files[0]);
-    setImagemCarregada(true);
-  }
-
-  setImagem(e.target.files[0]);
+ 
+  setNovaImagem(e.target.files[0]);
 
 }
-*/
+
 
 
 const onAdd = () => {
@@ -281,12 +271,29 @@ const onEdit = async (id) => {
 
   const abreModalImagens = async (idServico) => {
     let json = await Api.getImagensByServico(idServico);
+    setIdServico(idServico);
     setImagens(json);
     onOpenModalImage();
   }
 
   const deleteImage = () => {
 
+  }
+
+  const adicionaImagem = async () => {
+    
+  
+    const fd = new FormData();
+  
+    fd.append('servico_id',idServico);
+   
+    fd.append('imagem',novaImagem);
+   
+    let response = await Api.addImagem(fd);
+    if(response.status===201){
+      let json = await Api.getImagensByServico(idServico);
+      setImagens(json);
+    }
   }
 
 
@@ -551,25 +558,28 @@ return (
           <ModalCloseButton />
           <ModalBody>
           <form id="imagens" onSubmit={onCloseModalImage}> 
-          <Grid templateColumns='repeat(4, 1fr)' gap={6}>
-          {imagens.map((imagem)=> (<>
-                            <Image
-                            boxSize='100px'
-                            borderRadius='10px'
-                            objectFit='cover'
-                            src={`${Api.base_storage}/${imagem.imagem}`}
-                            alt={imagem.id}
-                          />
-                          <Button color='red'  onClick={deleteImage}>Excluir</Button>
-                          </>
+          {imagens.length > 0 ? <Grid templateColumns='repeat(4, 1fr)' gap={6}>
+          {imagens.map((imagem)=> (
+                      <CardImage url={imagem.imagem}/>
                           ))}
                           
-            </Grid>              
-           </form>
+          </Grid> : <p>Nenhum imagem encontrada</p>}  
+         
+             <HStack>
+              <FormControl>
+                    <FormLabel>
+                      Adicionar imagem:
+                    </FormLabel>
+                    <input type="file"  id="imagem" name="imagem" onChange={handlerImagem}/>
+                  </FormControl>  
+                  <Button color='red'  onClick={adicionaImagem}>Adicionar</Button>
+              </HStack>              
+            </form>
+            
           </ModalBody>
 
           <ModalFooter>
-          <Button type="submit" form="imagens" colorScheme='red' mr={3} >
+          <Button onClick={onCloseModalImage} colorScheme='red' mr={3} >
             Fechar
           </Button>
           </ModalFooter>
