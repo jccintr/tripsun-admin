@@ -227,4 +227,18 @@ export default {
     });
    return response;
 },
+
+// Rotas das Imagens ========================================================
+getImagensByServico: async (idServico) => {
+    const req = await fetch(`${BASE_API}/imagens/${idServico}`);
+    const json = await req.json();
+    return json;
+  },
+  addImagem: async (fd) => {
+    const response = await fetch(`${BASE_API}/imagens`, {
+        method: 'POST',
+        body: fd
+    });
+    return response;
+},
 };

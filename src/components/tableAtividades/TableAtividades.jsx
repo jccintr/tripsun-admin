@@ -12,7 +12,7 @@ import {
     TableContainer,Image,Button,
   } from '@chakra-ui/react'
 
-const TableAtividades = ({servicos,filter,onEdit}) => {
+const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage}) => {
   return (
     <TableContainer>
   <Table variant='striped'>
@@ -40,6 +40,11 @@ const TableAtividades = ({servicos,filter,onEdit}) => {
               <Td>
                  <Button onClick={()=>onEdit(servico.id)} colorScheme='red' mr={3} >
                     Editar
+                  </Button>
+              </Td>
+              <Td>
+                 <Button onClick={()=>onOpenModalImage(servico.id)} colorScheme='red' mr={3} >
+                    Imagens
                   </Button>
               </Td>
              

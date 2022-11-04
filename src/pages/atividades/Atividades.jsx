@@ -18,7 +18,7 @@ import {useDisclosure,Input,Select,
     FormLabel,
     HStack,Textarea,Checkbox,
     Tabs, TabList, TabPanels, Tab, TabPanel,
-    NumberInput,NumberInputField,NumberInputStepper,NumberIncrementStepper,NumberDecrementStepper
+    NumberInput,NumberInputField,NumberInputStepper,NumberIncrementStepper,NumberDecrementStepper,Image,Grid
   } from '@chakra-ui/react';
 
   import TableAtividades from '../../components/tableAtividades/TableAtividades';
@@ -26,6 +26,9 @@ import {useDisclosure,Input,Select,
 const Atividades = () => {
 
 const { isOpen, onOpen, onClose } = useDisclosure()
+const { isOpen: isOpenModalImage , onOpen: onOpenModalImage, onClose: onCloseModalImage } = useDisclosure()
+
+const [imagens,setImagens] = useState([]);
 //===================================================
 const [servicos,setServicos] = useState([]);
 const [idServico,setIdServico] = useState(null);
@@ -40,7 +43,6 @@ const [categorias,setCategorias] = useState([]);
 const [idCategoria,setIdCategoria] = useState(null);
 //===================================================
 const [subcategorias,setSubcategorias] = useState([]);
-//const [subcategoriasFiltrado,setSubcategoriasFiltrado] = useState([]);
 const [idSubcategoria,setIdSubcategoria] = useState(null);
 //===================================================
 const [nome,setNome] = useState('');
@@ -87,7 +89,7 @@ useEffect(()=>{
   }
   getParceiros();
   }, []);
-  
+
 
 useEffect(()=>{
 const getCategorias = async () => {
@@ -108,9 +110,9 @@ getSubcategorias();
 
 /*
 const onSelectCategory = (e) => {
- 
+
   let arr = subcategorias.filter((subcategoria)=>subcategoria.categoria_id == e.target.value);
- 
+
   setSubcategoriasFiltrado(arr);
   setIdCategoria(e.target.value);
 }
@@ -145,20 +147,20 @@ const onSalvar = async (e) => {
   const fd = new FormData();
   fd.append('nome',nome);
   let categoria_id = idCategoria;
- 
+
   let subcategoria_id = idSubcategoria;
   let cidade_id = idCidade;
-  let prestador_id = idParceiro; 
+  let prestador_id = idParceiro;
   let itens_fornecidos = itensFornecidos;
   let itens_obrigatorios = itensObrigatorios;
   let descricao_curta = descricao;
   let ponto_encontro = pontoEncontro;
   let percentual_plataforma = percentualPlataforma;
-  alert(percentualPlataforma);
   
+
   if(!editando){
       let response = await Api.addAtividade(nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,valor);
-     
+
       if(response.status===201){
           let json = await Api.getAtividades();
           ClearStates();
@@ -209,9 +211,9 @@ const onSalvar = async (e) => {
 
 }
 
-  
+
 }
-  
+
 /*
 const handlerImagem = (e) => {
 
@@ -219,13 +221,13 @@ const handlerImagem = (e) => {
     imgRef.current.src = URL.createObjectURL(e.target.files[0]);
     setImagemCarregada(true);
   }
-  
+
   setImagem(e.target.files[0]);
 
 }
 */
 
-  
+
 const onAdd = () => {
   setIdServico(null);
   setIdParceiro(null);
@@ -247,9 +249,9 @@ const onAdd = () => {
   setEditando(false);
   onOpen();
 }
- 
+
 const onEdit = async (id) => {
- 
+
   let json = await Api.getAtividadebyId(id);
   setIdServico(json.id);
   setIdParceiro(json.prestador_id);
@@ -274,20 +276,29 @@ const onEdit = async (id) => {
 
 
   setEditando(true);
-  onOpen(); 
+  onOpen();
   }
-  
+
+  const abreModalImagens = async (idServico) => {
+    let json = await Api.getImagensByServico(idServico);
+    setImagens(json);
+    onOpenModalImage();
+  }
+
+  const deleteImage = () => {
+
+  }
 
 
 return (
   <div className="atividades">
      <Navbar onClick={onAdd} setFilter={setFilter} title="Atividades"/>
     <div className="parceirosContainer">
-       <TableAtividades servicos={servicos} filter={filter} onEdit={onEdit}/>
+       <TableAtividades servicos={servicos} filter={filter} onEdit={onEdit} onOpenModalImage={abreModalImagens}/>
       <div className="gridContainer">
-       
+
       </div>
-   
+
     </div>
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose} size='xl' >
       <ModalOverlay />
@@ -300,7 +311,7 @@ return (
                   <FormLabel>
                     Nome:
                   </FormLabel>
-                  <Input 
+                  <Input
                       value={nome}
                       onChange={e => setNome(e.target.value)}
                       placeholder='Nome da atividade...'
@@ -311,7 +322,7 @@ return (
                     <FormLabel>
                       Parceiro:
                     </FormLabel>
-                    <Select 
+                    <Select
                         placeholder='Selecione um parceiro'
                         value={idParceiro}
                         onChange={e => setIdParceiro(e.target.value)}>
@@ -325,7 +336,7 @@ return (
                     <FormLabel>
                       Categoria:
                     </FormLabel>
-                    <Select 
+                    <Select
                         placeholder='Selecione uma categoria'
                         value={idCategoria}
                         onChange={e => setIdCategoria(e.target.value)}>
@@ -338,7 +349,7 @@ return (
                     <FormLabel>
                       Subcategoria:
                     </FormLabel>
-                    <Select 
+                    <Select
                         placeholder='Selecione uma subcategoria'
                         value={idSubcategoria}
                         onChange={e => setIdSubcategoria(e.target.value)}>
@@ -347,7 +358,7 @@ return (
                           ))}
                     </Select>
                 </FormControl>
-               </HStack>         
+               </HStack>
               <FormControl>
                   <Checkbox onChange={e=>setDestaque(!destaque)} isChecked={destaque} defaultChecked={true}>
                          Atividade em Destaque
@@ -365,7 +376,7 @@ return (
                             <FormLabel>
                               Endereço:
                             </FormLabel>
-                            <Input 
+                            <Input
                                 value={endereco}
                                 onChange={e => setEndereco(e.target.value)}
                                 placeholder='Endereço da atividade...'
@@ -375,7 +386,7 @@ return (
                           <FormLabel>
                             Ponto de Encontro:
                           </FormLabel>
-                          <Input 
+                          <Input
                               value={pontoEncontro}
                               onChange={e => setPontoEncontro(e.target.value)}
                               placeholder='Ponto de encontro da atividade...'
@@ -386,7 +397,7 @@ return (
                             <FormLabel>
                               Latitude:
                             </FormLabel>
-                            <Input 
+                            <Input
                                 value={latitude}
                                 onChange={e => setLatitude(e.target.value)}
                                 placeholder='Latitude...'
@@ -396,7 +407,7 @@ return (
                             <FormLabel>
                               Longitude:
                             </FormLabel>
-                            <Input 
+                            <Input
                                 value={longitude}
                                 onChange={e => setLongitude(e.target.value)}
                                 placeholder='Longitude...'
@@ -407,7 +418,7 @@ return (
                           <FormLabel>
                             Cidade:
                           </FormLabel>
-                          <Select 
+                          <Select
                               placeholder='Selecione uma cidade'
                               value={idCidade}
                               onChange={e => setIdCidade(e.target.value)}>
@@ -468,7 +479,7 @@ return (
                           <FormLabel>
                             Horário:
                           </FormLabel>
-                          <Input 
+                          <Input
                               value={horario}
                               onChange={e => setHorario(e.target.value)}
                               placeholder='Horario da atividade...'
@@ -478,7 +489,7 @@ return (
                           <FormLabel>
                             Duração:
                           </FormLabel>
-                          <Input 
+                          <Input
                               value={duracao}
                               onChange={e => setDuracao(e.target.value)}
                               placeholder='Duração da atividade...'
@@ -492,13 +503,13 @@ return (
                           <NumberInput
                             precision={2} defaultValue={valor}
                           >
-                            <NumberInputField 
+                            <NumberInputField
                              value={valor}
                              onChange={e => setValor(e.target.value)}
                              placeholder='Valor da atividade...'
-                             
+
                             />
-                          </NumberInput>  
+                          </NumberInput>
                          </FormControl>
                          <FormControl style={{marginBottom:10}}>
                           <FormLabel>
@@ -508,39 +519,62 @@ return (
                             precision={0} defaultValue={percentualPlataforma}
                             onChange={(valueString) => setPercentualPlataforma(valueString)}
                           >
-                            <NumberInputField 
+                            <NumberInputField
                              value={percentualPlataforma}
-                             
+
                              placeholder='Percentual da plataforma...'
-                             
+
                             />
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
                                 <NumberDecrementStepper />
                             </NumberInputStepper>
-                          </NumberInput>  
+                          </NumberInput>
                          </FormControl>
                          </HStack>
                     </TabPanel>
                   </TabPanels>
               </Tabs>
-
-            
-              
-              
-          
-        
            </form>
         </ModalBody>
-
         <ModalFooter>
           <Button type="submit" form="add" colorScheme='red' mr={3} >
             Salvar
           </Button>
-         
         </ModalFooter>
       </ModalContent>
     </Modal>
+    <Modal isOpen={isOpenModalImage} onClose={onCloseModalImage} size='xl'>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Imagens da Atividade</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+          <form id="imagens" onSubmit={onCloseModalImage}> 
+          <Grid templateColumns='repeat(4, 1fr)' gap={6}>
+          {imagens.map((imagem)=> (<>
+                            <Image
+                            boxSize='100px'
+                            borderRadius='10px'
+                            objectFit='cover'
+                            src={`${Api.base_storage}/${imagem.imagem}`}
+                            alt={imagem.id}
+                          />
+                          <Button color='red'  onClick={deleteImage}>Excluir</Button>
+                          </>
+                          ))}
+                          
+            </Grid>              
+           </form>
+          </ModalBody>
+
+          <ModalFooter>
+          <Button type="submit" form="imagens" colorScheme='red' mr={3} >
+            Fechar
+          </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
   </div>
 )
 
