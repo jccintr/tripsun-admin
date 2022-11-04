@@ -18,7 +18,7 @@ import {useDisclosure,Input,Select,
     FormLabel,
     HStack,Textarea,Checkbox,
     Tabs, TabList, TabPanels, Tab, TabPanel,
-    NumberInput,NumberInputField,NumberInputStepper,NumberIncrementStepper,NumberDecrementStepper,Image,Grid
+    NumberInput,NumberInputField,NumberInputStepper,NumberIncrementStepper,NumberDecrementStepper,Image,Grid,Text
   } from '@chakra-ui/react';
 
   import TableAtividades from '../../components/tableAtividades/TableAtividades';
@@ -276,8 +276,12 @@ const onEdit = async (id) => {
     onOpenModalImage();
   }
 
-  const deleteImage = () => {
-
+  const deleteImage = async (id) => {
+    
+     let response = await Api.deleteImagem(id);
+    
+     let json = await Api.getImagensByServico(idServico);
+    setImagens(json);
   }
 
   const adicionaImagem = async () => {
@@ -560,16 +564,17 @@ return (
           <form id="imagens" onSubmit={onCloseModalImage}> 
           {imagens.length > 0 ? <Grid templateColumns='repeat(4, 1fr)' gap={6}>
           {imagens.map((imagem)=> (
-                      <CardImage url={imagem.imagem}/>
+                      <CardImage imagem={imagem} deleteImage={deleteImage}/>
                           ))}
                           
           </Grid> : <p>Nenhum imagem encontrada</p>}  
          
              <HStack>
+             
               <FormControl>
                     <FormLabel>
-                      Adicionar imagem:
-                    </FormLabel>
+                      <Text as='b'>Adicionar imagem:</Text>
+                     </FormLabel>
                     <input type="file"  id="imagem" name="imagem" onChange={handlerImagem}/>
                   </FormControl>  
                   <Button color='red'  onClick={adicionaImagem}>Adicionar</Button>

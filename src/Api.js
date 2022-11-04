@@ -241,4 +241,15 @@ getImagensByServico: async (idServico) => {
     });
     return response;
 },
+deleteImagem: async (id) => {
+    const response = await fetch(`${BASE_API}/imagens/delete/${id}`,
+    {method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+   });
+    //const json = await req.json();
+    return response;
+},
 };
