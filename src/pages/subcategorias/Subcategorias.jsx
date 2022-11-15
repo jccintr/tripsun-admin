@@ -1,9 +1,10 @@
 import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { useToast } from '@chakra-ui/react'
-import "./subcategorias.scss";
+//import "./subcategorias.scss";
+import styles from "./styles.module.css";
 
 import {useDisclosure,Input,Select,
     Button,
@@ -31,8 +32,10 @@ const [idSubcategoria,setIdSubcategoria] = useState(null);
 const [idCategoria,setIdCategoria] = useState(null);
 const [nome,setNome] = useState('');
 const [imagem,setImagem] = useState('');
+const [marcador,setMarcador] = useState('');
 const imgRef = useRef();
-const navigate = useNavigate();
+const marcadorRef = useRef();
+//const navigate = useNavigate();
 const toast = useToast();
 const [filter,setFilter] = useState('');
 const [editando,setEditando] = useState(false);
@@ -66,6 +69,8 @@ useEffect(()=>{
     fd.append('nome',nome);
     fd.append('categoria_id',idCategoria);
     fd.append('imagem',imagem);
+    fd.append('marcador',marcador);
+
     
     if(!editando){
     let response = await Api.addSubcategoria(fd);
@@ -132,6 +137,17 @@ const handlerImagem = (e) => {
 
 }
     
+const handlerMarcador = (e) => {
+
+  if(e.target.files[0]){
+    marcadorRef.current.src = URL.createObjectURL(e.target.files[0]);
+    
+  }
+  
+  setMarcador(e.target.files[0]);
+
+}
+
 const onAdd = () => {
   setNome('');
   setImagem('');
@@ -148,73 +164,78 @@ const onEdit = async (id) => {
   setIdCategoria(json.categoria_id);
   setNome(json.nome);
   setImagem(`${Api.base_storage}/${json.imagem}`)
+  setMarcador(`${Api.base_storage}/${json.marcador}`)
   setEditando(true);
   onOpen();
  }
     
 
     return (
-        <div className="subcategorias">
+        <div className={styles.subcategorias}>
            <Navbar onClick={onAdd} setFilter={setFilter} title="Subcategorias"/>
-          <div className="subcategoriasContainer">
-             <TableSubcategorias subCategorias={subcategorias} filter={filter} onEdit={onEdit}/>
-            <div className="gridContainer">
-             
-            </div>
-         
-          </div>
-            <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>{editando?'Editando':'Nova'} Subcategoria</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                 <form id="add" onSubmit={onSalvar}>
-                    <FormControl style={{marginBottom:10}}>
+           <TableSubcategorias subCategorias={subcategorias} filter={filter} onEdit={onEdit}/>
+           <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader>{editando?'Editando':'Nova'} Subcategoria</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody>
+                    <form id="add" onSubmit={onSalvar}>
+                        <FormControl style={{marginBottom:10}}>
+                            <FormLabel>
+                              Nome:
+                            </FormLabel>
+                            <Input 
+                                value={nome}
+                                onChange={e => setNome(e.target.value)}
+                                placeholder='Nome da subcategoria...'
+                                ref={initialRef}
+                              />
+                        </FormControl>
+                        <FormControl style={{marginBottom:10}}>
                         <FormLabel>
-                          Nome:
+                          Pertence a Categoria:
                         </FormLabel>
-                        <Input 
-                            value={nome}
-                            onChange={e => setNome(e.target.value)}
-                            placeholder='Nome da subcategoria...'
-                            ref={initialRef}
-                          />
+                        <Select 
+                            placeholder='Selecione uma categoria'
+                            value={idCategoria}
+                            onChange={e => setIdCategoria(e.target.value)}>
+                              {categorias.map((categoria)=> (
+                                <option value={categoria.id}>{categoria.nome}</option>
+                              ))}
+                        </Select>
                     </FormControl>
-                    <FormControl style={{marginBottom:10}}>
-                    <FormLabel>
-                      Pertence a Categoria:
-                    </FormLabel>
-                    <Select 
-                        placeholder='Selecione uma categoria'
-                        value={idCategoria}
-                        onChange={e => setIdCategoria(e.target.value)}>
-                          {categorias.map((categoria)=> (
-                            <option value={categoria.id}>{categoria.nome}</option>
-                          ))}
-                    </Select>
-                </FormControl>
-                    <FormControl>
-                      <FormLabel>
-                        Imagem:
-                      </FormLabel>
-                      <input type="file" id="imagem" name="imagem" onChange={handlerImagem}/>
-                    </FormControl>
-                   
-                    <FormControl>
-                      <img  style={{marginTop:20,borderRadius:10}} className="imagem" ref={imgRef}/>
-                    </FormControl>
-                   
-                 </form>
-              </ModalBody>
-    
-              <ModalFooter>
-                <Button type="submit" form="add" colorScheme='red' mr={3} >
-                  Salvar
-                </Button>
-               
-              </ModalFooter>
-            </ModalContent>
+                        <FormControl>
+                          <FormLabel>
+                            Imagem:
+                          </FormLabel>
+                          <input type="file" id="imagem" name="imagem" onChange={handlerImagem}/>
+                        </FormControl>
+                      
+                        <FormControl>
+                          <img   className={styles.imagem} ref={imgRef}/>
+                        </FormControl>
+                        <FormControl>
+                          <FormLabel>
+                            Marcador:
+                          </FormLabel>
+                          <input type="file" id="marcador" name="marcador" onChange={handlerMarcador}/>
+                        </FormControl>
+                      
+                        <FormControl>
+                          <img  className={styles.imagem} ref={marcadorRef}/>
+                        </FormControl>
+                      
+                    </form>
+                  </ModalBody>
+        
+                  <ModalFooter>
+                    <Button type="submit" form="add" colorScheme='red' mr={3} >
+                      Salvar
+                    </Button>
+                  
+                  </ModalFooter>
+                </ModalContent>
           </Modal>
         </div>
       )

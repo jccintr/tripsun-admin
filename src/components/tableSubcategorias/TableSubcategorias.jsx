@@ -23,6 +23,7 @@ const TableSubcategorias = ({subCategorias,filter,onEdit}) => {
         <Th>Nome</Th>
         <Th>Categoria</Th>
         <Th>Imagem</Th>
+        <Th>Marcador</Th>
         <Th></Th>
       </Tr>
     </Thead>
@@ -41,6 +42,15 @@ const TableSubcategorias = ({subCategorias,filter,onEdit}) => {
                     borderRadius='10px'
                     objectFit='cover'
                     src={`${Api.base_storage}/${subCategoria.imagem}`}
+                    alt={subCategoria.nome}
+                  />
+              </Td>
+              <Td>
+                  <Image
+                    boxSize='50px'
+                    borderRadius='10px'
+                    objectFit='cover'
+                    src={`${Api.base_storage}/${subCategoria.marcador}`}
                     alt={subCategoria.nome}
                   />
               </Td>
