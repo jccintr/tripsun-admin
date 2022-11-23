@@ -11,8 +11,10 @@ import {
     TableCaption,
     TableContainer,Image,Button,
   } from '@chakra-ui/react'
+  import {BsPlusCircleFill} from "react-icons/bs";
 
-const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage}) => {
+
+const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage,onOpenModalHorarios}) => {
   return (
     <TableContainer>
   <Table variant='striped'>
@@ -47,7 +49,14 @@ const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage}) => {
                     Imagens
                   </Button>
               </Td>
-             
+              <Td>
+                 <Button onClick={()=>onOpenModalHorarios(servico.id)} colorScheme='red' mr={3} >
+                    Horários
+                  </Button>
+              </Td>
+              <Td>
+                <BsPlusCircleFill onClick={()=>onOpenModalHorarios(servico.id)} color="#f00"size={30}/>
+              </Td>
              
             </Tr>
               ))}

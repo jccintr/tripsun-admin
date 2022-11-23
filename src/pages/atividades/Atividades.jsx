@@ -4,6 +4,7 @@ import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
 import { useToast } from '@chakra-ui/react'
 import "./atividades.scss";
+import {BsPlusCircleFill} from "react-icons/bs";
 
 import {useDisclosure,Input,Select,
     Button,
@@ -28,6 +29,7 @@ const Atividades = () => {
 
 const { isOpen, onOpen, onClose } = useDisclosure()
 const { isOpen: isOpenModalImage , onOpen: onOpenModalImage, onClose: onCloseModalImage } = useDisclosure()
+const { isOpen: isOpenModalHorarios , onOpen: onOpenModalHorarios, onClose: onCloseModalHorarios } = useDisclosure()
 
 const [imagens,setImagens] = useState([]);
 //===================================================
@@ -276,6 +278,11 @@ const onEdit = async (id) => {
     onOpenModalImage();
   }
 
+  const abreModalHorarios = async (idServico) => {
+    
+    onOpenModalHorarios();
+  }
+
   const deleteImage = async (id) => {
     
      let response = await Api.deleteImagem(id);
@@ -305,7 +312,7 @@ return (
   <div className="atividades">
      <Navbar onClick={onAdd} setFilter={setFilter} title="Atividades"/>
     <div className="parceirosContainer">
-       <TableAtividades servicos={servicos} filter={filter} onEdit={onEdit} onOpenModalImage={abreModalImagens}/>
+       <TableAtividades servicos={servicos} filter={filter} onEdit={onEdit} onOpenModalImage={abreModalImagens} onOpenModalHorarios={abreModalHorarios}/>
       <div className="gridContainer">
 
       </div>
@@ -589,7 +596,63 @@ return (
           </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+    </Modal>
+    <Modal isOpen={isOpenModalHorarios} onClose={onCloseModalHorarios} size='xl'>
+       <ModalOverlay />
+       <ModalContent>
+          <ModalHeader>Horários da Atividade</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <HStack justify='center' align='center'>
+              <FormControl>
+                <FormLabel>
+                  Data:
+                </FormLabel>
+                <Input  placeholder="Data da atividade" size="md"  type="date" />
+              </FormControl>
+              <FormControl>
+                <FormLabel>
+                  Hora:
+                </FormLabel>
+                <Input  placeholder="Horário da atividade" size="md"  type="time" />
+              </FormControl>
+              <FormControl>
+                   <FormLabel>
+                     Vagas:
+                   </FormLabel>
+                   <NumberInput
+                            precision={0} defaultValue={1}
+                            
+                    >
+                        <NumberInputField
+                           placeholder='Quantidade de vagas'
+                        />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
+              </FormControl>
+              <FormControl>
+                <FormLabel>
+                  Ação:
+                </FormLabel>
+                <Button color='red'  onClick={adicionaImagem}>Adicionar</Button>
+              </FormControl>
+             
+            </HStack>
+            
+           
+          </ModalBody>
+          <ModalFooter>
+          <Button onClick={onCloseModalHorarios} colorScheme='red' mr={3} >
+            Fechar
+          </Button>
+          </ModalFooter>
+       </ModalContent>
+    
+
+    </Modal>
   </div>
 )
 
