@@ -9,9 +9,9 @@ import {
     Th,
     Td,
     TableCaption,
-    TableContainer,Image,Button,
+    TableContainer,Button,
   } from '@chakra-ui/react'
-  import {BsPlusCircleFill} from "react-icons/bs";
+  
 
 
 const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage,onOpenModalHorarios}) => {
@@ -54,9 +54,7 @@ const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage,onOpenModalHor
                     Horários
                   </Button>
               </Td>
-              <Td>
-                <BsPlusCircleFill onClick={()=>onOpenModalHorarios(servico.id)} color="#f00"size={30}/>
-              </Td>
+              
              
             </Tr>
               ))}

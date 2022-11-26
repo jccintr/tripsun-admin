@@ -5,6 +5,17 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from '@chakra-ui/react'
 import "./atividades.scss";
 
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer
+} from '@chakra-ui/react'
 
 import {useDisclosure,Input,Select,
     Button,
@@ -22,8 +33,9 @@ import {useDisclosure,Input,Select,
     NumberInput,NumberInputField,NumberInputStepper,NumberIncrementStepper,NumberDecrementStepper,Image,Grid,Text
   } from '@chakra-ui/react';
 
-  import TableAtividades from '../../components/tableAtividades/TableAtividades';
+import TableAtividades from '../../components/tableAtividades/TableAtividades';
 import CardImage from '../../components/cardImage/CardImage';
+
 
 const Atividades = () => {
 
@@ -47,6 +59,8 @@ const [idCategoria,setIdCategoria] = useState(null);
 //===================================================
 const [subcategorias,setSubcategorias] = useState([]);
 const [idSubcategoria,setIdSubcategoria] = useState(null);
+//===================================================
+const [horarios,setHorarios] = useState([]);
 //===================================================
 const [nome,setNome] = useState('');
 const [descricao,setDescricao] = useState('');
@@ -107,7 +121,6 @@ useEffect(()=>{
 const getSubcategorias = async () => {
   let json = await Api.getSubcategorias();
   setSubcategorias(json);
-  //setSubcategoriasFiltrado(json);
 }
 getSubcategorias();
 }, []);
@@ -136,7 +149,9 @@ const ClearStates = () => {
 
 }
 
-
+const formataData = (data) => {
+  return data.substring(8,10)+'/'+data.substring(5,7)+'/'+data.substring(0,4);
+}
 
 const onSalvar = async (e) => {
   e.preventDefault();
@@ -264,9 +279,6 @@ const onEdit = async (id) => {
   setDuracao(json.duracao);
   setPercentualPlataforma(json.percentual_plataforma);
   setValor(json.valor);
-
-
-
   setEditando(true);
   onOpen();
   }
@@ -279,27 +291,22 @@ const onEdit = async (id) => {
   }
 
   const abreModalHorarios = async (idServico) => {
+    let json = await Api.getHorariosByServico(idServico);
+    setHorarios(json);
     
     onOpenModalHorarios();
   }
 
   const deleteImage = async (id) => {
-    
      let response = await Api.deleteImagem(id);
-    
      let json = await Api.getImagensByServico(idServico);
     setImagens(json);
   }
 
   const adicionaImagem = async () => {
-    
-  
     const fd = new FormData();
-  
     fd.append('servico_id',idServico);
-   
     fd.append('imagem',novaImagem);
-   
     let response = await Api.addImagem(fd);
     if(response.status===201){
       let json = await Api.getImagensByServico(idServico);
@@ -641,7 +648,29 @@ return (
               </FormControl>
              
             </HStack>
-            
+            {horarios.length > 0 ?
+            <TableContainer>
+              <Table variant='striped'>
+                <Thead>
+                  <Tr>
+                    <Th>Data</Th>
+                    <Th>Hora</Th>
+                    <Th>Duração</Th>
+                    <Th>Vagas</Th> 
+                  </Tr>
+                </Thead>
+                <Tbody>
+                {horarios.map((horario) => (
+                          <Tr key={horario.id}>
+                              <Td >{formataData(horario.data)}</Td>
+                              <Td>{horario.hora}</Td>
+                              <Td>{horario.duracao}</Td>
+                              <Td isNumeric>{horario.quant}</Td>
+                          </Tr>
+                          ))}
+                </Tbody>
+              </Table>
+            </TableContainer> : <p>Nenhum horário cadastrado</p> }
            
           </ModalBody>
           <ModalFooter>
