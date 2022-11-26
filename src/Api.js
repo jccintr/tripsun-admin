@@ -252,4 +252,10 @@ deleteImagem: async (id) => {
     //const json = await req.json();
     return response;
 },
+// Rotas dos Horarios ========================================================
+getHorariosByServico: async (idServico) => {
+    const req = await fetch(`${BASE_API}/horarios/${idServico}`);
+    const json = await req.json();
+    return json;
+  },
 };

@@ -4,7 +4,7 @@ import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
 import { useToast } from '@chakra-ui/react'
 import "./atividades.scss";
-import {BsPlusCircleFill} from "react-icons/bs";
+
 
 import {useDisclosure,Input,Select,
     Button,
