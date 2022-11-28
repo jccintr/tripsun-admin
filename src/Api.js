@@ -258,4 +258,20 @@ getHorariosByServico: async (idServico) => {
     const json = await req.json();
     return json;
   },
+  getHorariosByDay: async (idServico,data) => {
+    const req = await fetch(`${BASE_API}/horarios/${idServico}/${data}`);
+    const json = await req.json();
+    return json;
+  },
+  addHorario: async (servico_id,dia,mes,ano,hora,duracao,quant,ativo) => {
+    const response = await fetch(`${BASE_API}/horarios`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({servico_id,dia,mes,ano,hora,duracao,quant,ativo})
+    });
+  return response;
+  },
 };

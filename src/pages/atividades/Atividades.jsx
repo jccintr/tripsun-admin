@@ -2,8 +2,10 @@ import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
-import { useToast } from '@chakra-ui/react'
+import { useToast, VStack } from '@chakra-ui/react'
 import "./atividades.scss";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 import {
   Table,
@@ -14,7 +16,7 @@ import {
   Th,
   Td,
   TableCaption,
-  TableContainer
+  TableContainer,Divider
 } from '@chakra-ui/react'
 
 import {useDisclosure,Input,Select,
@@ -38,6 +40,7 @@ import CardImage from '../../components/cardImage/CardImage';
 
 
 const Atividades = () => {
+const [dataCalendario, setDataCalendario] = useState(new Date());
 
 const { isOpen, onOpen, onClose } = useDisclosure()
 const { isOpen: isOpenModalImage , onOpen: onOpenModalImage, onClose: onCloseModalImage } = useDisclosure()
@@ -61,6 +64,9 @@ const [subcategorias,setSubcategorias] = useState([]);
 const [idSubcategoria,setIdSubcategoria] = useState(null);
 //===================================================
 const [horarios,setHorarios] = useState([]);
+const [vagasAtividade,setVagasAtividade] = useState(1);
+const [horarioAtividade,setHorarioAtividade] = useState('');
+const [duracaoAtividade,setDuracaoAtividade] = useState('');
 //===================================================
 const [nome,setNome] = useState('');
 const [descricao,setDescricao] = useState('');
@@ -291,10 +297,22 @@ const onEdit = async (id) => {
   }
 
   const abreModalHorarios = async (idServico) => {
-    let json = await Api.getHorariosByServico(idServico);
+    let mes = dataCalendario.getMonth() + 1;
+    let data = dataCalendario.getFullYear() + '-' + mes + '-' + dataCalendario.getDate();
+    setIdServico(idServico);
+    let json = await Api.getHorariosByDay(idServico,data);
     setHorarios(json);
     
     onOpenModalHorarios();
+  }
+
+  const onChangeData = async (value) => {
+     
+    setDataCalendario(value);
+    let mes = value.getMonth() + 1;
+    let data = value.getFullYear() + '-' + mes + '-' + value.getDate();
+    let json = await Api.getHorariosByDay(idServico,data);
+    setHorarios(json);
   }
 
   const deleteImage = async (id) => {
@@ -312,6 +330,19 @@ const onEdit = async (id) => {
       let json = await Api.getImagensByServico(idServico);
       setImagens(json);
     }
+  }
+
+  const adicionaHorario = async () => {
+    console.log(dataCalendario.getDate());
+    let response = await Api.addHorario(idServico,dataCalendario.getDate(),dataCalendario.getMonth()+1,dataCalendario.getFullYear(),horarioAtividade,duracaoAtividade,vagasAtividade,true);
+  
+    if(response.status===201){
+      let mes = dataCalendario.getMonth() + 1;
+      let data = dataCalendario.getFullYear() + '-' + mes + '-' + dataCalendario.getDate();
+      let json = await Api.getHorariosByDay(idServico,data);
+      setImagens(json);
+    }
+
   }
 
 
@@ -610,18 +641,41 @@ return (
           <ModalHeader>Horários da Atividade</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+          <HStack justify='center' align='center'>
+            <div style={{marginBottom: 20}}>
+            <Calendar 
+              onChange={setDataCalendario} 
+              value={dataCalendario} 
+              showNeighboringMonth={false}
+            
+              onClickDay={(value, event) => onChangeData(value)}
+              />
+            </div>
+          </HStack>
+          <Divider orientation='horizontal' />
             <HStack justify='center' align='center'>
-              <FormControl>
-                <FormLabel>
-                  Data:
-                </FormLabel>
-                <Input  placeholder="Data da atividade" size="md"  type="date" />
-              </FormControl>
+              
               <FormControl>
                 <FormLabel>
                   Hora:
                 </FormLabel>
-                <Input  placeholder="Horário da atividade" size="md"  type="time" />
+                <Input  
+                   value={horarioAtividade}
+                   onChange={e => setHorarioAtividade(e.target.value)}
+                   placeholder="Horário da atividade" 
+                   size="md"  
+                   type="time" />
+              </FormControl>
+              <FormControl>
+                <FormLabel>
+                  Duração:
+                </FormLabel>
+                <Input  
+                   value={duracaoAtividade}
+                   onChange={e => setDuracaoAtividade(e.target.value)}
+                   placeholder="Horário da atividade" 
+                   size="md"  
+                   type="time" />
               </FormControl>
               <FormControl>
                    <FormLabel>
@@ -632,6 +686,8 @@ return (
                             
                     >
                         <NumberInputField
+                          value={vagasAtividade}
+                          onChange={e => setVagasAtividade(e.target.value)}
                            placeholder='Quantidade de vagas'
                         />
                         <NumberInputStepper>
@@ -644,7 +700,7 @@ return (
                 <FormLabel>
                   Ação:
                 </FormLabel>
-                <Button color='red'  onClick={adicionaImagem}>Adicionar</Button>
+                <Button color='red'  onClick={adicionaHorario}>Adicionar</Button>
               </FormControl>
              
             </HStack>
@@ -670,7 +726,7 @@ return (
                           ))}
                 </Tbody>
               </Table>
-            </TableContainer> : <p>Nenhum horário cadastrado</p> }
+            </TableContainer> : <HStack justify='center' align='center'><Text fontSize='20px' color='red'>Nenhum horário cadastrado.</Text></HStack> }
            
           </ModalBody>
           <ModalFooter>
