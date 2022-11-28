@@ -20,7 +20,7 @@ const Login = () => {
      <div className={styles.container}>
      <div className={styles.form}>
      <img className={styles.logo} src={logo} alt="logo tripsun" />
-       <Stack w="full">
+      
          <form id="login" onSubmit={onSignIn}>
             <FormControl style={{marginBottom:10}}>
                 <FormLabel>
@@ -50,7 +50,7 @@ const Login = () => {
 
 
          </form>
-         </Stack>
+        
      </div>
      </div>
 

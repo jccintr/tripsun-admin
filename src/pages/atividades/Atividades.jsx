@@ -64,7 +64,7 @@ const [subcategorias,setSubcategorias] = useState([]);
 const [idSubcategoria,setIdSubcategoria] = useState(null);
 //===================================================
 const [horarios,setHorarios] = useState([]);
-const [vagasAtividade,setVagasAtividade] = useState(1);
+const [vagasAtividade,setVagasAtividade] = useState('');
 const [horarioAtividade,setHorarioAtividade] = useState('');
 const [duracaoAtividade,setDuracaoAtividade] = useState('');
 //===================================================
@@ -333,14 +333,21 @@ const onEdit = async (id) => {
   }
 
   const adicionaHorario = async () => {
-    console.log(dataCalendario.getDate());
+    
     let response = await Api.addHorario(idServico,dataCalendario.getDate(),dataCalendario.getMonth()+1,dataCalendario.getFullYear(),horarioAtividade,duracaoAtividade,vagasAtividade,true);
-  
+    
     if(response.status===201){
       let mes = dataCalendario.getMonth() + 1;
       let data = dataCalendario.getFullYear() + '-' + mes + '-' + dataCalendario.getDate();
       let json = await Api.getHorariosByDay(idServico,data);
-      setImagens(json);
+      setHorarios(json);
+      toast({
+        title: 'Parabéns !',
+        description: "Você adicionou um novo horário.",
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
     }
 
   }
