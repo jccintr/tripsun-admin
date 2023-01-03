@@ -24,10 +24,10 @@ const Sidebar = () => {
        
         <div className="center">
             <ul>
-            <Link to="/" style={{ textDecoration: "none" }}>
+            <Link to="/home" style={{ textDecoration: "none" }}>
                 <li>
                     <MdDashboard className="icon" size={18} /> 
-                    <span>Dashboard</span>
+                    <span>Home</span>
                 </li>
             </Link>
                 <p className="title">CADASTROS</p>

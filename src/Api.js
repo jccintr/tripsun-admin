@@ -1,10 +1,12 @@
 
 // --host=192.168.0.107
 //const BASE_API = 'localhost:8000/api';
+//const BASE_API = 'http://tripsun.tk/api';
 const BASE_API = 'http://192.168.0.107:8000/api';
 //const BASE_API = 'http://177.104.209.216:8000/api';
 
 export default {
+    //base_storage: 'http:////tripsun.tk/storage',
     base_storage: 'http://192.168.0.107:8000/storage',
    // base_storage: 'http://177.104.209.216:8000/storage',
     checkToken: async (token) => {
@@ -16,11 +18,11 @@ export default {
             },
             body: JSON.stringify({token})
         });
-        const json = await req.json();        
+        const json = await req.json();
         return json;
     },
     signIn: async (email, password) => {
-        const req = await fetch(`${BASE_API}/login`, {
+        const response = await fetch(`${BASE_API}/loginAdmin`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -28,8 +30,8 @@ export default {
             },
             body: JSON.stringify({email, password})
         });
-        const json = await req.json();        
-        return json;
+        //const json = await req.json();
+        return response;
     },
     signUp: async (name, email, password) => {
         const req = await fetch(`${BASE_API}/register`, {
@@ -40,7 +42,7 @@ export default {
             },
             body: JSON.stringify({name, email, password})
         });
-        const json = await req.json();        
+        const json = await req.json();
         return json;
     },
 /*
@@ -55,7 +57,7 @@ export default {
             },
             body: JSON.stringify({token})
         });
-        const json = await req.json();        
+        const json = await req.json();
         return json;
     },
     */
@@ -79,13 +81,12 @@ export default {
             },
             body: JSON.stringify({id,lat,lng})
         });
-        const json = await req.json();        
+        const json = await req.json();
         return json;
     },
     addCidade: async (fd) => {
         const response = await fetch(`${BASE_API}/cidades`, {
             method: 'POST',
-           
             body: fd
         });
        return response;

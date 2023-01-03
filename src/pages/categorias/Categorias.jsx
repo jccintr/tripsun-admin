@@ -17,10 +17,10 @@ import {useDisclosure,Input,Select,
     FormLabel,
   } from '@chakra-ui/react';
   import TableCategorias from '../../components/tableCategorias/TableCategorias';
-  
+
 
 const Categorias = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure() 
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const [categorias,setCategorias] = useState([]);
   const [idCategoria,setIdCategoria] = useState(null);
   const [nome,setNome] = useState('');
@@ -45,10 +45,10 @@ const Categorias = () => {
 
     e.preventDefault();
     const fd = new FormData();
-  
+
     fd.append('nome',nome);
     fd.append('imagem',imagem);
-    
+
     if(!editando){
       let response = await Api.addCategoria(fd);
       if(response.status===201){
@@ -100,14 +100,14 @@ const Categorias = () => {
 
 }
 
-   
+
 }
-    
+
 const handlerImagem = (e) => {
 
   if(e.target.files[0]){
     imgRef.current.src = URL.createObjectURL(e.target.files[0]);
-  
+
   }
   
   setImagem(e.target.files[0]);
@@ -130,9 +130,9 @@ const onEdit = async (id) => {
   setEditando(true);
   onOpen();
  }
-    
-   
-    
+
+
+
 
 return (
   <div className="categorias">
@@ -140,9 +140,9 @@ return (
     <div className="categoriasContainer">
         <TableCategorias categorias={categorias} filter={filter} onEdit={onEdit}/>
       <div className="gridContainer">
-        
+
       </div>
-    
+
     </div>
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -155,25 +155,25 @@ return (
                   <FormLabel>
                     Nome:
                   </FormLabel>
-                  <Input 
+                  <Input
                       value={nome}
                       onChange={e => setNome(e.target.value)}
                       placeholder='Nome da categoria...'
                       ref={initialRef}
                     />
               </FormControl>
-              
+
               <FormControl>
                 <FormLabel>
                   Imagem:
                 </FormLabel>
                 <input type="file" id="imagem" name="imagem" onChange={handlerImagem}/>
               </FormControl>
-              
+
               <FormControl>
                 <img  style={{marginTop:20,borderRadius:10}} className="imagem" ref={imgRef}/>
               </FormControl>
-              
+
             </form>
         </ModalBody>
 
@@ -181,7 +181,7 @@ return (
           <Button type="submit" form="add" colorScheme='red' mr={3} >
             Salvar
           </Button>
-          
+
         </ModalFooter>
       </ModalContent>
     </Modal>

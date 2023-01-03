@@ -619,7 +619,7 @@ return (
                       <CardImage imagem={imagem} deleteImage={deleteImage}/>
                           ))}
                           
-          </Grid> : <p>Nenhum imagem encontrada</p>}  
+          </Grid> :  <HStack justify='center' align='center'><Text fontSize='20px' color='red'>Nenhuma imagem encontrada.</Text></HStack>}  
          
              <HStack>
              

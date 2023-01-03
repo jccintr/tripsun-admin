@@ -1,18 +1,35 @@
 import React, {useState} from 'react'
 import { Box,Image,Container,Center,FormControl,FormLabel,Input,Button,Stack} from '@chakra-ui/react'
 import logo from "../../assets/logo_tripsun.png";
+import { useNavigate } from 'react-router-dom';
+import Api from "../../Api";
+
+
 
 import styles from "./styles.module.css";
 
 
-const onSignIn = () =>{
 
-}
 
 const Login = () => {
-  const [usuario,setUsuario] = useState('');
-  const [senha,setSenha] = useState('');
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+  const navigate = useNavigate();
 
+
+  const onSignIn = async () =>{
+    let response = await Api.signIn(email,password);
+    if(response.status===200){
+       let json = await response.json();
+       const token = json.token;
+       navigate('/home', { state: { token } });
+    }
+    else{
+     alert('Nome de usuário e ou senha inválidos.');
+    }
+   // navigate('/cidades');
+   
+   }
 
 
 
@@ -20,7 +37,7 @@ const Login = () => {
      <div className={styles.container}>
      <div className={styles.form}>
      <img className={styles.logo} src={logo} alt="logo tripsun" />
-      
+
          <form id="login" onSubmit={onSignIn}>
             <FormControl style={{marginBottom:10}}>
                 <FormLabel>
@@ -28,8 +45,8 @@ const Login = () => {
                 </FormLabel>
                 <Input
                     isRequired
-                    value={usuario}
-                    onChange={e => setUsuario(e.target.value)}
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
                     placeholder='Seu Email...'
 
                   />
@@ -40,17 +57,17 @@ const Login = () => {
                 </FormLabel>
                 <Input
                     type="password"
-                    value={senha}
-                    onChange={e => setSenha(e.target.value)}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
                     placeholder='Sua senha...'
 
                   />
             </FormControl>
-            <Button colorScheme='red' size='lg'>ENTRAR</Button>
+            <Button onClick={onSignIn} colorScheme='red' size='lg'>ENTRAR</Button>
 
 
          </form>
-        
+
      </div>
      </div>
 
