@@ -1,6 +1,6 @@
 import React from 'react'
 import "./sidebar.scss";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import logo from "../../assets/img_header-tripsun.png";
 import { MdDashboard } from "react-icons/md";
 import { FaCity } from "react-icons/fa";
@@ -14,7 +14,16 @@ import { MdLogout } from "react-icons/md";
 import { HiUsers } from "react-icons/hi";
 
 
-const Sidebar = () => {
+const Sidebar = ({setLogged}) => {
+    const navigate = useNavigate();
+
+
+const onLogout = () => {
+    setLogged(false);
+  //  navigate('/');
+}
+
+
   return (
     <div className='sidebar'>
         <div className="top">
@@ -68,7 +77,7 @@ const Sidebar = () => {
                 </li>
                 </Link>
                 <p className="title">OUTRAS OPÇÕES</p>
-                <li>
+                <li onClick={onLogout}>
                     <MdLogout className="icon" size={18} /> 
                     <span>Logout</span>
                 </li>

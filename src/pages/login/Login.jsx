@@ -11,7 +11,7 @@ import styles from "./styles.module.css";
 
 
 
-const Login = () => {
+const Login = ({setLogged}) => {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const navigate = useNavigate();
@@ -22,7 +22,8 @@ const Login = () => {
     if(response.status===200){
        let json = await response.json();
        const token = json.token;
-       navigate('/home', { state: { token } });
+       setLogged(true);
+       navigate('/home');
     }
     else{
      alert('Nome de usuário e ou senha inválidos.');

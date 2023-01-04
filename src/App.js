@@ -12,17 +12,19 @@ import "./app.css";
 //import AddCidade from "./pages/addCidade/AddCidade";
 import MainLayout from "./pages/MainLayout/MainLayout";
 import PrivateRoutes from "./PrivateRoutes";
+import { useState } from "react";
 
 
 
 function App() {
+  const [logged,setLogged] = useState(false);
   return (
     <div className="app">
        <BrowserRouter>
            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route element={<PrivateRoutes auth={true}/>} >
-                <Route element={<MainLayout/>}>
+              <Route path="/" element={<Login setLogged={setLogged}/>} />
+              <Route element={<PrivateRoutes logged={logged}/>} >
+                <Route element={<MainLayout setLogged={setLogged}/>}>
                     <Route path="/cidades" element={<Cidades/>}/>
                     <Route path="/categorias" element={<Categorias/>}/>
                     <Route path="/subcategorias" element={<Subcategorias/>}/>
@@ -30,6 +32,7 @@ function App() {
                     <Route path="/atividades" element={<Atividades/>}/>
                     <Route path="/usuarios" element={<Usuarios/>}/>
                     <Route path="/home" element={<Home/>}/>
+                   
                 </Route>
               </Route>
           </Routes>

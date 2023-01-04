@@ -3,10 +3,10 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from '../../components/sidebar/Sidebar';
 import styles from "./styles.module.css";
 
-const MainLayout = ({children}) => {
+const MainLayout = ({setLogged,children}) => {
   return (
     <div className={styles.container}>
-      <Sidebar/>
+      <Sidebar setLogged={setLogged}/>
       <Outlet/>
     </div>
   )
