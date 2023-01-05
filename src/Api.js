@@ -1,13 +1,13 @@
 
 // --host=192.168.0.107
 //const BASE_API = 'localhost:8000/api';
-//const BASE_API = 'http://tripsun.tk/api';
-const BASE_API = 'http://192.168.0.107:8000/api';
+const BASE_API = 'http://tripsun.tk/api';
+//const BASE_API = 'http://192.168.0.107:8000/api';
 //const BASE_API = 'http://177.104.209.216:8000/api';
 
 export default {
-    //base_storage: 'http:////tripsun.tk/storage',
-    base_storage: 'http://192.168.0.107:8000/storage',
+    base_storage: 'http:////tripsun.tk/storage',
+  //  base_storage: 'http://192.168.0.107:8000/storage',
    // base_storage: 'http://177.104.209.216:8000/storage',
    /*
     checkToken: async (token) => {
