@@ -30,56 +30,56 @@ const onLogout = () => {
             <img className="imgLogo" src={logo} alt="TripSun Logo" />
             <span className="logo">Módulo de Administração</span>
         </div>
-       
+
         <div className="center">
             <ul>
             <Link to="/home" style={{ textDecoration: "none" }}>
                 <li>
-                    <MdDashboard className="icon" size={18} /> 
+                    <MdDashboard className="icon" size={18} />
                     <span>Home</span>
                 </li>
             </Link>
                 <p className="title">CADASTROS</p>
                 <Link to="/cidades" style={{ textDecoration: "none" }}>
                     <li>
-                        <FaCity className="icon" size={18} /> 
+                        <FaCity className="icon" size={18} />
                         <span>Cidades</span>
                     </li>
-                </Link> 
+                </Link>
                 <Link to="/categorias" style={{ textDecoration: "none" }}>
                 <li>
-                    <FaTheaterMasks className="icon" size={18} /> 
+                    <FaTheaterMasks className="icon" size={18} />
                     <span>Categorias</span>
                 </li>
                 </Link>
                 <Link to="/subcategorias" style={{ textDecoration: "none" }}>
                 <li>
-                   <FaTheaterMasks className="icon" size={18} /> 
+                   <FaTheaterMasks className="icon" size={18} />
                     <span>Subcategorias</span>
                 </li>
                 </Link>
                 <Link to="/parceiros" style={{ textDecoration: "none" }}>
                 <li>
-                   <FaHandshake className="icon" size={18} /> 
+                   <FaHandshake className="icon" size={18} />
                     <span>Parceiros</span>
                 </li>
                 </Link>
                 <Link to="/atividades" style={{ textDecoration: "none" }}>
                 <li>
-                    <MdLocationOn className="icon" size={18} /> 
+                    <MdLocationOn className="icon" size={18} />
                     <span>Atividades</span>
                 </li>
                 </Link>
-                <Link to="/usuarios" style={{ textDecoration: "none" }}>
+               {/* <Link to="/usuarios" style={{ textDecoration: "none" }}>
                 <li>
-                    <HiUsers className="icon" size={18} /> 
+                    <HiUsers className="icon" size={18} />
                     <span>Usuários</span>
                 </li>
-                </Link>
+                </Link>*/ }
                 <p className="title">OUTRAS OPÇÕES</p>
                 <li onClick={onLogout}>
-                    <MdLogout className="icon" size={18} /> 
-                    <span>Logout</span>
+                    <MdLogout className="icon" size={18} />
+                    <span>Sair</span>
                 </li>
             </ul>
         </div>

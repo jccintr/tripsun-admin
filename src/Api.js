@@ -9,6 +9,7 @@ export default {
     //base_storage: 'http:////tripsun.tk/storage',
     base_storage: 'http://192.168.0.107:8000/storage',
    // base_storage: 'http://177.104.209.216:8000/storage',
+   /*
     checkToken: async (token) => {
         const req = await fetch(`${BASE_API}/auth/refresh`, {
             method: 'POST',
@@ -21,6 +22,7 @@ export default {
         const json = await req.json();
         return json;
     },
+    */
     signIn: async (email, password) => {
         const response = await fetch(`${BASE_API}/loginAdmin`, {
             method: 'POST',
@@ -33,6 +35,7 @@ export default {
         //const json = await req.json();
         return response;
     },
+    /*
     signUp: async (name, email, password) => {
         const req = await fetch(`${BASE_API}/register`, {
             method: 'POST',
@@ -45,7 +48,8 @@ export default {
         const json = await req.json();
         return json;
     },
-/*
+    */
+    /*
     logout: async () => {
         const token = await AsyncStorage.getItem('token');
 
@@ -61,6 +65,7 @@ export default {
         return json;
     },
     */
+
    // Rotas da Cidade
     getCidades: async () => {
         const req = await fetch(`${BASE_API}/cidades`);
@@ -207,6 +212,11 @@ export default {
    return response;
 },
  // Rotas dos Usuarios ========================================================
+ getUsuariosParceiros: async () => {
+    const req = await fetch(`${BASE_API}/usuarios/prestadores`);
+    const json = await req.json();
+    return json;
+   },
  getUsuarios: async () => {
     const req = await fetch(`${BASE_API}/usuarios`);
     const json = await req.json();

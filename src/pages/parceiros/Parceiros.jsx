@@ -29,6 +29,8 @@ const [parceiros,setParceiros] = useState([]);
 const [cidades,setCidades] = useState([]);
 const [idCidade,setIdCidade] = useState('');
 const [idParceiro,setIdParceiro] = useState(null);
+const [usuarios,setUsuarios] = useState([]);
+const [idUsuario,setIdUsuario] = useState(null);
 const [nome,setNome] = useState('');
 const [endereco,setEndereco] = useState('');
 const [bairro,setBairro] = useState('');
@@ -48,6 +50,15 @@ const initialRef = useRef(null)
 
 
 useEffect(()=>{
+  const getUsuariosParceiros = async () => {
+  let json = await Api.getUsuariosParceiros();
+      setUsuarios(json);
+}
+getUsuariosParceiros();
+}, []);
+
+
+useEffect(()=>{
     const getParceiros = async () => {
     let json = await Api.getParceiros();
         setParceiros(json);
@@ -57,11 +68,9 @@ useEffect(()=>{
 
 useEffect(()=>{
   const getCidades = async () => {
-  
-      let json = await Api.getCidades();
+        let json = await Api.getCidades();
       setCidades(json);
-      
-  }
+   }
   getCidades();
 }, []);
 
@@ -72,6 +81,7 @@ useEffect(()=>{
 
     fd.append('nome',nome);
     fd.append('cidade_id',idCidade);
+    fd.append('usuario_id',idUsuario);
     fd.append('logotipo',imagem);
     fd.append('endereco',endereco);
     fd.append('bairro',bairro);
@@ -87,6 +97,7 @@ useEffect(()=>{
             let json = await Api.getParceiros();
             setNome('');
             setIdCidade('');
+            setIdUsuario('');
             setImagem('');
             setEndereco('');
             setBairro('');
@@ -122,6 +133,7 @@ useEffect(()=>{
       setParceiros(json);
       setNome('');
       setIdCidade('');
+      setIdUsuario('');
       setImagem('');
       setEndereco('');
       setBairro('');
@@ -179,6 +191,7 @@ useEffect(()=>{
     setIe('');
     setImagem('');
     setIdCidade(null);
+    setIdUsuario(null);
     setEditando(false);
     onOpen();
   }
@@ -190,6 +203,7 @@ useEffect(()=>{
     setEndereco(json.endereco);
     setBairro(json.bairro);
     setIdCidade(json.cidade_id);
+    setIdUsuario(json.usuario_id);
     setCep(json.cep);
     setContato(json.contato);
     setTelefone(json.telefone);
@@ -266,9 +280,7 @@ useEffect(()=>{
                               />
                         </FormControl>
                     </HStack>
-                   
-                    
-                    
+                
                     <FormControl style={{marginBottom:10}}>
                     <FormLabel>
                       Cidade:
@@ -279,6 +291,19 @@ useEffect(()=>{
                         onChange={e => setIdCidade(e.target.value)}>
                           {cidades.map((cidade)=> (
                             <option value={cidade.id}>{cidade.nome}-{cidade.estado}</option>
+                          ))}
+                    </Select>
+                </FormControl>
+                <FormControl style={{marginBottom:10}}>
+                    <FormLabel>
+                      Usuário Prestador:    
+                    </FormLabel>
+                    <Select 
+                        placeholder='Selecione um usuário'
+                        value={idUsuario}
+                        onChange={e => setIdUsuario(e.target.value)}>
+                          {usuarios.map((usuario)=> (
+                            <option value={usuario.id}>{usuario.name}</option>
                           ))}
                     </Select>
                 </FormControl>
