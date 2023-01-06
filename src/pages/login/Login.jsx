@@ -18,6 +18,7 @@ const Login = ({setLogged}) => {
 
 
   const onSignIn = async () =>{
+   
     let response = await Api.signIn(email,password);
     if(response.status===200){
        let json = await response.json();
@@ -39,7 +40,7 @@ const Login = ({setLogged}) => {
      <div className={styles.form}>
      <img className={styles.logo} src={logo} alt="logo tripsun" />
 
-         <form id="login" onSubmit={onSignIn}>
+         <form id="login" >
             <FormControl style={{marginBottom:10}}>
                 <FormLabel>
                   <p className={styles.label}>Nome de Usuário:</p>
@@ -64,8 +65,8 @@ const Login = ({setLogged}) => {
 
                   />
             </FormControl>
-            <Button onClick={onSignIn} colorScheme='red' size='lg'>ENTRAR</Button>
-
+            <Button onClick={onSignIn} width={{base:'100%'}} colorScheme='red' size='lg'>ENTRAR</Button>
+            
 
          </form>
 

@@ -8,7 +8,7 @@ const BASE_API = 'https://tripsun.tk/api';
 
 export default {
     
-  //  base_storage: 'http://192.168.0.107:8000/storage',
+ //   base_storage: 'http://192.168.0.107:8000/storage',
    // base_storage: 'http://177.104.209.216:8000/storage',
    base_storage: 'https://tripsun.tk/storage',
    /*
