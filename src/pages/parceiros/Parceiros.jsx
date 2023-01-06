@@ -47,6 +47,7 @@ const toast = useToast();
 const [filter,setFilter] = useState('');
 const [editando,setEditando] = useState(false);
 const initialRef = useRef(null)
+const [isLoading,setIsLoading] = useState(false);
 
 
 useEffect(()=>{
@@ -75,6 +76,7 @@ useEffect(()=>{
 }, []);
 
   const onSalvar = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const fd = new FormData();
     
@@ -125,6 +127,7 @@ useEffect(()=>{
         })
 
         }
+        setIsLoading(false);
    } else {
 
     let response = await Api.updateParceiro(idParceiro,fd);
@@ -150,6 +153,7 @@ useEffect(()=>{
         isClosable: true,
       });
       onClose();
+      setIsLoading(false);
   } else {
     toast({
       title: 'Atenção !',
@@ -158,8 +162,9 @@ useEffect(()=>{
       duration: 3000,
       isClosable: true,
     })
+    setIsLoading(false);
   }
-
+  
 
   }
 
@@ -366,7 +371,7 @@ useEffect(()=>{
               </ModalBody>
     
               <ModalFooter>
-                <Button type="submit" form="add" colorScheme='red' mr={3} >
+                <Button isLoading={isLoading} loadingText="Salvando" type="submit" form="add" colorScheme='red' mr={3} >
                   Salvar
                 </Button>
                

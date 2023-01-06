@@ -31,6 +31,7 @@ const Categorias = () => {
   const [filter,setFilter] = useState('');
   const [editando,setEditando] = useState(false);
   const initialRef = useRef(null)
+  const [isLoading,setIsLoading] = useState(false);
 
 
   useEffect(()=>{
@@ -42,7 +43,7 @@ const Categorias = () => {
   }, []);
 
   const onSalvar = async (e) => {
-
+    setIsLoading(true);
     e.preventDefault();
     const fd = new FormData();
 
@@ -64,6 +65,7 @@ const Categorias = () => {
           isClosable: true,
         });
         onClose();
+        setIsLoading(false);
     } else {
       toast({
         title: 'Atenção !',
@@ -72,7 +74,9 @@ const Categorias = () => {
         duration: 3000,
         isClosable: true,
       })
+      
     }
+    setIsLoading(false);
 } else {
   let response = await Api.updateCategoria(idCategoria,fd);
   if(response.status===200){
@@ -97,7 +101,7 @@ const Categorias = () => {
     isClosable: true,
   })
 }
-
+setIsLoading(false);
 }
 
 
@@ -178,7 +182,7 @@ return (
         </ModalBody>
 
         <ModalFooter>
-          <Button type="submit" form="add" colorScheme='red' mr={3} >
+          <Button isLoading={isLoading} loadingText="Salvando" type="submit" form="add" colorScheme='red' mr={3} >
             Salvar
           </Button>
 

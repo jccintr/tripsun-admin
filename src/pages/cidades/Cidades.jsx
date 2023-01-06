@@ -31,6 +31,7 @@ const Cidades = () => {
   const [filter,setFilter] = useState('');
   const [editando,setEditando] = useState(false);
   const initialRef = useRef(null)
+  const [isLoading,setIsLoading] = useState(false);
   
   const estados = [
     { sigla: 'AC',nome: 'Acre' },
@@ -72,6 +73,7 @@ const Cidades = () => {
   }, []);
 
   const onSalvar = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const fd = new FormData();
     fd.append('nome',nome);
@@ -94,6 +96,7 @@ const Cidades = () => {
             isClosable: true,
           });
           onClose();
+          setIsLoading(false);
       } else {
         toast({
           title: 'Atenção !',
@@ -103,6 +106,7 @@ const Cidades = () => {
           isClosable: true,
         })
       }
+      setIsLoading(false);
   } else {
     let response = await Api.updateCidade(idCidade,fd);
     if(response.status===200){
@@ -128,7 +132,7 @@ const Cidades = () => {
       isClosable: true,
     })
   }
-
+ setIsLoading(false);
   }
   
     
@@ -221,7 +225,7 @@ const onEdit = async (id) => {
              </form>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" form="add" colorScheme='red' mr={3} >
+            <Button isLoading={isLoading} loadingText="Salvando" type="submit" form="add" colorScheme='red' mr={3} >
               Salvar
             </Button>
         

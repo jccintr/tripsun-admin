@@ -87,6 +87,7 @@ const [filter,setFilter] = useState('');
 const [editando,setEditando] = useState(false);
 const initialRef = useRef(null)
 const [novaImagem,setNovaImagem] = useState('');
+const [isLoading,setIsLoading] = useState(false);
 
 
 
@@ -160,6 +161,7 @@ const formataData = (data) => {
 }
 
 const onSalvar = async (e) => {
+  setIsLoading(true);
   e.preventDefault();
   const fd = new FormData();
   fd.append('nome',nome);
@@ -200,6 +202,7 @@ const onSalvar = async (e) => {
       })
 
       }
+      setIsLoading(false);
  } else {
 
   let response = await Api.updateAtividade(idServico,nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,valor);
@@ -224,7 +227,7 @@ const onSalvar = async (e) => {
     isClosable: true,
   })
 }
-
+setIsLoading(false);
 
 }
 
@@ -601,7 +604,7 @@ return (
            </form>
         </ModalBody>
         <ModalFooter>
-          <Button type="submit" form="add" colorScheme='red' mr={3} >
+          <Button isLoading={isLoading} loadingText="Salvando" type="submit" form="add" colorScheme='red' mr={3} >
             Salvar
           </Button>
         </ModalFooter>
