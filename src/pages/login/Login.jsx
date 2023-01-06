@@ -14,11 +14,12 @@ import styles from "./styles.module.css";
 const Login = ({setLogged}) => {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
+  const [isLoading,setIsLoading] = useState(false);
   const navigate = useNavigate();
 
 
   const onSignIn = async () =>{
-   
+    setIsLoading(true);
     let response = await Api.signIn(email,password);
     if(response.status===200){
        let json = await response.json();
@@ -27,6 +28,7 @@ const Login = ({setLogged}) => {
        navigate('/home');
     }
     else{
+     setIsLoading(false);
      alert('Nome de usuário e ou senha inválidos.');
     }
    // navigate('/cidades');
@@ -37,42 +39,38 @@ const Login = ({setLogged}) => {
 
   return (
      <div className={styles.container}>
-     <div className={styles.form}>
-     <img className={styles.logo} src={logo} alt="logo tripsun" />
+        <div className={styles.form}>
+            <img className={styles.logo} src={logo} alt="logo tripsun" />
+            <form id="login" >
+                <FormControl style={{marginBottom:10}}>
+                    <FormLabel>
+                      <p className={styles.label}>Nome de Usuário:</p>
+                    </FormLabel>
+                    <Input
+                        isRequired
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        placeholder='Seu Email...'
 
-         <form id="login" >
-            <FormControl style={{marginBottom:10}}>
-                <FormLabel>
-                  <p className={styles.label}>Nome de Usuário:</p>
-                </FormLabel>
-                <Input
-                    isRequired
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    placeholder='Seu Email...'
+                      />
+                </FormControl>
+                <FormControl style={{marginBottom:10}}>
+                    <FormLabel>
+                      <p className={styles.label}>Senha de Acesso:</p>
+                    </FormLabel>
+                    <Input
+                        type="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        placeholder='Sua senha...'
 
-                  />
-            </FormControl>
-            <FormControl style={{marginBottom:10}}>
-                <FormLabel>
-                  <p className={styles.label}>Senha de Acesso:</p>
-                </FormLabel>
-                <Input
-                    type="password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    placeholder='Sua senha...'
+                      />
+                </FormControl>
+                <Button isLoading={isLoading} onClick={onSignIn} width={{base:'100%'}} colorScheme='red' size='lg'>ENTRAR</Button>
+            </form>
 
-                  />
-            </FormControl>
-            <Button onClick={onSignIn} width={{base:'100%'}} colorScheme='red' size='lg'>ENTRAR</Button>
-            
-
-         </form>
-
+        </div>
      </div>
-     </div>
-
 
   )
 }
