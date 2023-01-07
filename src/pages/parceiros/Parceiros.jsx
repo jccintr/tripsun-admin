@@ -2,7 +2,7 @@ import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
-import { useToast } from '@chakra-ui/react'
+import { useToast,Spinner } from '@chakra-ui/react'
 import "./parceiros.scss";
 
 import {useDisclosure,Input,Select,
@@ -48,7 +48,7 @@ const [filter,setFilter] = useState('');
 const [editando,setEditando] = useState(false);
 const initialRef = useRef(null)
 const [isLoading,setIsLoading] = useState(false);
-
+const [loadingData,setLoadingData] = useState(false);
 
 useEffect(()=>{
   const getUsuariosParceiros = async () => {

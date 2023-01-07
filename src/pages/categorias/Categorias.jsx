@@ -2,8 +2,8 @@ import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
-import { useToast } from '@chakra-ui/react'
-import "./categorias.scss";
+import { useToast,Spinner } from '@chakra-ui/react'
+import styles from "./styles.module.css";
 import {useDisclosure,Input,Select,
     Button,
     Modal,
@@ -32,12 +32,14 @@ const Categorias = () => {
   const [editando,setEditando] = useState(false);
   const initialRef = useRef(null)
   const [isLoading,setIsLoading] = useState(false);
-
+  const [loadingData,setLoadingData] = useState(false);
 
   useEffect(()=>{
       const getCategorias = async () => {
+          setLoadingData(true);
           let json = await Api.getCategorias();
           setCategorias(json);
+          setLoadingData(false);
       }
       getCategorias();
   }, []);
@@ -139,15 +141,12 @@ const onEdit = async (id) => {
 
 
 return (
-  <div className="categorias">
+  <div className={styles.container}>
       <Navbar onClick={onAdd} setFilter={setFilter} title="Categorias"/>
-    <div className="categoriasContainer">
-        <TableCategorias categorias={categorias} filter={filter} onEdit={onEdit}/>
-      <div className="gridContainer">
-
-      </div>
-
-    </div>
+      {loadingData ? <div className={styles.spinner}>
+              <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
+            </div>:<TableCategorias categorias={categorias} filter={filter} onEdit={onEdit}/>}
+   
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>

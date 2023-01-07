@@ -2,8 +2,8 @@ import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
-import { useToast } from '@chakra-ui/react'
-import "./cidades.scss";
+import { useToast,Spinner } from '@chakra-ui/react'
+import styles from "./styles.module.css";
 import {useDisclosure,Input,Select,
   Button,
   Modal,
@@ -32,6 +32,7 @@ const Cidades = () => {
   const [editando,setEditando] = useState(false);
   const initialRef = useRef(null)
   const [isLoading,setIsLoading] = useState(false);
+  const [loadingData,setLoadingData] = useState(false);
   
   const estados = [
     { sigla: 'AC',nome: 'Acre' },
@@ -66,8 +67,10 @@ const Cidades = () => {
 
   useEffect(()=>{
     const getCidades = async () => {
+       setLoadingData(true);
        let json = await Api.getCidades();
        setCidades(json);
+       setLoadingData(false);
     }
     getCidades();
   }, []);
@@ -172,15 +175,12 @@ const onEdit = async (id) => {
 
 
   return (
-    <div className="cidades">
+    <div className={styles.container}>
        <Navbar onClick={onAdd} setFilter={setFilter} title="Cidades"/>
-      <div className="cidadesContainer">
-         <TableCidades cidades={cidades} filter={filter} onEdit={onEdit}/>
-        <div className="gridContainer">
-         
-        </div>
+       {loadingData ? <div className={styles.spinner}>
+              <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
+            </div>:<TableCidades cidades={cidades} filter={filter} onEdit={onEdit}/> }
      
-      </div>
         <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

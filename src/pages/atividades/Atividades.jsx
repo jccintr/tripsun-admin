@@ -2,7 +2,7 @@ import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
-import { useToast, VStack } from '@chakra-ui/react'
+import { useToast, Spinner } from '@chakra-ui/react'
 import "./atividades.scss";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -88,7 +88,7 @@ const [editando,setEditando] = useState(false);
 const initialRef = useRef(null)
 const [novaImagem,setNovaImagem] = useState('');
 const [isLoading,setIsLoading] = useState(false);
-
+const [loadingData,setLoadingData] = useState(false);
 
 
 useEffect(()=>{
