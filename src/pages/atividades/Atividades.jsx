@@ -1,11 +1,11 @@
 import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
-import { useNavigate } from "react-router-dom";
 import { useToast, Spinner } from '@chakra-ui/react'
-import "./atividades.scss";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import styles from "./styles.module.css";
+
 
 import {
   Table,
@@ -93,8 +93,10 @@ const [loadingData,setLoadingData] = useState(false);
 
 useEffect(()=>{
   const getAtividades = async () => {
+  setLoadingData(true);  
   let json = await Api.getAtividades();
       setServicos(json);
+      setLoadingData(false);
 }
 getAtividades();
 }, []);
@@ -357,15 +359,11 @@ const onEdit = async (id) => {
 
 
 return (
-  <div className="atividades">
+  <div className={styles.container}>
      <Navbar onClick={onAdd} setFilter={setFilter} title="Atividades"/>
-    <div className="parceirosContainer">
-       <TableAtividades servicos={servicos} filter={filter} onEdit={onEdit} onOpenModalImage={abreModalImagens} onOpenModalHorarios={abreModalHorarios}/>
-      <div className="gridContainer">
-
-      </div>
-
-    </div>
+     {loadingData ? <div className={styles.spinner}>
+              <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
+     </div>:<TableAtividades servicos={servicos} filter={filter} onEdit={onEdit} onOpenModalImage={abreModalImagens} onOpenModalHorarios={abreModalHorarios}/>}
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose} size='xl' >
       <ModalOverlay />
       <ModalContent>

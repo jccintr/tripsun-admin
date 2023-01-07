@@ -3,7 +3,7 @@ import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
 import { useToast,Spinner } from '@chakra-ui/react'
-import "./parceiros.scss";
+import styles from "./styles.module.css";
 
 import {useDisclosure,Input,Select,
     Button,
@@ -50,29 +50,34 @@ const initialRef = useRef(null)
 const [isLoading,setIsLoading] = useState(false);
 const [loadingData,setLoadingData] = useState(false);
 
-useEffect(()=>{
-  const getUsuariosParceiros = async () => {
-  let json = await Api.getUsuariosParceiros();
-      setUsuarios(json);
-}
-getUsuariosParceiros();
-}, []);
+
 
 
 useEffect(()=>{
     const getParceiros = async () => {
-    let json = await Api.getParceiros();
-        setParceiros(json);
+      setLoadingData(true);
+      let json = await Api.getParceiros();
+      setParceiros(json);
+      setLoadingData(false);
   }
     getParceiros();
   }, []);
 
 useEffect(()=>{
   const getCidades = async () => {
+    
         let json = await Api.getCidades();
       setCidades(json);
    }
   getCidades();
+}, []);
+
+useEffect(()=>{
+  const getUsuariosParceiros = async () => {
+  let json = await Api.getUsuariosParceiros();
+      setUsuarios(json);
+}
+getUsuariosParceiros();
 }, []);
 
   const onSalvar = async (e) => {
@@ -221,15 +226,11 @@ useEffect(()=>{
     
 
     return (
-        <div className="parceiros">
+        <div className={styles.container}>
            <Navbar onClick={onAdd} setFilter={setFilter} title="Parceiros"/>
-          <div className="parceirosContainer">
-             <TableParceiros parceiros={parceiros} filter={filter} onEdit={onEdit}/>
-            <div className="gridContainer">
-             
-            </div>
-         
-          </div>
+           {loadingData ? <div className={styles.spinner}>
+              <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
+            </div>:<TableParceiros parceiros={parceiros} filter={filter} onEdit={onEdit}/>}
             <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose} size='xl' >
             <ModalOverlay />
             <ModalContent>

@@ -70,12 +70,12 @@ const onLogout = () => {
                     <span>Atividades</span>
                 </li>
                 </Link>
-               <Link to="/usuarios" style={{ textDecoration: "none" }}>
+               {/*<Link to="/usuarios" style={{ textDecoration: "none" }}>
                 <li>
                     <HiUsers className="icon" size={18} />
                     <span>Usuários</span>
                 </li>
-                </Link>
+  </Link>*/}
                 <p className="title">OUTRAS OPÇÕES</p>
                 <li onClick={onLogout}>
                     <MdLogout className="icon" size={18} />
