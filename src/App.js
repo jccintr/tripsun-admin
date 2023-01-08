@@ -6,10 +6,10 @@ import Subcategorias from "./pages/subcategorias/Subcategorias";
 import Parceiros from "./pages/parceiros/Parceiros";
 import Atividades from "./pages/atividades/Atividades";
 import Usuarios from "./pages/usuarios/Usuarios";
+import UsuariosParceiros from "./pages/usuariosParceiros/UsuariosParceiros";
 import {BrowserRouter,Routes, Route } from "react-router-dom";
 //import Sidebar from "./components/sidebar/Sidebar";
 import "./app.css";
-//import AddCidade from "./pages/addCidade/AddCidade";
 import MainLayout from "./pages/MainLayout/MainLayout";
 import PrivateRoutes from "./PrivateRoutes";
 import { useState } from "react";
@@ -31,6 +31,7 @@ function App() {
                     <Route path="/parceiros" element={<Parceiros/>}/>
                     <Route path="/atividades" element={<Atividades/>}/>
                     <Route path="/usuarios" element={<Usuarios/>}/>
+                    <Route path="/usuariosparceiros" element={<UsuariosParceiros/>}/>
                     <Route path="/home" element={<Home/>}/>
                    
                 </Route>

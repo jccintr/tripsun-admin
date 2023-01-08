@@ -76,6 +76,12 @@ const onLogout = () => {
                         <span>Usuários Clientes</span>
                     </li>
                </Link>
+               <Link to="/usuarios" style={{ textDecoration: "none" }}>
+                    <li>
+                        <HiUsers className="icon" size={18} />
+                        <span>Usuários Parceiros</span>
+                    </li>
+               </Link>
                 <p className="title">OUTRAS OPÇÕES</p>
                 <li onClick={onLogout}>
                     <MdLogout className="icon" size={18} />

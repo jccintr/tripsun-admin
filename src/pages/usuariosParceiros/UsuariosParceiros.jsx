@@ -2,8 +2,9 @@ import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
-import { useToast } from '@chakra-ui/react'
-import "./usuarios.scss";
+import { useToast,Spinner } from '@chakra-ui/react'
+
+import styles from "./styles.module.css";
 import {useDisclosure,Input,Select,
   Button,
   Modal,
@@ -32,29 +33,34 @@ const UsuariosParceiros = () => {
   const [filter,setFilter] = useState('');
   const [editando,setEditando] = useState(false);
   const initialRef = useRef(null)
+  const [isLoading,setIsLoading] = useState(false);
+  const [loadingData,setLoadingData] = useState(false);
   
   
 
   useEffect(()=>{
     const getUsuarios = async () => {
+      setLoadingData(true);
        let json = await Api.getUsuariosParceiros();
        setUsuarios(json);
+       setLoadingData(false);
     }
     getUsuarios();
   }, []);
 
   const onSalvar = async (e) => {
     e.preventDefault();
-   
+    setIsLoading(true);
     const fd = new FormData();
-    fd.append('nome',nome);
+    fd.append('name',nome);
+    fd.append('telefone',telefone);
    // fd.append('estado',estado);
    // fd.append('imagem',imagem);
    
     if(!editando){
         let response = await Api.addCidade(fd);
         if(response.status===201){
-          let json = await Api.getUsuarios();
+          let json = await Api.getUsuariosParceiros();
           setNome('');
           setTelefone('');
           setUsuarios(json);
@@ -76,9 +82,10 @@ const UsuariosParceiros = () => {
         })
       }
   } else {
+    console.log(idUsuario + '-' + nome + '-' + telefone);
     let response = await Api.updateUsuario(idUsuario,nome,telefone);
     if(response.status===200){
-      let json = await Api.getUsuarios();
+      let json = await Api.getUsuariosParceiros();
       setNome('');
       setEmail('');
       setTelefone('');
@@ -100,7 +107,7 @@ const UsuariosParceiros = () => {
       isClosable: true,
     })
   }
-
+  setIsLoading(false);
   }
   
     
@@ -119,30 +126,33 @@ const handlerImagem = (e) => {
 */
 
 const onAdd = () => {
- alert('Usuários só podem ser adicionados pelo aplicativo móvel.')
+ 
+ toast({
+  title: 'Aviso !',
+  description: "Usuários Clientes só podem ser adicionados pelo aplicativo móvel.",
+  status: 'error',
+  duration: 3000,
+  isClosable: true,
+});
 }
 
 const onEdit = async (id) => {
   let json = await Api.getUsuariobyId(id);
   setIdUsuario(json.id);
   setNome(json.name);
-  setTelefone(json.phone);
+  setTelefone(json.telefone);
   setEditando(true);
   onOpen(); 
  }
 
 
   return (
-    <div className="usuarios">
-       <Navbar onClick={onAdd} setFilter={setFilter} title="Usuários"/>
-      <div className="usuariosContainer">
-         <TableUsuarios usuarios={usuarios} filter={filter} onEdit={onEdit}/>
-        <div className="gridContainer">
-         
-        </div>
-     
-      </div>
-        <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+    <div className={styles.container}>
+       <Navbar onClick={onAdd} setFilter={setFilter} title="Usuários Clientes"/>
+       {loadingData ? <div className={styles.spinner}>
+              <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
+            </div>:<TableUsuarios usuarios={usuarios} filter={filter} onEdit={onEdit}/>}
+          <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{editando?'Editando':'Novo'} Usuário</ModalHeader>
@@ -177,7 +187,7 @@ const onEdit = async (id) => {
              </form>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" form="add" colorScheme='red' mr={3} >
+            <Button  isLoading={isLoading} loadingText="Salvando" type="submit" form="add" colorScheme='red' mr={3} >
               Salvar
             </Button>
         
@@ -188,4 +198,4 @@ const onEdit = async (id) => {
   )
 }
 
-export default UsuariosParceiros 
+export default UsuariosParceiros
