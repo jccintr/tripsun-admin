@@ -64,7 +64,7 @@ const [subcategorias,setSubcategorias] = useState([]);
 const [idSubcategoria,setIdSubcategoria] = useState(null);
 //===================================================
 const [horarios,setHorarios] = useState([]);
-const [vagasAtividade,setVagasAtividade] = useState('');
+const [vagasAtividade,setVagasAtividade] = useState(1);
 const [horarioAtividade,setHorarioAtividade] = useState('');
 const [duracaoAtividade,setDuracaoAtividade] = useState('');
 //===================================================
@@ -690,13 +690,13 @@ return (
                      Vagas:
                    </FormLabel>
                    <NumberInput
-                            precision={0} defaultValue={1}
-                            
+                       precision={0}
+                       defaultValue={vagasAtividade}
+                       onChange={(valueString) => setVagasAtividade(valueString)}     
                     >
                         <NumberInputField
                           value={vagasAtividade}
-                          onChange={e => setVagasAtividade(e.target.value)}
-                           placeholder='Quantidade de vagas'
+                          placeholder='Quantidade de vagas'
                         />
                         <NumberInputStepper>
                             <NumberIncrementStepper />
