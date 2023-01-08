@@ -2,9 +2,8 @@ import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
-import { useToast,Spinner } from '@chakra-ui/react'
-
-import styles from "./styles.module.css";
+import { useToast } from '@chakra-ui/react'
+import "./usuarios.scss";
 import {useDisclosure,Input,Select,
   Button,
   Modal,
@@ -19,7 +18,7 @@ import {useDisclosure,Input,Select,
 } from '@chakra-ui/react'
 import TableUsuarios from '../../components/tableUsuarios/TableUsuarios';
 
-const Usuarios = () => {
+const UsuariosParceiros = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [usuarios,setUsuarios] = useState([]);
   const [idUsuario,setIdUsuario] = useState([]);
@@ -33,34 +32,29 @@ const Usuarios = () => {
   const [filter,setFilter] = useState('');
   const [editando,setEditando] = useState(false);
   const initialRef = useRef(null)
-  const [isLoading,setIsLoading] = useState(false);
-  const [loadingData,setLoadingData] = useState(false);
   
   
 
   useEffect(()=>{
     const getUsuarios = async () => {
-      setLoadingData(true);
-       let json = await Api.getUsuariosClientes();
+       let json = await Api.getUsuariosParceiros();
        setUsuarios(json);
-       setLoadingData(false);
     }
     getUsuarios();
   }, []);
 
   const onSalvar = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+   
     const fd = new FormData();
-    fd.append('name',nome);
-    fd.append('telefone',telefone);
+    fd.append('nome',nome);
    // fd.append('estado',estado);
    // fd.append('imagem',imagem);
    
     if(!editando){
         let response = await Api.addCidade(fd);
         if(response.status===201){
-          let json = await Api.getUsuariosClientes();
+          let json = await Api.getUsuarios();
           setNome('');
           setTelefone('');
           setUsuarios(json);
@@ -82,10 +76,9 @@ const Usuarios = () => {
         })
       }
   } else {
-    console.log(idUsuario + '-' + nome + '-' + telefone);
     let response = await Api.updateUsuario(idUsuario,nome,telefone);
     if(response.status===200){
-      let json = await Api.getUsuariosClientes();
+      let json = await Api.getUsuarios();
       setNome('');
       setEmail('');
       setTelefone('');
@@ -107,7 +100,7 @@ const Usuarios = () => {
       isClosable: true,
     })
   }
-  setIsLoading(false);
+
   }
   
     
@@ -126,33 +119,30 @@ const handlerImagem = (e) => {
 */
 
 const onAdd = () => {
- 
- toast({
-  title: 'Aviso !',
-  description: "Usuários Clientes só podem ser adicionados pelo aplicativo móvel.",
-  status: 'error',
-  duration: 3000,
-  isClosable: true,
-});
+ alert('Usuários só podem ser adicionados pelo aplicativo móvel.')
 }
 
 const onEdit = async (id) => {
   let json = await Api.getUsuariobyId(id);
   setIdUsuario(json.id);
   setNome(json.name);
-  setTelefone(json.telefone);
+  setTelefone(json.phone);
   setEditando(true);
   onOpen(); 
  }
 
 
   return (
-    <div className={styles.container}>
-       <Navbar onClick={onAdd} setFilter={setFilter} title="Usuários Clientes"/>
-       {loadingData ? <div className={styles.spinner}>
-              <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
-            </div>:<TableUsuarios usuarios={usuarios} filter={filter} onEdit={onEdit}/>}
-          <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+    <div className="usuarios">
+       <Navbar onClick={onAdd} setFilter={setFilter} title="Usuários"/>
+      <div className="usuariosContainer">
+         <TableUsuarios usuarios={usuarios} filter={filter} onEdit={onEdit}/>
+        <div className="gridContainer">
+         
+        </div>
+     
+      </div>
+        <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{editando?'Editando':'Novo'} Usuário</ModalHeader>
@@ -187,7 +177,7 @@ const onEdit = async (id) => {
              </form>
           </ModalBody>
           <ModalFooter>
-            <Button  isLoading={isLoading} loadingText="Salvando" type="submit" form="add" colorScheme='red' mr={3} >
+            <Button type="submit" form="add" colorScheme='red' mr={3} >
               Salvar
             </Button>
         
@@ -198,4 +188,4 @@ const onEdit = async (id) => {
   )
 }
 
-export default Usuarios 
+export default UsuariosParceiros 

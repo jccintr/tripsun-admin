@@ -1,13 +1,13 @@
 
 // --host=192.168.0.107
-//const BASE_API = 'localhost:8000/api';
+//const BASE_API = 'http://localhost:8000/api';
 const BASE_API = 'https://tripsun.tk/api';
 
 //const BASE_API = 'http://192.168.0.107:8000/api';
 //const BASE_API = 'http://177.104.209.216:8000/api';
 
 export default {
-    
+ //  base_storage: 'http://localhost:8000/storage',
  //   base_storage: 'http://192.168.0.107:8000/storage',
    // base_storage: 'http://177.104.209.216:8000/storage',
    base_storage: 'https://tripsun.tk/storage',
@@ -219,8 +219,8 @@ export default {
     const json = await req.json();
     return json;
    },
- getUsuarios: async () => {
-    const req = await fetch(`${BASE_API}/usuarios`);
+ getUsuariosClientes: async () => {
+    const req = await fetch(`${BASE_API}/usuarios/clientes`);
     const json = await req.json();
     return json;
    },
@@ -229,14 +229,14 @@ export default {
     const json = await req.json();
     return json;
    },
-   updateUsuario: async (id,name,phone) => {
-    const response = await fetch(`${BASE_API}/usuario/${id}/update`, {
+   updateUsuario: async (id,nome,telefone) => {
+    const response = await fetch(`${BASE_API}/usuario/update/${id}`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({name,phone})
+        body: JSON.stringify({nome,telefone})
     });
    return response;
 },

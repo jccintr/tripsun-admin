@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Box,Image,Container,Center,FormControl,FormLabel,Input,Button,Stack} from '@chakra-ui/react'
+import { Box,Image,Container,Center,FormControl,FormLabel,Input,Button,Stack,useToast} from '@chakra-ui/react'
 import logo from "../../assets/logo_tripsun.png";
 import { useNavigate } from 'react-router-dom';
 import Api from "../../Api";
@@ -16,6 +16,7 @@ const Login = ({setLogged}) => {
   const [password,setPassword] = useState('');
   const [isLoading,setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const toast = useToast();
 
 
   const onSignIn = async () =>{
@@ -28,8 +29,15 @@ const Login = ({setLogged}) => {
        navigate('/home');
     }
     else{
-     setIsLoading(false);
-     alert('Nome de usuário e ou senha inválidos.');
+      toast({
+      title: 'Acesso não autorizado !',
+      description: "Nome de usuário e ou senha inválidos.",
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    });
+    setIsLoading(false);
+     //alert('Nome de usuário e ou senha inválidos.');
     }
    // navigate('/cidades');
    

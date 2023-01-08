@@ -35,7 +35,7 @@ const TableUsuarios = ({usuarios,filter,onEdit}) => {
               <Td isNumeric>{usuario.id}</Td>
               <Td>{usuario.name}</Td>
               <Td>{usuario.email}</Td>
-              <Td>{usuario.phone}</Td>
+              <Td>{usuario.telefone}</Td>
               
               <Td>
                  <Button onClick={()=>onEdit(usuario.id)} colorScheme='red' mr={3} >
