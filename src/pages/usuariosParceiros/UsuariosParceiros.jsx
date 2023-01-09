@@ -17,10 +17,12 @@ import {useDisclosure,Input,Select,
   FormControl,
   FormLabel,
 } from '@chakra-ui/react'
-import TableUsuarios from '../../components/tableUsuarios/TableUsuarios';
+import TableUsuariosParceiros from '../../components/tableUsuariosParceiros/TableUsuariosParceiros';
 
 const UsuariosParceiros = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: isOpenModalAdd , onOpen: onOpenModalAdd, onClose: onCloseModalAdd } = useDisclosure()
+  const { isOpen: isOpenModalTrocaSenha , onOpen: onOpenModalTrocaSenha, onClose: onCloseModalTrocaSenha } = useDisclosure()
   const [usuarios,setUsuarios] = useState([]);
   const [idUsuario,setIdUsuario] = useState([]);
   
@@ -82,7 +84,7 @@ const UsuariosParceiros = () => {
         })
       }
   } else {
-    console.log(idUsuario + '-' + nome + '-' + telefone);
+    
     let response = await Api.updateUsuario(idUsuario,nome,telefone);
     if(response.status===200){
       let json = await Api.getUsuariosParceiros();
@@ -129,7 +131,7 @@ const onAdd = () => {
  
  toast({
   title: 'Aviso !',
-  description: "Usuários Clientes só podem ser adicionados pelo aplicativo móvel.",
+  description: "Ainda não disponível.",
   status: 'error',
   duration: 3000,
   isClosable: true,
@@ -148,10 +150,10 @@ const onEdit = async (id) => {
 
   return (
     <div className={styles.container}>
-       <Navbar onClick={onAdd} setFilter={setFilter} title="Usuários Clientes"/>
+       <Navbar onClick={onAdd} setFilter={setFilter} title="Usuários Parceiros"/>
        {loadingData ? <div className={styles.spinner}>
               <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
-            </div>:<TableUsuarios usuarios={usuarios} filter={filter} onEdit={onEdit}/>}
+            </div>:<TableUsuariosParceiros usuarios={usuarios} filter={filter} onEdit={onEdit}/>}
           <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -170,7 +172,6 @@ const onEdit = async (id) => {
                         ref={initialRef}
                       />
                 </FormControl>
-                
                 <FormControl style={{marginBottom:10}}>
                     <FormLabel>
                       Telefone:
@@ -181,17 +182,13 @@ const onEdit = async (id) => {
                         placeholder='Telefone do usuário...'
                     />
                 </FormControl>
-
-               
-         
              </form>
           </ModalBody>
           <ModalFooter>
             <Button  isLoading={isLoading} loadingText="Salvando" type="submit" form="add" colorScheme='red' mr={3} >
               Salvar
             </Button>
-        
-          </ModalFooter>
+         </ModalFooter>
         </ModalContent>
       </Modal>
     </div>
