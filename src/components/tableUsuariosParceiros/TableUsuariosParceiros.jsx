@@ -12,7 +12,7 @@ import {
     TableContainer,Image,Button,
   } from '@chakra-ui/react'
 
-const TableUsuariosParceiros = ({usuarios,filter,onEdit}) => {
+const TableUsuariosParceiros = ({usuarios,filter,onEdit,onTrocaSenha}) => {
   return (
     <TableContainer>
   <Table variant='striped'>
@@ -43,7 +43,7 @@ const TableUsuariosParceiros = ({usuarios,filter,onEdit}) => {
                   </Button>
               </Td>
               <Td>
-                 <Button onClick={()=>{alert('Ainda não disponível!')}} colorScheme='red' mr={3} >
+                 <Button onClick={()=>onTrocaSenha(usuario.id)} colorScheme='red' mr={3} >
                     Alterar Senha
                   </Button>
               </Td>

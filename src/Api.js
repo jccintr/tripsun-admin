@@ -7,7 +7,7 @@ const BASE_API = 'https://tripsun.tk/api';
 //const BASE_API = 'http://177.104.209.216:8000/api';
 
 export default {
- //  base_storage: 'http://localhost:8000/storage',
+// base_storage: 'http://localhost:8000/storage',
  //   base_storage: 'http://192.168.0.107:8000/storage',
    // base_storage: 'http://177.104.209.216:8000/storage',
    base_storage: 'https://tripsun.tk/storage',
@@ -35,6 +35,17 @@ export default {
             body: JSON.stringify({email, password})
         });
         //const json = await req.json();
+        return response;
+    },
+    signUpParceiro: async (nome,email,telefone,password) => {
+        const response = await fetch(`${BASE_API}/signup2`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({name: nome,email,telefone, password})
+        });
         return response;
     },
     /*
@@ -237,6 +248,17 @@ export default {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({nome,telefone})
+    });
+   return response;
+},
+   updateSenhaUsuario: async (id,senha) => {
+    const response = await fetch(`${BASE_API}/usuario/updatepassword/${id}`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({senha})
     });
    return response;
 },

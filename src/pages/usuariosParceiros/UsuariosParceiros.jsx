@@ -29,6 +29,7 @@ const UsuariosParceiros = () => {
   const [nome,setNome] = useState('');
   const [email,setEmail] = useState('');
   const [telefone,setTelefone] = useState('');
+  const [senha,setSenha] = useState('');
   const imgRef = useRef();
   const navigate = useNavigate();
   const toast = useToast();
@@ -53,18 +54,19 @@ const UsuariosParceiros = () => {
   const onSalvar = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const fd = new FormData();
-    fd.append('name',nome);
-    fd.append('telefone',telefone);
-   // fd.append('estado',estado);
-   // fd.append('imagem',imagem);
-   
+      
     if(!editando){
-        let response = await Api.addCidade(fd);
+       
+        let response = await Api.signUpParceiro(nome,email,telefone,senha);
+      
+         //let json = await response.json();
+        
         if(response.status===201){
           let json = await Api.getUsuariosParceiros();
           setNome('');
           setTelefone('');
+          setEmail('');
+          setSenha('');
           setUsuarios(json);
           toast({
             title: 'Parabéns !',
@@ -109,33 +111,20 @@ const UsuariosParceiros = () => {
       isClosable: true,
     })
   }
-  setIsLoading(false);
+ 
   }
   
-    
+  setIsLoading(false);   
 }
 
-/*
-const handlerImagem = (e) => {
-
-  if(e.target.files[0]){
-     imgRef.current.src = URL.createObjectURL(e.target.files[0]);
-  }
-  setImagem(e.target.files[0]);
- 
-}
-
-*/
 
 const onAdd = () => {
- 
- toast({
-  title: 'Aviso !',
-  description: "Ainda não disponível.",
-  status: 'error',
-  duration: 3000,
-  isClosable: true,
-});
+  setNome('');
+  setEmail('');
+  setTelefone('');
+  setSenha(null);
+  setEditando(false);
+  onOpenModalAdd();
 }
 
 const onEdit = async (id) => {
@@ -147,14 +136,51 @@ const onEdit = async (id) => {
   onOpen(); 
  }
 
+ const onTrocaSenha = async (id) =>   {
+ // let json = await Api.updateSenhaUsuario(id);
+  setIdUsuario(id);
+ // setNome(json.name);
+ // setTelefone(json.telefone);
+ // setEditando(true);
+  setSenha(null);
+  onOpenModalTrocaSenha(); 
+
+ }
+
+ const onSalvaSenha = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  let response = await Api.updateSenhaUsuario(idUsuario,senha);
+  if(response.status===200){
+    toast({
+      title: 'Parabéns !',
+      description: "Senha atualizada com sucesso.",
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    });
+    onCloseModalTrocaSenha();
+  } else {
+    toast({
+      title: 'Atenção !',
+      description: "Falha ao atualizar senha.",
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    })
+
+  }
+  setIsLoading(false);
+ }
+
 
   return (
     <div className={styles.container}>
        <Navbar onClick={onAdd} setFilter={setFilter} title="Usuários Parceiros"/>
        {loadingData ? <div className={styles.spinner}>
               <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
-            </div>:<TableUsuariosParceiros usuarios={usuarios} filter={filter} onEdit={onEdit}/>}
-          <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+            </div>:<TableUsuariosParceiros usuarios={usuarios} filter={filter} onEdit={onEdit} onTrocaSenha={onTrocaSenha}/>}
+        <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{editando?'Editando':'Novo'} Usuário</ModalHeader>
@@ -181,6 +207,90 @@ const onEdit = async (id) => {
                         onChange={e => setTelefone(e.target.value)}
                         placeholder='Telefone do usuário...'
                     />
+                </FormControl>
+             </form>
+          </ModalBody>
+          <ModalFooter>
+            <Button  isLoading={isLoading} loadingText="Salvando" type="submit" form="add" colorScheme='red' mr={3} >
+              Salvar
+            </Button>
+         </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal initialFocusRef={initialRef} isOpen={isOpenModalTrocaSenha} onClose={onCloseModalTrocaSenha}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Alterando Senha do Usuário</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+             <form id="add" onSubmit={onSalvaSenha}>
+                <FormControl style={{marginBottom:10}}>
+                    <FormLabel>
+                      Nova Senha:
+                    </FormLabel>
+                    <Input 
+                        value={senha}
+                        onChange={e => setSenha(e.target.value)}
+                        placeholder='Senha de acesso...'
+                        ref={initialRef}
+                      />
+                </FormControl>
+             </form>
+          </ModalBody>
+          <ModalFooter>
+            <Button  isLoading={isLoading} loadingText="Salvando" type="submit" form="add" colorScheme='red' mr={3} >
+              Salvar
+            </Button>
+         </ModalFooter>
+        </ModalContent>
+      </Modal>
+      <Modal initialFocusRef={initialRef} isOpen={isOpenModalAdd} onClose={onCloseModalAdd}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Novo Usuário Parceiro</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+             <form id="add" onSubmit={onSalvar}>
+                <FormControl style={{marginBottom:10}}>
+                    <FormLabel>
+                      Nome:
+                    </FormLabel>
+                    <Input 
+                        value={nome}
+                        onChange={e => setNome(e.target.value)}
+                        placeholder='Nome do usuário...'
+                        ref={initialRef}
+                      />
+                </FormControl>
+                <FormControl style={{marginBottom:10}}>
+                    <FormLabel>
+                      Email:
+                    </FormLabel>
+                    <Input 
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        placeholder='Email do usuário...'
+                       />
+                </FormControl>
+                <FormControl style={{marginBottom:10}}>
+                    <FormLabel>
+                      Telefone:
+                    </FormLabel>
+                    <Input 
+                        value={telefone}
+                        onChange={e => setTelefone(e.target.value)}
+                        placeholder='Telefone do usuário...'
+                       />
+                </FormControl>
+                <FormControl style={{marginBottom:10}}>
+                    <FormLabel>
+                      Senha de Acesso:
+                    </FormLabel>
+                    <Input 
+                        value={senha}
+                        onChange={e => setSenha(e.target.value)}
+                        placeholder='Senha do usuário...'
+                       />
                 </FormControl>
              </form>
           </ModalBody>
