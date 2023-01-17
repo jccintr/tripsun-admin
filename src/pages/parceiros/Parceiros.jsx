@@ -36,6 +36,7 @@ const [endereco,setEndereco] = useState('');
 const [bairro,setBairro] = useState('');
 const [cep,setCep] = useState('');
 const [contato,setContato] = useState('');
+const [email,setEmail] = useState('');
 const [telefone,setTelefone] = useState('');
 const [cnpj,setCnpj] = useState('');
 const [ie,setIe] = useState('');
@@ -94,6 +95,7 @@ getUsuariosParceiros();
     fd.append('bairro',bairro);
     fd.append('cep',cep);
     fd.append('contato',contato);
+    fd.append('email',email);
     fd.append('telefone',telefone);
     fd.append('cnpj',cnpj);
     fd.append('ie',ie);
@@ -110,6 +112,7 @@ getUsuariosParceiros();
             setBairro('');
             setCep('');
             setContato('');
+            setEmail('');
             setTelefone('');
             setCnpj('');
             setIe('');
@@ -147,6 +150,7 @@ getUsuariosParceiros();
       setBairro('');
       setCep('');
       setContato('');
+      setEmail('');
       setTelefone('');
       setCnpj('');
       setIe('');
@@ -196,6 +200,7 @@ getUsuariosParceiros();
     setBairro('');
     setCep('');
     setContato('');
+    setEmail('');
     setTelefone('');
     setCnpj('');
     setIe('');
@@ -216,6 +221,7 @@ getUsuariosParceiros();
     setIdUsuario(json.usuario_id);
     setCep(json.cep);
     setContato(json.contato);
+    setEmail(json.email);
     setTelefone(json.telefone);
     setCnpj(json.cnpj);
     setIe(json.ie);
@@ -332,6 +338,16 @@ getUsuariosParceiros();
                                 value={telefone}
                                 onChange={e => setTelefone(e.target.value)}
                                 placeholder='Telefone...'
+                              />
+                        </FormControl>
+                        <FormControl style={{marginBottom:10}}>
+                            <FormLabel>
+                              Email:
+                            </FormLabel>
+                            <Input 
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                placeholder='Email...'
                               />
                         </FormControl>
                     </HStack>

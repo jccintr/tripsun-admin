@@ -8,9 +8,9 @@ const BASE_API = 'https://tripsun.tk/api';
 
 export default {
 // base_storage: 'http://localhost:8000/storage',
- //   base_storage: 'http://192.168.0.107:8000/storage',
+//    base_storage: 'http://192.168.0.107:8000/storage',
    // base_storage: 'http://177.104.209.216:8000/storage',
-   base_storage: 'https://tripsun.tk/storage',
+  base_storage: 'https://tripsun.tk/storage',
    /*
     checkToken: async (token) => {
         const req = await fetch(`${BASE_API}/auth/refresh`, {
@@ -21,7 +21,7 @@ export default {
             },
             body: JSON.stringify({token})
         });
-        const json = await req.json();
+        const json = await req.json();subcategoria
         return json;
     },
     */
@@ -50,7 +50,7 @@ export default {
     },
     /*
     signUp: async (name, email, password) => {
-        const req = await fetch(`${BASE_API}/register`, {
+        const req = await fetch(`${BASE_API}/registersubcategoria`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
