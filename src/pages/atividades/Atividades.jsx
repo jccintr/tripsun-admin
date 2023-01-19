@@ -165,10 +165,9 @@ const formataData = (data) => {
 const onSalvar = async (e) => {
   setIsLoading(true);
   e.preventDefault();
-  const fd = new FormData();
-  fd.append('nome',nome);
+  //const fd = new FormData();
+  //fd.append('nome',nome);
   let categoria_id = idCategoria;
-
   let subcategoria_id = idSubcategoria;
   let cidade_id = idCidade;
   let prestador_id = idParceiro;
@@ -177,11 +176,10 @@ const onSalvar = async (e) => {
   let descricao_curta = descricao;
   let ponto_encontro = pontoEncontro;
   let percentual_plataforma = percentualPlataforma;
-  
-
+ 
   if(!editando){
       let response = await Api.addAtividade(nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,valor);
-
+      //alert(response.status);
       if(response.status===201){
           let json = await Api.getAtividades();
           ClearStates();
@@ -202,12 +200,13 @@ const onSalvar = async (e) => {
         duration: 3000,
         isClosable: true,
       })
-
+ 
       }
       setIsLoading(false);
  } else {
 
   let response = await Api.updateAtividade(idServico,nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,valor);
+ 
   if(response.status===200){
     let json = await Api.getAtividades();
     setServicos(json);
