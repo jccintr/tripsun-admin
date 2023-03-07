@@ -1,16 +1,16 @@
 
 // --host=192.168.0.107
-//const BASE_API = 'http://localhost:8000/api';
-const BASE_API = 'https://tripsun.tk/api';
+const BASE_API = 'http://localhost:8000/api';
+//const BASE_API = 'https://tripsun.tk/api';
 
 //const BASE_API = 'http://192.168.0.107:8000/api';
 //const BASE_API = 'http://177.104.209.216:8000/api';
 
 export default {
- //base_storage: 'http://localhost:8000/storage',
+ base_storage: 'http://localhost:8000/storage',
 //    base_storage: 'http://192.168.0.107:8000/storage',
    // base_storage: 'http://177.104.209.216:8000/storage',
- base_storage: 'https://tripsun.tk/storage',
+ //base_storage: 'https://tripsun.tk/storage',
    /*
     checkToken: async (token) => {
         const req = await fetch(`${BASE_API}/auth/refresh`, {
@@ -197,14 +197,14 @@ export default {
     const json = await req.json();
     return json;
    },
-   addAtividade: async (nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,valor) => {
+   addAtividade: async (nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,preco,vagas) => {
     const response = await fetch(`${BASE_API}/servicos`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,valor})
+        body: JSON.stringify({nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,preco,vagas})
     });
   return response;
   },
@@ -298,14 +298,25 @@ getHorariosByServico: async (idServico) => {
     const json = await req.json();
     return json;
   },
-  addHorario: async (servico_id,dia,mes,ano,hora,duracao,quant,ativo) => {
+  addHorario: async (servico_id,weekDay,horas) => {
     const response = await fetch(`${BASE_API}/horarios`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({servico_id,dia,mes,ano,hora,duracao,quant,ativo})
+        body: JSON.stringify({servico_id,weekDay,horas})
+    });
+  return response;
+  },
+  deleteHorario: async (id) => {
+    const response = await fetch(`${BASE_API}/horarios/${id}`, {
+        method: 'DELETE',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        
     });
   return response;
   },

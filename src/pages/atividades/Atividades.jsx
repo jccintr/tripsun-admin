@@ -5,6 +5,7 @@ import { useToast, Spinner } from '@chakra-ui/react'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styles from "./styles.module.css";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 
 import {
@@ -40,6 +41,7 @@ import CardImage from '../../components/cardImage/CardImage';
 
 
 const Atividades = () => {
+var days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 const [dataCalendario, setDataCalendario] = useState(new Date());
 
 const { isOpen, onOpen, onClose } = useDisclosure()
@@ -81,7 +83,10 @@ const [atrativos,setAtrativos] = useState('');
 const [duracao,setDuracao] = useState('');
 const [horario,setHorario] = useState('');
 const [percentualPlataforma,setPercentualPlataforma] = useState('');
-const [valor,setValor] = useState('');
+const [preco,setPreco] = useState('');
+const [vagas,setVagas] = useState(1);
+const [diaSemana,setDiaSemana] = useState(null);
+const [horas,setHoras] = useState('');
 const toast = useToast();
 const [filter,setFilter] = useState('');
 const [editando,setEditando] = useState(false);
@@ -148,7 +153,8 @@ const ClearStates = () => {
   setEndereco('');
   setDuracao('');
   setPercentualPlataforma('');
-  setValor('');
+  setPreco('');
+  setVagas(1);
   setItensFornecidos('');
   setItensObrigatorios('');
   setAtrativos('');
@@ -178,7 +184,7 @@ const onSalvar = async (e) => {
   let percentual_plataforma = percentualPlataforma;
  
   if(!editando){
-      let response = await Api.addAtividade(nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,valor);
+      let response = await Api.addAtividade(nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,preco,vagas);
       //alert(response.status);
       if(response.status===201){
           let json = await Api.getAtividades();
@@ -205,7 +211,7 @@ const onSalvar = async (e) => {
       setIsLoading(false);
  } else {
 
-  let response = await Api.updateAtividade(idServico,nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,valor);
+  let response = await Api.updateAtividade(idServico,nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,preco,vagas);
  
   if(response.status===200){
     let json = await Api.getAtividades();
@@ -237,10 +243,7 @@ setIsLoading(false);
 
 
 const handlerImagem = (e) => {
-
- 
   setNovaImagem(e.target.files[0]);
-
 }
 
 
@@ -262,7 +265,8 @@ const onAdd = () => {
   setAtrativos('');
   setDuracao('')
   setPercentualPlataforma('');
-  setValor('');
+  setPreco('');
+  setVagas(1);
   setEditando(false);
   onOpen();
 }
@@ -288,7 +292,8 @@ const onEdit = async (id) => {
   setHorario(json.horario);
   setDuracao(json.duracao);
   setPercentualPlataforma(json.percentual_plataforma);
-  setValor(json.valor);
+  setPreco(json.preco);
+  setVagas(json.vagas);
   setEditando(true);
   onOpen();
   }
@@ -304,7 +309,7 @@ const onEdit = async (id) => {
     let mes = dataCalendario.getMonth() + 1;
     let data = dataCalendario.getFullYear() + '-' + mes + '-' + dataCalendario.getDate();
     setIdServico(idServico);
-    let json = await Api.getHorariosByDay(idServico,data);
+    let json = await Api.getHorariosByServico(idServico);
     setHorarios(json);
     
     onOpenModalHorarios();
@@ -338,12 +343,11 @@ const onEdit = async (id) => {
 
   const adicionaHorario = async () => {
     
-    let response = await Api.addHorario(idServico,dataCalendario.getDate(),dataCalendario.getMonth()+1,dataCalendario.getFullYear(),horarioAtividade,duracaoAtividade,vagasAtividade,true);
+    let response = await Api.addHorario(idServico,diaSemana,horas);
     
     if(response.status===201){
-      let mes = dataCalendario.getMonth() + 1;
-      let data = dataCalendario.getFullYear() + '-' + mes + '-' + dataCalendario.getDate();
-      let json = await Api.getHorariosByDay(idServico,data);
+     
+      let json = await Api.getHorariosByServico(idServico);
       setHorarios(json);
       toast({
         title: 'Parabéns !',
@@ -356,6 +360,11 @@ const onEdit = async (id) => {
 
   }
 
+  const onDeleteHorario = async (id) => {
+    let response = await Api.deleteHorario(id);
+    let json = await Api.getHorariosByServico(idServico);
+    setHorarios(json);
+  }
 
 return (
   <div className={styles.container}>
@@ -363,7 +372,7 @@ return (
      {loadingData ? <div className={styles.spinner}>
               <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
      </div>:<TableAtividades servicos={servicos} filter={filter} onEdit={onEdit} onOpenModalImage={abreModalImagens} onOpenModalHorarios={abreModalHorarios}/>}
-      <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose} size='xl' >
+    <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose} size='xl' >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{editando?'Editando':'Nova'} Atividade</ModalHeader>
@@ -548,6 +557,7 @@ return (
                               placeholder='Horario da atividade...'
                             />
                         </FormControl>
+                        <HStack>
                         <FormControl style={{marginBottom:10}}>
                           <FormLabel>
                             Duração:
@@ -558,18 +568,37 @@ return (
                               placeholder='Duração da atividade...'
                             />
                         </FormControl>
+                        <FormControl style={{marginBottom:10}}>
+                          <FormLabel>
+                            Vagas:
+                          </FormLabel>
+                          <NumberInput
+                            precision={0} defaultValue={vagas}
+                            onChange={(valueString) => setVagas(valueString)}
+                          >
+                            <NumberInputField
+                             value={vagas}
+                             placeholder='Vagas...'
+                            />
+                            <NumberInputStepper>
+                                <NumberIncrementStepper />
+                                <NumberDecrementStepper />
+                            </NumberInputStepper>
+                          </NumberInput>
+                         </FormControl>
+                         </HStack>
                         <HStack>
                         <FormControl style={{marginBottom:10}}>
                           <FormLabel>
-                            Valor:
+                            Preço:
                           </FormLabel>
                           <NumberInput
-                            precision={2} defaultValue={valor}
+                            precision={2} defaultValue={preco}
                           >
                             <NumberInputField
-                             value={valor}
-                             onChange={e => setValor(e.target.value)}
-                             placeholder='Valor da atividade...'
+                             value={preco}
+                             onChange={e => setPreco(e.target.value)}
+                             placeholder='Preço da atividade...'
 
                             />
                           </NumberInput>
@@ -648,89 +677,61 @@ return (
           <ModalHeader>Horários da Atividade</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          <HStack justify='center' align='center'>
-            <div style={{marginBottom: 20}}>
-            <Calendar 
-              onChange={setDataCalendario} 
-              value={dataCalendario} 
-              showNeighboringMonth={false}
-            
-              onClickDay={(value, event) => onChangeData(value)}
-              />
-            </div>
-          </HStack>
-          <Divider orientation='horizontal' />
-            <HStack justify='center' align='center'>
+          
+          
+            <HStack style={{marginBottom:10}} justify='center' align='center'>
+            <FormControl >
+                    <FormLabel>
+                      Dia da Semana:
+                    </FormLabel>
+                    <Select
+                        placeholder='Selecione'
+                        value={diaSemana}
+                        onChange={e => setDiaSemana(e.target.value)}>
+                          {days.map((day,index)=> (
+                            <option value={index}>{day}</option>
+                          ))}
+                    </Select>
+                </FormControl>  
+             
+            <FormControl >
+                <FormLabel>
+                  Horários:
+                </FormLabel>
+                <Input
+                    value={horas}
+                    onChange={e => setHoras(e.target.value)}
+                    placeholder='Horários da atividade...'
+                    />
+            </FormControl>
               
               <FormControl>
                 <FormLabel>
-                  Hora:
-                </FormLabel>
-                <Input  
-                   value={horarioAtividade}
-                   onChange={e => setHorarioAtividade(e.target.value)}
-                   placeholder="Horário da atividade" 
-                   size="md"  
-                   type="time" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>
-                  Duração:
-                </FormLabel>
-                <Input  
-                   value={duracaoAtividade}
-                   onChange={e => setDuracaoAtividade(e.target.value)}
-                   placeholder="Horário da atividade" 
-                   size="md"  
-                   type="time" />
-              </FormControl>
-              <FormControl>
-                   <FormLabel>
-                     Vagas:
-                   </FormLabel>
-                   <NumberInput
-                       precision={0}
-                       defaultValue={vagasAtividade}
-                       onChange={(valueString) => setVagasAtividade(valueString)}     
-                    >
-                        <NumberInputField
-                          value={vagasAtividade}
-                          placeholder='Quantidade de vagas'
-                        />
-                        <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                        </NumberInputStepper>
-                    </NumberInput>
-              </FormControl>
-              <FormControl>
-                <FormLabel>
-                  Ação:
+                  
                 </FormLabel>
                 <Button color='red'  onClick={adicionaHorario}>Adicionar</Button>
               </FormControl>
              
             </HStack>
+            <Divider orientation='horizontal' />
             {horarios.length > 0 ?
             <TableContainer>
               <Table variant='striped'>
                 <Thead>
                   <Tr>
-                    <Th>Data</Th>
-                    <Th>Hora</Th>
-                    <Th>Duração</Th>
-                    <Th>Vagas</Th> 
+                    <Th>Dia da Semana</Th>
+                    <Th>Horários Disponíveis</Th>
+                    <Th></Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                 {horarios.map((horario) => (
-                          <Tr key={horario.id}>
-                              <Td >{formataData(horario.data)}</Td>
-                              <Td>{horario.hora}</Td>
-                              <Td>{horario.duracao}</Td>
-                              <Td isNumeric>{horario.quant}</Td>
-                          </Tr>
-                          ))}
+                    <Tr key={horario.id}>
+                        <Td>{days[horario.weekday]}</Td>
+                        <Td>{horario.horas}</Td>
+                        <Td><FaRegTrashAlt onClick={()=>onDeleteHorario(horario.id)} className="icon" size={18} /></Td>
+                    </Tr>
+                    ))}
                 </Tbody>
               </Table>
             </TableContainer> : <HStack justify='center' align='center'><Text fontSize='20px' color='red'>Nenhum horário cadastrado.</Text></HStack> }
