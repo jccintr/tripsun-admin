@@ -20,7 +20,7 @@ const TableParceiros = ({parceiros,filter,onEdit}) => {
     
     <Thead>
       <Tr>
-        <Th>id</Th>
+        {/*<Th>id</Th>*/}
         <Th>Nome</Th>
         <Th>Cidade</Th>
         <Th>Imagem</Th> 
@@ -33,7 +33,7 @@ const TableParceiros = ({parceiros,filter,onEdit}) => {
       parceiro.nome.toUpperCase().includes(filter.toUpperCase())).map((parceiro) => (
               <Tr key={parceiro.id}>
               
-              <Td isNumeric>{parceiro.id}</Td>
+              {/*<Td isNumeric>{parceiro.id}</Td>*/}
               <Td>{parceiro.nome}</Td>
               <Td>{parceiro.nome_cidade}</Td>
               <Td>

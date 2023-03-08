@@ -22,7 +22,7 @@ const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage,onOpenModalHor
     
     <Thead>
       <Tr>
-        <Th>id</Th>
+        {/*<Th>id</Th>*/}
         <Th>Nome</Th>
         <Th>Parceiro</Th>
         <Th>Cidade</Th> 
@@ -35,7 +35,7 @@ const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage,onOpenModalHor
       servico.nome.toUpperCase().includes(filter.toUpperCase())).map((servico) => (
               <Tr key={servico.id}>
               
-                  <Td isNumeric>{servico.id}</Td>
+                 {/* <Td isNumeric>{servico.id}</Td>*/}
                   <Td>{servico.nome.length>30 ? servico.nome.substring(0,30)+'...':servico.nome}</Td>
                   <Td>{servico.prestador.nome.length>30 ? servico.prestador.nome.substring(0,30)+'...':servico.prestador.nome}</Td>
                   <Td>{servico.nome_cidade}</Td>

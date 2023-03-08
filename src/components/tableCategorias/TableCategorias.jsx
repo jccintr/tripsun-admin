@@ -20,7 +20,7 @@ const TableCategorias = ({categorias,filter,onEdit}) => {
     
     <Thead>
       <Tr>
-        <Th>id</Th>
+       {/* <Th>id</Th>*/}
         <Th>Nome</Th>
         <Th>Imagem</Th>
         <Th></Th>
@@ -33,7 +33,7 @@ const TableCategorias = ({categorias,filter,onEdit}) => {
       categoria.nome.toUpperCase().includes(filter.toUpperCase())).map((categoria) => (
               <Tr key={categoria.id}>
               
-              <Td isNumeric>{categoria.id}</Td>
+             {/* <Td isNumeric>{categoria.id}</Td>*/}
               <Td>{categoria.nome}</Td>
               <Td>
                   <Image

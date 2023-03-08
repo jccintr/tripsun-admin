@@ -20,7 +20,7 @@ const TableUsuariosParceiros = ({usuarios,filter,onEdit,onTrocaSenha}) => {
     
     <Thead>
       <Tr>
-        <Th>id</Th>
+        {/*<Th>id</Th>*/}
         <Th>Nome</Th>
         <Th>Email</Th>
         <Th>Telefone</Th>
@@ -34,7 +34,7 @@ const TableUsuariosParceiros = ({usuarios,filter,onEdit,onTrocaSenha}) => {
       usuario.name.toUpperCase().includes(filter.toUpperCase())).map((usuario) => (
               <Tr key={usuario.id}>
               
-              <Td isNumeric>{usuario.id}</Td>
+             {/* <Td isNumeric>{usuario.id}</Td>*/}
               <Td>{usuario.name}</Td>
               <Td>{usuario.email}</Td>
               <Td>{usuario.telefone}</Td>

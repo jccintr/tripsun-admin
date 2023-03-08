@@ -20,7 +20,7 @@ const TableUsuarios = ({usuarios,filter,onEdit}) => {
     
     <Thead>
       <Tr>
-        <Th>id</Th>
+        {/*<Th>id</Th>*/}
         <Th>Nome</Th>
         <Th>Email</Th>
         <Th>Telefone</Th>
