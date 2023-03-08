@@ -11,6 +11,7 @@ import {
     TableCaption,
     TableContainer,Button,
   } from '@chakra-ui/react'
+  import { FaCalendarAlt,FaImages,FaEdit } from "react-icons/fa";
   
 
 
@@ -34,28 +35,20 @@ const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage,onOpenModalHor
       servico.nome.toUpperCase().includes(filter.toUpperCase())).map((servico) => (
               <Tr key={servico.id}>
               
-              <Td isNumeric>{servico.id}</Td>
-              <Td>{servico.nome.length>30 ? servico.nome.substring(0,30)+'...':servico.nome}</Td>
-              <Td>{servico.prestador.nome.length>30 ? servico.prestador.nome.substring(0,30)+'...':servico.prestador.nome}</Td>
-              
-              <Td>{servico.nome_cidade}</Td>
-              
-              <Td>
-                 <Button onClick={()=>onEdit(servico.id)} colorScheme='red' mr={3} >
-                    Editar
-                  </Button>
-              </Td>
-              <Td>
-                 <Button onClick={()=>onOpenModalImage(servico.id)} colorScheme='red' mr={3} >
-                    Imagens
-                  </Button>
-              </Td>
-              <Td>
-                 <Button onClick={()=>onOpenModalHorarios(servico.id)} colorScheme='red' mr={3} >
-                    Horários
-                  </Button>
-              </Td>
-              
+                  <Td isNumeric>{servico.id}</Td>
+                  <Td>{servico.nome.length>30 ? servico.nome.substring(0,30)+'...':servico.nome}</Td>
+                  <Td>{servico.prestador.nome.length>30 ? servico.prestador.nome.substring(0,30)+'...':servico.prestador.nome}</Td>
+                  <Td>{servico.nome_cidade}</Td>
+                  <Td>
+                    <FaEdit title="Editar" onClick={()=>onEdit(servico.id)}  className="icon" size={22} />
+                   
+                  </Td>
+                  <Td>
+                    <FaImages title="Imagens da Atividade" onClick={()=>onOpenModalImage(servico.id)}  className="icon" size={22} />
+                  </Td>
+                  <Td>
+                    <FaCalendarAlt title="Horários da Atividade" onClick={()=>onOpenModalHorarios(servico.id)} className="icon" size={22} />
+                  </Td>
              
             </Tr>
               ))}

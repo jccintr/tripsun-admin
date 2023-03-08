@@ -11,6 +11,7 @@ import {
     TableCaption,
     TableContainer,Image,Button,
   } from '@chakra-ui/react'
+  import {FaEdit,FaUnlockAlt } from "react-icons/fa";
 
 const TableUsuariosParceiros = ({usuarios,filter,onEdit,onTrocaSenha}) => {
   return (
@@ -38,14 +39,12 @@ const TableUsuariosParceiros = ({usuarios,filter,onEdit,onTrocaSenha}) => {
               <Td>{usuario.email}</Td>
               <Td>{usuario.telefone}</Td>
               <Td>
-                 <Button onClick={()=>onEdit(usuario.id)} colorScheme='red' mr={3} >
-                    Editar
-                  </Button>
+              <FaEdit title="Editar" onClick={()=>onEdit(usuario.id)}  className="icon" size={22} />
+                 
               </Td>
               <Td>
-                 <Button onClick={()=>onTrocaSenha(usuario.id)} colorScheme='red' mr={3} >
-                    Alterar Senha
-                  </Button>
+              <FaUnlockAlt title="Alterar senha" onClick={()=>onTrocaSenha(usuario.id)}  className="icon" size={22} />
+                 
               </Td>
           
             </Tr>

@@ -11,6 +11,7 @@ import {
     TableCaption,
     TableContainer,Image,Button,
   } from '@chakra-ui/react'
+  import {FaEdit } from "react-icons/fa";
 
 const TableUsuarios = ({usuarios,filter,onEdit}) => {
   return (
@@ -38,9 +39,8 @@ const TableUsuarios = ({usuarios,filter,onEdit}) => {
               <Td>{usuario.telefone}</Td>
               
               <Td>
-                 <Button onClick={()=>onEdit(usuario.id)} colorScheme='red' mr={3} >
-                    Editar
-                  </Button>
+                <FaEdit title="Editar" onClick={()=>onEdit(usuario.id)}   className="icon" size={22} />
+                 
               </Td>
              
              

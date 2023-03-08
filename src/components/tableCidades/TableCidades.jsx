@@ -11,12 +11,13 @@ import {
     TableCaption,
     TableContainer,Image,Button
   } from '@chakra-ui/react'
+  import {FaEdit } from "react-icons/fa";
   
 
 const TableCidades = ({cidades,filter,onEdit}) => {
   return (
     <TableContainer>
-  <Table variant='striped'>
+  <Table  variant='striped'>
     
     <Thead>
       <Tr>
@@ -47,9 +48,8 @@ const TableCidades = ({cidades,filter,onEdit}) => {
                   />
               </Td>
               <Td>
-                 <Button onClick={()=>onEdit(cidade.id)} colorScheme='red' mr={3} >
-                    Editar
-                  </Button>
+              <FaEdit title="Editar" onClick={()=>onEdit(cidade.id)}  className="icon" size={22} />
+               
               </Td>
             </Tr>
               ))}

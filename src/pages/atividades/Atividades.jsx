@@ -5,7 +5,7 @@ import { useToast, Spinner } from '@chakra-ui/react'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import styles from "./styles.module.css";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt,FaCalendarAlt } from "react-icons/fa";
 
 
 import {
@@ -680,7 +680,7 @@ return (
           
           
             <HStack style={{marginBottom:10}} justify='center' align='center'>
-            <FormControl >
+            <FormControl w='200px'>
                     <FormLabel>
                       Dia da Semana:
                     </FormLabel>
@@ -704,14 +704,10 @@ return (
                     placeholder='Horários da atividade...'
                     />
             </FormControl>
-              
-              <FormControl>
-                <FormLabel>
-                  
-                </FormLabel>
-                <Button color='red'  onClick={adicionaHorario}>Adicionar</Button>
-              </FormControl>
-             
+            
+            </HStack>
+            <HStack style={{marginBottom:10}}>
+               <Button  width={{base:'100%'}} color='red'  onClick={adicionaHorario}>Adicionar</Button>
             </HStack>
             <Divider orientation='horizontal' />
             {horarios.length > 0 ?

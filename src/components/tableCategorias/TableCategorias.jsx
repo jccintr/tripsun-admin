@@ -11,6 +11,7 @@ import {
     TableCaption,
     TableContainer,Image,Button,
   } from '@chakra-ui/react'
+  import {FaEdit } from "react-icons/fa";
 
 const TableCategorias = ({categorias,filter,onEdit}) => {
   return (
@@ -44,9 +45,8 @@ const TableCategorias = ({categorias,filter,onEdit}) => {
                   />
               </Td>
               <Td>
-                 <Button onClick={()=>onEdit(categoria.id)} colorScheme='red' mr={3} >
-                    Editar
-                  </Button>
+                 <FaEdit title="Editar" onClick={()=>onEdit(categoria.id)}  className="icon" size={22} />
+                 
               </Td>
              
             </Tr>
