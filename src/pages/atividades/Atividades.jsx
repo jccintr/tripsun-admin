@@ -98,7 +98,7 @@ const [loadingData,setLoadingData] = useState(false);
 
 useEffect(()=>{
   const getAtividades = async () => {
-  setLoadingData(true);  
+  setLoadingData(true);
   let json = await Api.getAtividades();
       setServicos(json);
       setLoadingData(false);
@@ -182,7 +182,7 @@ const onSalvar = async (e) => {
   let descricao_curta = descricao;
   let ponto_encontro = pontoEncontro;
   let percentual_plataforma = percentualPlataforma;
- 
+  //console.log('preco='+ preco);
   if(!editando){
       let response = await Api.addAtividade(nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,preco,vagas);
       //alert(response.status);
@@ -206,13 +206,13 @@ const onSalvar = async (e) => {
         duration: 3000,
         isClosable: true,
       })
- 
+
       }
       setIsLoading(false);
  } else {
 
   let response = await Api.updateAtividade(idServico,nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,preco,vagas);
- 
+  //alert(response.status);
   if(response.status===200){
     let json = await Api.getAtividades();
     setServicos(json);
@@ -311,12 +311,12 @@ const onEdit = async (id) => {
     setIdServico(idServico);
     let json = await Api.getHorariosByServico(idServico);
     setHorarios(json);
-    
+
     onOpenModalHorarios();
   }
 
   const onChangeData = async (value) => {
-     
+
     setDataCalendario(value);
     let mes = value.getMonth() + 1;
     let data = value.getFullYear() + '-' + mes + '-' + value.getDate();
@@ -342,11 +342,11 @@ const onEdit = async (id) => {
   }
 
   const adicionaHorario = async () => {
-    
+
     let response = await Api.addHorario(idServico,diaSemana,horas);
-    
+
     if(response.status===201){
-     
+
       let json = await Api.getHorariosByServico(idServico);
       setHorarios(json);
       toast({
@@ -642,26 +642,26 @@ return (
           <ModalHeader>Imagens da Atividade</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          <form id="imagens" onSubmit={onCloseModalImage}> 
+          <form id="imagens" onSubmit={onCloseModalImage}>
           {imagens.length > 0 ? <Grid templateColumns='repeat(4, 1fr)' gap={6}>
           {imagens.map((imagem)=> (
                       <CardImage imagem={imagem} deleteImage={deleteImage}/>
                           ))}
-                          
-          </Grid> :  <HStack justify='center' align='center'><Text fontSize='20px' color='red'>Nenhuma imagem encontrada.</Text></HStack>}  
-         
+
+          </Grid> :  <HStack justify='center' align='center'><Text fontSize='20px' color='red'>Nenhuma imagem encontrada.</Text></HStack>}
+
              <HStack>
-             
+
               <FormControl>
                     <FormLabel>
                       <Text as='b'>Adicionar imagem:</Text>
                      </FormLabel>
                     <input type="file"  id="imagem" name="imagem" onChange={handlerImagem}/>
-                  </FormControl>  
+                  </FormControl>
                   <Button color='red'  onClick={adicionaImagem}>Adicionar</Button>
-              </HStack>              
+              </HStack>
             </form>
-            
+
           </ModalBody>
 
           <ModalFooter>
@@ -677,8 +677,8 @@ return (
           <ModalHeader>Horários da Atividade</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-          
-          
+
+
             <HStack style={{marginBottom:10}} justify='center' align='center'>
             <FormControl w='200px'>
                     <FormLabel>
@@ -692,8 +692,8 @@ return (
                             <option value={index}>{day}</option>
                           ))}
                     </Select>
-                </FormControl>  
-             
+                </FormControl>
+
             <FormControl >
                 <FormLabel>
                   Horários:
@@ -704,7 +704,7 @@ return (
                     placeholder='Horários da atividade...'
                     />
             </FormControl>
-            
+
             </HStack>
             <HStack style={{marginBottom:10}}>
                <Button  width={{base:'100%'}} color='red'  onClick={adicionaHorario}>Adicionar</Button>
@@ -731,7 +731,7 @@ return (
                 </Tbody>
               </Table>
             </TableContainer> : <HStack justify='center' align='center'><Text fontSize='20px' color='red'>Nenhum horário cadastrado.</Text></HStack> }
-           
+
           </ModalBody>
           <ModalFooter>
           <Button onClick={onCloseModalHorarios} colorScheme='red' mr={3} >
@@ -739,7 +739,7 @@ return (
           </Button>
           </ModalFooter>
        </ModalContent>
-    
+
 
     </Modal>
   </div>
