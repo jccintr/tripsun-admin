@@ -6,6 +6,7 @@ import { MdDashboard } from "react-icons/md";
 import { FaCity } from "react-icons/fa";
 import { FaHandshake } from "react-icons/fa";
 import { FaTheaterMasks } from "react-icons/fa";
+import { FaCalendarAlt} from "react-icons/fa";
 
 
 import { MdLocationOn } from "react-icons/md";
@@ -80,6 +81,13 @@ const onLogout = () => {
                     <li>
                         <HiUsers className="icon" size={18} />
                         <span>Usuários Parceiros</span>
+                    </li>
+               </Link>
+               <p className="title">MOVIMENTAÇÃO</p>
+               <Link to="/agendamentos" style={{ textDecoration: "none" }}>
+                    <li>
+                        <FaCalendarAlt className="icon" size={18} />
+                        <span>Agendamentos</span>
                     </li>
                </Link>
                 <p className="title">OUTRAS OPÇÕES</p>

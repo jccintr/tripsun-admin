@@ -320,4 +320,9 @@ getHorariosByServico: async (idServico) => {
     });
   return response;
   },
+  getAgendamentos: async () => {
+    const req = await fetch(`${BASE_API}/agendamentos`);
+    const json = await req.json();
+    return json;
+},
 };

@@ -7,6 +7,7 @@ import Parceiros from "./pages/parceiros/Parceiros";
 import Atividades from "./pages/atividades/Atividades";
 import Usuarios from "./pages/usuarios/Usuarios";
 import UsuariosParceiros from "./pages/usuariosParceiros/UsuariosParceiros";
+import Agendamentos from "./pages/agendamentos/Agendamentos";
 import {BrowserRouter,Routes, Route } from "react-router-dom";
 //import Sidebar from "./components/sidebar/Sidebar";
 import "./app.css";
@@ -32,6 +33,7 @@ function App() {
                     <Route path="/atividades" element={<Atividades/>}/>
                     <Route path="/usuarios" element={<Usuarios/>}/>
                     <Route path="/usuariosparceiros" element={<UsuariosParceiros/>}/>
+                    <Route path="/agendamentos" element={<Agendamentos/>}/>
                     <Route path="/home" element={<Home/>}/>
                    
                 </Route>
