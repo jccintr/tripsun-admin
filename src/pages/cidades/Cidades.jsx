@@ -142,12 +142,10 @@ const Cidades = () => {
 }
 
 const handlerImagem = (e) => {
-
   if(e.target.files[0]){
      imgRef.current.src = URL.createObjectURL(e.target.files[0]);
   }
   setImagem(e.target.files[0]);
- 
 }
 
 const onSelect = (e) => {

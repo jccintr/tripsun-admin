@@ -8,7 +8,7 @@ const BASE_API = 'https://tripsun.tk/api';
 
 export default {
 //base_storage: 'http://localhost:8000/storage',
-//   base_storage: 'http://192.168.0.107:8000/storage',
+ // base_storage: 'http://192.168.0.107:8000/storage',
    // base_storage: 'http://177.104.209.216:8000/storage',
  base_storage: 'https://tripsun.tk/storage',
    /*
@@ -223,6 +223,13 @@ export default {
         body: JSON.stringify({nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,preco,vagas})
     });
    return response;
+},
+addIcone: async (id,fd) => {
+    const response = await fetch(`${BASE_API}/servico/icone/${id}`, {
+        method: 'POST',
+        body: fd
+    });
+    return response;
 },
  // Rotas dos Usuarios ========================================================
  getUsuariosParceiros: async () => {

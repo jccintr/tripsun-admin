@@ -11,11 +11,11 @@ import {
     TableCaption,
     TableContainer,Button,
   } from '@chakra-ui/react'
-  import { FaCalendarAlt,FaImages,FaEdit } from "react-icons/fa";
+  import { FaCalendarAlt,FaImages,FaEdit,FaImage } from "react-icons/fa";
   
 
 
-const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage,onOpenModalHorarios}) => {
+const TableAtividades = ({servicos,filter,onEdit,onOpenModalIcone,onOpenModalImage,onOpenModalHorarios}) => {
   return (
     <TableContainer>
   <Table variant='striped'>
@@ -40,8 +40,10 @@ const TableAtividades = ({servicos,filter,onEdit,onOpenModalImage,onOpenModalHor
                   <Td>{servico.prestador.nome.length>30 ? servico.prestador.nome.substring(0,30)+'...':servico.prestador.nome}</Td>
                   <Td>{servico.nome_cidade}</Td>
                   <Td>
-                    <FaEdit title="Editar" onClick={()=>onEdit(servico.id)}  className="icon" size={22} />
-                   
+                    <FaEdit title="Editar dados da Atividade" onClick={()=>onEdit(servico.id)}  className="icon" size={22} />
+                  </Td>
+                  <Td>
+                    <FaImage title="Icone da Atividade" onClick={()=>onOpenModalIcone(servico.id)}  className="icon" size={22} />
                   </Td>
                   <Td>
                     <FaImages title="Imagens da Atividade" onClick={()=>onOpenModalImage(servico.id)}  className="icon" size={22} />

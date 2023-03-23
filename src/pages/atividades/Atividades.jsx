@@ -1,11 +1,10 @@
 import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
-import { useToast, Spinner } from '@chakra-ui/react'
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import { useToast, Spinner,Center } from '@chakra-ui/react'
+
 import styles from "./styles.module.css";
-import { FaRegTrashAlt,FaCalendarAlt } from "react-icons/fa";
+import { FaRegTrashAlt,FaImage } from "react-icons/fa";
 
 
 import {
@@ -47,6 +46,7 @@ const [dataCalendario, setDataCalendario] = useState(new Date());
 const { isOpen, onOpen, onClose } = useDisclosure()
 const { isOpen: isOpenModalImage , onOpen: onOpenModalImage, onClose: onCloseModalImage } = useDisclosure()
 const { isOpen: isOpenModalHorarios , onOpen: onOpenModalHorarios, onClose: onCloseModalHorarios } = useDisclosure()
+const { isOpen: isOpenModalIcone , onOpen: onOpenModalIcone, onClose: onCloseModalIcone } = useDisclosure()
 
 const [imagens,setImagens] = useState([]);
 //===================================================
@@ -66,9 +66,9 @@ const [subcategorias,setSubcategorias] = useState([]);
 const [idSubcategoria,setIdSubcategoria] = useState(null);
 //===================================================
 const [horarios,setHorarios] = useState([]);
-const [vagasAtividade,setVagasAtividade] = useState(1);
-const [horarioAtividade,setHorarioAtividade] = useState('');
-const [duracaoAtividade,setDuracaoAtividade] = useState('');
+//const [vagasAtividade,setVagasAtividade] = useState(1);
+//const [horarioAtividade,setHorarioAtividade] = useState('');
+//const [duracaoAtividade,setDuracaoAtividade] = useState('');
 //===================================================
 const [nome,setNome] = useState('');
 const [descricao,setDescricao] = useState('');
@@ -94,7 +94,9 @@ const initialRef = useRef(null)
 const [novaImagem,setNovaImagem] = useState('');
 const [isLoading,setIsLoading] = useState(false);
 const [loadingData,setLoadingData] = useState(false);
-
+const [icone,setIcone] = useState(null);
+const [novoIcone,setNovoIcone] = useState(null);
+const [novoIconeScreen,setNovoIconeScreen] = useState(null);
 
 useEffect(()=>{
   const getAtividades = async () => {
@@ -122,7 +124,6 @@ useEffect(()=>{
   getParceiros();
   }, []);
 
-
 useEffect(()=>{
 const getCategorias = async () => {
   let json = await Api.getCategorias();
@@ -138,8 +139,6 @@ const getSubcategorias = async () => {
 }
 getSubcategorias();
 }, []);
-
-
 
 const ClearStates = () => {
 
@@ -241,12 +240,34 @@ setIsLoading(false);
 
 }
 
+const onSalvarIcone = async (e) => {
+  setIsLoading(true);
+  e.preventDefault();
+  const fd = new FormData();
+  fd.append('icone',novoIcone);
+  let response = Api.addIcone(idServico,fd);
+  toast({
+    title: 'Parabéns !',
+    description: "Você atualizou o icone de uma atividade.",
+    status: 'success',
+    duration: 3000,
+    isClosable: true,
+  });
+  setIsLoading(false);
+  onCloseModalIcone();
+  
+}
 
 const handlerImagem = (e) => {
   setNovaImagem(e.target.files[0]);
 }
 
-
+const handlerIcone = async (e) => {
+  if(e.target.files[0]){
+    setNovoIcone(e.target.files[0]);
+    setNovoIconeScreen(URL.createObjectURL(e.target.files[0]));
+   }
+}
 
 const onAdd = () => {
   setIdServico(null);
@@ -296,6 +317,15 @@ const onEdit = async (id) => {
   setVagas(json.vagas);
   setEditando(true);
   onOpen();
+  }
+
+  const abreModalIcone = async (idServico) => {
+    let json = await Api.getAtividadebyId(idServico);
+    setIcone(json.imagem);
+    setNovoIcone(null);
+    setNovoIconeScreen(null);
+    setIdServico(idServico);
+    onOpenModalIcone();
   }
 
   const abreModalImagens = async (idServico) => {
@@ -371,7 +401,7 @@ return (
      <Navbar onClick={onAdd} setFilter={setFilter} title="Atividades"/>
      {loadingData ? <div className={styles.spinner}>
               <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
-     </div>:<TableAtividades servicos={servicos} filter={filter} onEdit={onEdit} onOpenModalImage={abreModalImagens} onOpenModalHorarios={abreModalHorarios}/>}
+     </div>:<TableAtividades servicos={servicos} filter={filter} onEdit={onEdit} onOpenModalIcone={abreModalIcone} onOpenModalImage={abreModalImagens} onOpenModalHorarios={abreModalHorarios}/>}
     <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose} size='xl' >
       <ModalOverlay />
       <ModalContent>
@@ -650,18 +680,23 @@ return (
 
           </Grid> :  <HStack justify='center' align='center'><Text fontSize='20px' color='red'>Nenhuma imagem encontrada.</Text></HStack>}
 
-             <HStack>
-
-              <FormControl>
-                    <FormLabel>
-                      <Text as='b'>Adicionar imagem:</Text>
-                     </FormLabel>
-                    <input type="file"  id="imagem" name="imagem" onChange={handlerImagem}/>
+              {/*<HStack>
+                  <FormControl>
+                      <FormLabel>
+                        <Text as='b'>Adicionar imagem:</Text>
+                      </FormLabel>
+                      <input className={styles.input} type="file"  id="imagem" name="imagem" onChange={handlerImagem}/>
                   </FormControl>
                   <Button color='red'  onClick={adicionaImagem}>Adicionar</Button>
-              </HStack>
+               </HStack>*/}
+               <Center>
+                <label className={styles.labelInput}for="imagem">Adicionar Imagem</label>
+                <input className={styles.fileInput} type="file" accept='image/*' id="imagem" name="imagem" onChange={handlerImagem}/>
+                <Button color='red'  onClick={adicionaImagem}>Adicionar</Button>
+             </Center>
+                
             </form>
-
+            
           </ModalBody>
 
           <ModalFooter>
@@ -741,6 +776,36 @@ return (
        </ModalContent>
 
 
+    </Modal>
+    <Modal isOpen={isOpenModalIcone} onClose={onCloseModalIcone} size='xl'>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Icone da Atividade</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+           
+            <form id="addIcone" onSubmit={onSalvarIcone}>
+            <Center>
+             {icone==null?<FaImage  className="icon" size={100}/>:<img className={styles.icone}  src={`${Api.base_storage}/${icone}`} />}
+             </Center>
+             <Center>
+                <label for="icone" className={styles.labelInput} >Selecione o novo icone da atividade</label>
+                <input className={styles.fileInput} type="file" accept='image/*' id="icone" name="icone" onChange={handlerIcone}/>
+                
+             </Center>
+             <Center>
+             {novoIconeScreen&&<img className={styles.icone}  src={novoIconeScreen} alt=""/>}
+             </Center>
+            </form>
+            
+          </ModalBody>
+ 
+          <ModalFooter>
+          <Button isLoading={isLoading} loadingText="Salvando" type="submit" form="addIcone" colorScheme='red' mr={3} >
+            Salvar
+          </Button>
+          </ModalFooter>
+        </ModalContent>
     </Modal>
   </div>
 )
