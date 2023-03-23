@@ -66,9 +66,6 @@ const [subcategorias,setSubcategorias] = useState([]);
 const [idSubcategoria,setIdSubcategoria] = useState(null);
 //===================================================
 const [horarios,setHorarios] = useState([]);
-//const [vagasAtividade,setVagasAtividade] = useState(1);
-//const [horarioAtividade,setHorarioAtividade] = useState('');
-//const [duracaoAtividade,setDuracaoAtividade] = useState('');
 //===================================================
 const [nome,setNome] = useState('');
 const [descricao,setDescricao] = useState('');
@@ -258,8 +255,9 @@ const onSalvarIcone = async (e) => {
   
 }
 
-const handlerImagem = (e) => {
+const handlerImagem = async (e) => {
   setNovaImagem(e.target.files[0]);
+  adicionaImagem();
 }
 
 const handlerIcone = async (e) => {
@@ -680,21 +678,12 @@ return (
 
           </Grid> :  <HStack justify='center' align='center'><Text fontSize='20px' color='red'>Nenhuma imagem encontrada.</Text></HStack>}
 
-              {/*<HStack>
-                  <FormControl>
-                      <FormLabel>
-                        <Text as='b'>Adicionar imagem:</Text>
-                      </FormLabel>
-                      <input className={styles.input} type="file"  id="imagem" name="imagem" onChange={handlerImagem}/>
-                  </FormControl>
-                  <Button color='red'  onClick={adicionaImagem}>Adicionar</Button>
-               </HStack>*/}
+             
                <Center>
-                <label className={styles.labelInput}for="imagem">Adicionar Imagem</label>
-                <input className={styles.fileInput} type="file" accept='image/*' id="imagem" name="imagem" onChange={handlerImagem}/>
-                <Button color='red'  onClick={adicionaImagem}>Adicionar</Button>
-             </Center>
-                
+                  <label className={styles.labelInput}for="imagem">Adicionar Imagem</label>
+                  <input className={styles.fileInput} type="file" accept='image/*' id="imagem" name="imagem" onChange={handlerImagem}/>
+                </Center>
+               
             </form>
             
           </ModalBody>
@@ -760,7 +749,7 @@ return (
                     <Tr key={horario.id}>
                         <Td>{days[horario.weekday]}</Td>
                         <Td>{horario.horas}</Td>
-                        <Td><FaRegTrashAlt onClick={()=>onDeleteHorario(horario.id)} className="icon" size={18} /></Td>
+                        <Td><FaRegTrashAlt title="Excluir horário" onClick={()=>onDeleteHorario(horario.id)} className={styles.trashIcon} size={18} /></Td>
                     </Tr>
                     ))}
                 </Tbody>

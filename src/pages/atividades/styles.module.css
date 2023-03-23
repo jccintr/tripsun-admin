@@ -40,3 +40,7 @@
 .fileInput {
   display: none;
 }
+
+.trashIcon {
+  color: red;
+}

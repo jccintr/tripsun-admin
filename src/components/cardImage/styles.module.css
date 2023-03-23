@@ -1,7 +1,11 @@
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     height: 150px;
+}
+.icone {
+    color: #f00;
+    margin-top: 10px;
 }
