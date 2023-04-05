@@ -38,6 +38,7 @@ const TableAgendamentos = ({agendamentos}) => {
             <Th>Quant</Th>
             <Th>Total</Th>
             <Th>Comissão</Th>
+            <Th>Status Pagamento</Th>
            
           </Tr>
         </Thead>
@@ -54,7 +55,7 @@ const TableAgendamentos = ({agendamentos}) => {
                         <Td isNumeric>{agendamento.quantidade}</Td>
                         <Td isNumeric>{agendamento.total}</Td>
                         <Td isNumeric>{agendamento.valor_plataforma}</Td>
-                        
+                        <Td>{agendamento.cobranca_status}</Td>
                   </Tr>
                   ))}
           
