@@ -30,7 +30,7 @@ const [cidades,setCidades] = useState([]);
 const [idCidade,setIdCidade] = useState('');
 const [idParceiro,setIdParceiro] = useState(null);
 const [usuarios,setUsuarios] = useState([]);
-const [idUsuario,setIdUsuario] = useState(null);
+//const [idUsuario,setIdUsuario] = useState(null);
 const [nome,setNome] = useState('');
 const [endereco,setEndereco] = useState('');
 const [bairro,setBairro] = useState('');
@@ -40,6 +40,7 @@ const [email,setEmail] = useState('');
 const [telefone,setTelefone] = useState('');
 const [cnpj,setCnpj] = useState('');
 const [ie,setIe] = useState('');
+const [password,setPassword] = useState('');
 const [imagem,setImagem] = useState('');
 const [imagemCarregada,setImagemCarregada] = useState(false);
 const imgRef = useRef();
@@ -89,7 +90,7 @@ getUsuariosParceiros();
 
     fd.append('nome',nome);
     fd.append('cidade_id',idCidade);
-    fd.append('usuario_id',idUsuario);
+   // fd.append('usuario_id',idUsuario);
     fd.append('logotipo',imagem);
     fd.append('endereco',endereco);
     fd.append('bairro',bairro);
@@ -100,13 +101,16 @@ getUsuariosParceiros();
     fd.append('cnpj',cnpj);
     fd.append('ie',ie);
     
+    
     if(!editando){
+        fd.append('password',password)
         let response = await Api.addParceiro(fd);
+        
         if(response.status===201){
             let json = await Api.getParceiros();
             setNome('');
             setIdCidade('');
-            setIdUsuario('');
+           // setIdUsuario('');
             setImagem('');
             setEndereco('');
             setBairro('');
@@ -116,6 +120,7 @@ getUsuariosParceiros();
             setTelefone('');
             setCnpj('');
             setIe('');
+            setPassword('');
             setParceiros(json);
             toast({
             title: 'Parabéns !',
@@ -144,7 +149,7 @@ getUsuariosParceiros();
       setParceiros(json);
       setNome('');
       setIdCidade('');
-      setIdUsuario('');
+     // setIdUsuario('');
       setImagem('');
       setEndereco('');
       setBairro('');
@@ -204,9 +209,10 @@ getUsuariosParceiros();
     setTelefone('');
     setCnpj('');
     setIe('');
+    setPassword('');
     setImagem('');
     setIdCidade(null);
-    setIdUsuario(null);
+   // setIdUsuario(null);
     setEditando(false);
     onOpen();
   }
@@ -218,7 +224,7 @@ getUsuariosParceiros();
     setEndereco(json.endereco);
     setBairro(json.bairro);
     setIdCidade(json.cidade_id);
-    setIdUsuario(json.usuario_id);
+    //setIdUsuario(json.usuario_id);
     setCep(json.cep);
     setContato(json.contato);
     setEmail(json.email);
@@ -244,7 +250,7 @@ getUsuariosParceiros();
               <ModalCloseButton />
               <ModalBody>
                  <form id="add" onSubmit={onSalvar}>
-                    <FormControl style={{marginBottom:10}}>
+                    <FormControl style={{marginBottom:10}} isRequired>
                         <FormLabel>
                           Nome:
                         </FormLabel>
@@ -293,7 +299,7 @@ getUsuariosParceiros();
                         </FormControl>
                     </HStack>
                 
-                    <FormControl style={{marginBottom:10}}>
+                    <FormControl style={{marginBottom:10}} isRequired>
                     <FormLabel>
                       Cidade:
                     </FormLabel>
@@ -306,19 +312,7 @@ getUsuariosParceiros();
                           ))}
                     </Select>
                 </FormControl>
-                <FormControl style={{marginBottom:10}}>
-                    <FormLabel>
-                      Usuário Prestador:    
-                    </FormLabel>
-                    <Select 
-                        placeholder='Selecione um usuário'
-                        value={idUsuario}
-                        onChange={e => setIdUsuario(e.target.value)}>
-                          {usuarios.map((usuario)=> (
-                            <option value={usuario.id}>{usuario.name}</option>
-                          ))}
-                    </Select>
-                </FormControl>
+                
                 <HStack>
                         <FormControl style={{marginBottom:10}}>
                             <FormLabel>
@@ -340,7 +334,7 @@ getUsuariosParceiros();
                                 placeholder='Telefone...'
                               />
                         </FormControl>
-                        <FormControl style={{marginBottom:10}}>
+                        <FormControl style={{marginBottom:10}} isRequired>
                             <FormLabel>
                               Email:
                             </FormLabel>
@@ -373,6 +367,20 @@ getUsuariosParceiros();
                               />
                         </FormControl>
                     </HStack>
+                    {!editando&&<HStack>
+                    <FormControl style={{marginBottom:10}} isRequired>
+                        <FormLabel>
+                          Senha de Acesso:
+                        </FormLabel>
+                        <Input 
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            placeholder='Senha de Acesso...'
+                            
+                          />
+                    </FormControl>
+                    </HStack>}
                     <FormControl>
                       <FormLabel>
                         Imagem:

@@ -187,7 +187,7 @@ const onEdit = async (id) => {
                   <ModalCloseButton />
                   <ModalBody>
                     <form id="add" onSubmit={onSalvar}>
-                        <FormControl style={{marginBottom:10}}>
+                        <FormControl style={{marginBottom:10}} isRequired>
                             <FormLabel>
                               Nome:
                             </FormLabel>
@@ -198,7 +198,7 @@ const onEdit = async (id) => {
                                 ref={initialRef}
                               />
                         </FormControl>
-                        <FormControl style={{marginBottom:10}}>
+                        <FormControl style={{marginBottom:10}} isRequired>
                         <FormLabel>
                           Pertence a Categoria:
                         </FormLabel>

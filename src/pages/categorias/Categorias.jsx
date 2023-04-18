@@ -155,7 +155,7 @@ return (
         <ModalCloseButton />
         <ModalBody>
             <form id="add" onSubmit={onSalvar}>
-              <FormControl style={{marginBottom:10}}>
+              <FormControl style={{marginBottom:10}} isRequired>
                   <FormLabel>
                     Nome:
                   </FormLabel>

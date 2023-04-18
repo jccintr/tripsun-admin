@@ -407,7 +407,7 @@ return (
         <ModalCloseButton />
         <ModalBody>
            <form id="add" onSubmit={onSalvar}>
-              <FormControl style={{marginBottom:10}}>
+              <FormControl style={{marginBottom:10}} isRequired>
                   <FormLabel>
                     Nome:
                   </FormLabel>
@@ -418,7 +418,7 @@ return (
                       ref={initialRef}
                     />
               </FormControl>
-              <FormControl style={{marginBottom:10}}>
+              <FormControl style={{marginBottom:10}} isRequired>
                     <FormLabel>
                       Parceiro:
                     </FormLabel>
@@ -432,7 +432,7 @@ return (
                     </Select>
                 </FormControl>
                <HStack>
-                <FormControl style={{marginBottom:10}}>
+                <FormControl style={{marginBottom:10}} isRequired>
                     <FormLabel>
                       Categoria:
                     </FormLabel>
@@ -445,7 +445,7 @@ return (
                           ))}
                     </Select>
                 </FormControl>
-                <FormControl style={{marginBottom:10}}>
+                <FormControl style={{marginBottom:10}} isRequired>
                     <FormLabel>
                       Subcategoria:
                     </FormLabel>
@@ -493,7 +493,7 @@ return (
                              />
                         </FormControl>
                       <HStack>
-                         <FormControl style={{marginBottom:10}}>
+                         <FormControl style={{marginBottom:10}} isRequired>
                             <FormLabel>
                               Latitude:
                             </FormLabel>
@@ -503,7 +503,7 @@ return (
                                 placeholder='Latitude...'
                               />
                         </FormControl>
-                        <FormControl style={{marginBottom:10}}>
+                        <FormControl style={{marginBottom:10}} isRequired>
                             <FormLabel>
                               Longitude:
                             </FormLabel>
@@ -514,7 +514,7 @@ return (
                               />
                         </FormControl>
                        </HStack>
-                       <FormControl style={{marginBottom:10}}>
+                       <FormControl style={{marginBottom:10}} isRequired>
                           <FormLabel>
                             Cidade:
                           </FormLabel>
@@ -616,7 +616,7 @@ return (
                          </FormControl>
                          </HStack>
                         <HStack>
-                        <FormControl style={{marginBottom:10}}>
+                        <FormControl style={{marginBottom:10}} isRequired>
                           <FormLabel>
                             Preço:
                           </FormLabel>
@@ -631,7 +631,7 @@ return (
                             />
                           </NumberInput>
                          </FormControl>
-                         <FormControl style={{marginBottom:10}}>
+                         <FormControl style={{marginBottom:10}} isRequired>
                           <FormLabel>
                             Percentual da Plataforma:
                           </FormLabel>

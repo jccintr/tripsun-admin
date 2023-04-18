@@ -74,15 +74,10 @@ const onLogout = () => {
                <Link to="/usuarios" style={{ textDecoration: "none" }}>
                     <li>
                         <HiUsers className="icon" size={18} />
-                        <span>Usuários Clientes</span>
+                        <span>Clientes</span>
                     </li>
                </Link>
-               <Link to="/usuariosparceiros" style={{ textDecoration: "none" }}>
-                    <li>
-                        <HiUsers className="icon" size={18} />
-                        <span>Usuários Parceiros</span>
-                    </li>
-               </Link>
+               
                <p className="title">MOVIMENTAÇÃO</p>
                <Link to="/agendamentos" style={{ textDecoration: "none" }}>
                     <li>
