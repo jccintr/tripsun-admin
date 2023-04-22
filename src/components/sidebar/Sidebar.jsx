@@ -2,16 +2,8 @@ import React from 'react'
 import "./sidebar.scss";
 import { Link,useNavigate } from "react-router-dom";
 import logo from "../../assets/img_header-tripsun.png";
-import { MdDashboard } from "react-icons/md";
-import { FaCity } from "react-icons/fa";
-import { FaHandshake } from "react-icons/fa";
-import { FaTheaterMasks } from "react-icons/fa";
-import { FaCalendarAlt} from "react-icons/fa";
-
-
-import { MdLocationOn } from "react-icons/md";
-import { MdLogout } from "react-icons/md";
-
+import { MdDashboard,MdLocationOn,MdLogout } from "react-icons/md";
+import { FaCity,FaHandshake,FaTheaterMasks,FaCalendarAlt } from "react-icons/fa";
 import { HiUsers } from "react-icons/hi";
 
 
@@ -21,7 +13,6 @@ const Sidebar = ({setLogged}) => {
 
 const onLogout = () => {
     setLogged(false);
-  //  navigate('/');
 }
 
 
