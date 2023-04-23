@@ -148,7 +148,7 @@ const onEdit = async (id) => {
 
   return (
     <div className={styles.container}>
-       <Navbar onClick={onAdd} setFilter={setFilter} title="Usuários Clientes"/>
+       <Navbar onClick={onAdd} setFilter={setFilter} title="Clientes"/>
        {loadingData ? <div className={styles.spinner}>
               <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
             </div>:<TableUsuarios usuarios={usuarios} filter={filter} onEdit={onEdit}/>}
