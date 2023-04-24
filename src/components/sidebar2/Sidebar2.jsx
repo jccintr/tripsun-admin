@@ -1,15 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState,useContext} from 'react'
 //import "./sidebar.scss";
-import { Link,useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../assets/img_header-tripsun.png";
 import { MdDashboard,MdLocationOn,MdLogout } from "react-icons/md";
 import { FaCity,FaHandshake,FaTheaterMasks,FaCalendarAlt,FaBars } from "react-icons/fa";
 import { HiUsers } from "react-icons/hi";
 import styles from "./styles.module.css";
+import DataContext from '../../context/DataContext';
 
-const Sidebar2 = ({setLogged}) => {
+const Sidebar2 = () => {
+    const {setLogged} = useContext(DataContext);
     const[isOpen ,setIsOpen] = useState(true);
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
 
 const onLogout = () => {
@@ -27,12 +29,16 @@ return (
 
         <div className={styles.center}>
             <ul className={styles.menu}>
-            <Link to="/home" style={{ textDecoration: "none" }} >
+             {/*
+             <Link to="/home" style={{ textDecoration: "none" }} >
                 <li title="Home" className={styles.menuItem}>
                     <MdDashboard className={styles.icon} size={24} />
                     <span style={{display: isOpen ? "block" : "none"}} className={styles.menuItemText}>Home</span>
                 </li>
             </Link>
+
+             */}   
+            
                 <p style={{display: isOpen ? "block" : "none"}} className={styles.subtitle}>CADASTROS</p>
                 <Link to="/cidades" style={{ textDecoration: "none" }} >
                     <li title="Cadastro de Cidades" className={styles.menuItem}>

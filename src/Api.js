@@ -326,8 +326,23 @@ getHorariosByServico: async (idServico) => {
 
     });
   return response;
-  },
-  getAgendamentos: async () => {
+  },/*
+  getAgendamentos: async (token) => {
+    const req = await fetch(`${BASE_API}/agendamentos`,{
+        method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: token
+            },
+    }
+    
+    );
+    const json = await req.json();
+    return json;
+},
+*/
+getAgendamentos: async () => {
     const req = await fetch(`${BASE_API}/agendamentos`);
     const json = await req.json();
     return json;

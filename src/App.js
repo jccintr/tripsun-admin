@@ -13,32 +13,37 @@ import {BrowserRouter,Routes, Route } from "react-router-dom";
 import "./app.css";
 import MainLayout from "./pages/MainLayout/MainLayout";
 import PrivateRoutes from "./PrivateRoutes";
-import { useState } from "react";
+import { useState,useContext } from "react";
+import { DataProvider } from "./context/DataContext";
+import DataContext from "./context/DataContext";
 
 
 
 function App() {
-  const [logged,setLogged] = useState(false);
+  const {setLogged,logged} = useContext(DataContext);
+ 
   return (
     <div className="app">
-       <BrowserRouter>
-           <Routes>
-              <Route path="/" element={<Login setLogged={setLogged}/>} />
-              <Route element={<PrivateRoutes logged={logged}/>} >
-                <Route element={<MainLayout setLogged={setLogged}/>}>
-                    <Route path="/cidades" element={<Cidades/>}/>
-                    <Route path="/categorias" element={<Categorias/>}/>
-                    <Route path="/subcategorias" element={<Subcategorias/>}/>
-                    <Route path="/parceiros" element={<Parceiros/>}/>
-                    <Route path="/atividades" element={<Atividades/>}/>
-                    <Route path="/usuarios" element={<Usuarios/>}/>
-                    <Route path="/agendamentos" element={<Agendamentos/>}/>
-                    <Route path="/home" element={<Home/>}/>
-                   
-                </Route>
-              </Route>
-          </Routes>
-       </BrowserRouter>
+      <DataProvider>
+          <BrowserRouter>
+              <Routes>
+                  <Route path="/" element={<Login />} />
+                  <Route element={<PrivateRoutes />} >
+                    <Route element={<MainLayout setLogged={setLogged}/>}>
+                        <Route path="/cidades" element={<Cidades/>}/>
+                        <Route path="/categorias" element={<Categorias/>}/>
+                        <Route path="/subcategorias" element={<Subcategorias/>}/>
+                        <Route path="/parceiros" element={<Parceiros/>}/>
+                        <Route path="/atividades" element={<Atividades/>}/>
+                        <Route path="/usuarios" element={<Usuarios/>}/>
+                        <Route path="/agendamentos" element={<Agendamentos/>}/>
+                        <Route path="/home" element={<Home/>}/>
+                      
+                    </Route>
+                  </Route>
+              </Routes>
+          </BrowserRouter>
+       </DataProvider>
     </div>
   );
 }

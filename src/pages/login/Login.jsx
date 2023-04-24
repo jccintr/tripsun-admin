@@ -1,17 +1,18 @@
-import React, {useState} from 'react'
-import { Box,Image,Container,Center,FormControl,FormLabel,Input,Button,Stack,useToast} from '@chakra-ui/react'
+import React, {useState,useContext} from 'react'
+import {FormControl,FormLabel,Input,Button,useToast} from '@chakra-ui/react'
 import logo from "../../assets/logo_tripsun.png";
 import { useNavigate } from 'react-router-dom';
 import Api from "../../Api";
 
-
+import DataContext from '../../context/DataContext';
 
 import styles from "./styles.module.css";
 
 
 
 
-const Login = ({setLogged}) => {
+const Login = () => {
+  const {setLogged,setLoggedUser} = useContext(DataContext);
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const [isLoading,setIsLoading] = useState(false);
@@ -24,7 +25,8 @@ const Login = ({setLogged}) => {
     let response = await Api.signIn(email,password);
     if(response.status===200){
        let json = await response.json();
-       const token = json.token;
+       setLoggedUser(json);
+       //const token = json.token;
        setLogged(true);
        navigate('/home');
     }
