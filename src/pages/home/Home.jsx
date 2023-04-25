@@ -1,14 +1,16 @@
 import React from 'react'
-import "./home.scss";
+
+import logo from "../../assets/logo_tripsun.png";
+import styles from "./styles.module.css";
 
 const Home = () => {
  
   return (
-    <div className="home">
-        <div className="homeContainer">
-          <h1>Home Screen - Ainda não disponível</h1>
-        </div>
+    
+     <div className={styles.container}>
+        <img  src={logo} alt="logo tripsun" />
     </div>
+  
   )
 }
 
