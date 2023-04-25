@@ -33,7 +33,7 @@ const TableUsuarios = ({usuarios,filter,onEdit}) => {
       usuario.name.toUpperCase().includes(filter.toUpperCase())).map((usuario) => (
               <Tr key={usuario.id}>
               
-              <Td isNumeric>{usuario.id}</Td>
+              {/*<Td isNumeric>{usuario.id}</Td>*/}
               <Td>{usuario.name}</Td>
               <Td>{usuario.email}</Td>
               <Td>{usuario.telefone}</Td>
