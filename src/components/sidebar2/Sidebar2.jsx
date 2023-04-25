@@ -60,7 +60,7 @@ return (
                 </Link>
                 <Link to="/parceiros" style={{ textDecoration: "none" }}>
                 <li title="Cadastro de Parceiros" className={styles.menuItem}>
-                   <FaHandshake className={styles.icon} size={18} />
+                   <FaHandshake className={styles.icon} size={24} />
                     <span  style={{display: isOpen ? "block" : "none"}} className={styles.menuItemText}>Parceiros</span>
                 </li>
                 </Link>
