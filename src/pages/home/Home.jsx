@@ -8,7 +8,7 @@ const Home = () => {
   return (
     
      <div className={styles.container}>
-        <img  src={logo} alt="logo tripsun" />
+        <img className={styles.logo} src={logo} alt="logo tripsun" />
     </div>
   
   )
