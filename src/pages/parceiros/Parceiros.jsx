@@ -1,7 +1,7 @@
 import React ,{ useState, useEffect,useRef} from 'react'
 import Api from '../../Api';
 import Navbar from '../../components/navbar/Navbar';
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { useToast,Spinner } from '@chakra-ui/react'
 import styles from "./styles.module.css";
 
@@ -16,7 +16,7 @@ import {useDisclosure,Input,Select,
     ModalCloseButton,
     FormControl,
     FormLabel,
-    AlertDescription,HStack,
+    HStack,
   } from '@chakra-ui/react';
 
   import TableParceiros from '../../components/tableParceiros/TableParceiros';
@@ -44,7 +44,7 @@ const [password,setPassword] = useState('');
 const [imagem,setImagem] = useState('');
 const [imagemCarregada,setImagemCarregada] = useState(false);
 const imgRef = useRef();
-const navigate = useNavigate();
+//const navigate = useNavigate();
 const toast = useToast();
 const [filter,setFilter] = useState('');
 const [editando,setEditando] = useState(false);
@@ -131,9 +131,11 @@ getUsuariosParceiros();
           });
           onClose();
         } else {
+        let json = await response.json();  
+        //console.log(response.status());
         toast({
-          title: 'Atenção !',
-          description: "Preencha todos os campos por favor.",
+          title: 'Atenção ! Ocorreu um erro.',
+          description: json.erro,
           status: 'error',
           duration: 3000,
           isClosable: true,
@@ -314,7 +316,7 @@ getUsuariosParceiros();
                 </FormControl>
                 
                 <HStack>
-                        <FormControl style={{marginBottom:10}}>
+                        <FormControl style={{marginBottom:10}} isRequired>
                             <FormLabel>
                               Contato:
                             </FormLabel>
@@ -334,7 +336,7 @@ getUsuariosParceiros();
                                 placeholder='Telefone...'
                               />
                         </FormControl>
-                        <FormControl style={{marginBottom:10}} isRequired>
+                        <FormControl style={{marginBottom:10}} isRequired isReadOnly={editando}>
                             <FormLabel>
                               Email:
                             </FormLabel>
