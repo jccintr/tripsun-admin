@@ -22,6 +22,23 @@ import {
        return d.substring(11,16);
    }
 
+   const Pendente = () =>{
+    return (<span style={{color:'#f00'}}>AGUARDANDO PAGAMENTO</span>)
+   }
+
+   const statusCobranca = (statusAsaas) => {
+    switch(statusAsaas) {
+        case 'PAYMENT_CONFIRMED':
+          return 'RECEBIDO';
+          break;
+        case 'PAYMENT_RECEIVED':
+          return 'RECEBIDO';
+          break;
+        default:
+          return <Pendente/>;
+      } 
+}
+
 
 const TableAgendamentos = ({agendamentos}) => {
     return (
@@ -55,7 +72,7 @@ const TableAgendamentos = ({agendamentos}) => {
                         <Td isNumeric>{agendamento.quantidade}</Td>
                         <Td isNumeric>{agendamento.total}</Td>
                         <Td isNumeric>{agendamento.valor_plataforma}</Td>
-                        <Td>{agendamento.cobranca_status}</Td>
+                        <Td >{statusCobranca(agendamento.cobranca_status)}</Td>
                   </Tr>
                   ))}
           
