@@ -31,45 +31,58 @@ import {
     const toast = useToast();
 
     const onSignIn = async () =>{
-        setIsLoading(true);
-        let response = await Api.signIn(email,password);
-        if(response.status===200){
-           let json = await response.json();
-           setLoggedUser(json);
-           setLogged(true);
-           navigate('/home');
-        }
-        else{
-          toast({
-          title: 'Acesso não autorizado !',
-          description: "Nome de usuário e ou senha inválidos.",
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        });
-        setIsLoading(false);
-         
-        }
-      
-       
+
+            setIsLoading(true);
+            let response = await Api.signIn(email,password);
+            if(response.status===200){
+                let json = await response.json();
+                setLoggedUser(json);
+                setLogged(true);
+                navigate('/home');
+            }
+            else{
+                toast({
+                title: 'Acesso não autorizado !',
+                description: "Nome de usuário e ou senha inválidos.",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                });
+                setIsLoading(false);
+            }
        }
+
+{
+    /*
+  sm: '30em', // 480px
+  md: '48em', // 768px
+  lg: '62em', // 992px
+  xl: '80em', // 1280px
+    */
+}
+
 
     return (
         <Flex
-        minH={'100vh'}
-        minW={'100%'}
-        align={'center'}
-        justify={'center'}
-        bg={useColorModeValue('gray.100', 'gray.800')}>
-        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-         
+       
+           h='100vh'
+           w='full'
+            align={'center'}
+            justify={'center'}
+            bg={'gray.100'}
+        >
+        
+        <Stack spacing={8} mx='auto'  maxW='xl' w={['full','full','full','full']}  py={12} px={6}>
           <Box
             rounded={'lg'}
-            bg={useColorModeValue('white', 'gray.700')}
-            boxShadow={'lg'}
-            p={8}>
+            bg={'white'}
+            boxShadow={['none','lg']}
+            p={8}
+            
+            >
             <Stack spacing={4}>
             <img  src={logo} alt="logo tripsun" />
+            
               <FormControl id="email" isRequired>
                 <FormLabel>Email:</FormLabel>
                 <Input
@@ -83,7 +96,7 @@ import {
               <FormControl id="password" isRequired>
                 <FormLabel>Senha:</FormLabel>
                 <Input
-                     isRequired
+                     
                      type="password"
                      value={password}
                      onChange={e => setPassword(e.target.value)}
@@ -97,11 +110,13 @@ import {
                   justify={'space-between'}>
                   <Link color={'red'}>Esqueceu a senha ?</Link>
                 </Stack>
-                <Button isLoading={isLoading} onClick={onSignIn} width={{base:'100%'}} colorScheme='red' size='lg'>ENTRAR</Button>
+                <Button isDisabled={!(password.length>0 && email.length>0)} isLoading={isLoading} onClick={onSignIn}  width="full" colorScheme='red' size='lg'>ENTRAR</Button>
               </Stack>
+             
+             
             </Stack>
           </Box>
-        </Stack>
+          </Stack>
       </Flex>
     )
   }
