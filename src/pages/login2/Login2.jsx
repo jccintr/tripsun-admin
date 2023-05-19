@@ -17,11 +17,11 @@ import {
     Heading,
     Text,
     useColorModeValue,
-    useToast
+    useToast,
+    Image,
+    Center
   } from '@chakra-ui/react';
 
-  
-  
   const Login2 = () => {
     const {setLogged,setLoggedUser} = useContext(DataContext);
     const [email,setEmail] = useState('');
@@ -64,29 +64,24 @@ import {
 
     return (
         <Flex
-       
            h='100vh'
            w='full'
-            align={'center'}
-            justify={'center'}
-            bg={['white','gray.100']}
+           align={'center'}
+           justify={'center'}
+           bg={['white','gray.100']}
         >
-        
         <Stack spacing={8} mx='auto'  maxW='md' w={['full','full','full','full']}  py={12} >
           <Box
             rounded={'lg'}
             bg={'white'}
             boxShadow={['none','lg']}
             p={8}
-            
-            >
-            <Stack spacing={4}>
-            <img  src={logo} alt="logo tripsun" />
-            
+         >
+         <Stack spacing={4}>
+            <Center><Image w='300px' h='200px'  src={logo} alt="logo tripsun" /></Center>
               <FormControl id="email" isRequired>
                 <FormLabel>Email:</FormLabel>
                 <Input
-                    
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder='Seu Email...'
@@ -96,7 +91,6 @@ import {
               <FormControl id="password" isRequired>
                 <FormLabel>Senha:</FormLabel>
                 <Input
-                     
                      type="password"
                      value={password}
                      onChange={e => setPassword(e.target.value)}
@@ -110,11 +104,9 @@ import {
                   justify={'space-between'}>
                   <Link color={'red'}>Esqueceu a senha ?</Link>
                 </Stack>
-                <Button isDisabled={!(password.length>0 && email.length>0)} isLoading={isLoading} onClick={onSignIn}  width="full" colorScheme='red' size='lg'>ENTRAR</Button>
+                <Button isDisabled={!(password.trim().length>0 && email.trim().length>0)} isLoading={isLoading} onClick={onSignIn}  width="full" colorScheme='red' size='lg'>ENTRAR</Button>
               </Stack>
-             
-             
-            </Stack>
+             </Stack>
           </Box>
           </Stack>
       </Flex>
