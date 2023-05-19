@@ -1,5 +1,6 @@
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
+import Login2 from "./pages/login2/Login2";
 import Cidades from "./pages/cidades/Cidades";
 import Categorias from "./pages/categorias/Categorias";
 import Subcategorias from "./pages/subcategorias/Subcategorias";
@@ -27,7 +28,7 @@ function App() {
       <DataProvider>
           <BrowserRouter>
               <Routes>
-                  <Route path="/" element={<Login />} />
+                  <Route path="/" element={<Login2 />} />
                   <Route element={<PrivateRoutes />} >
                     <Route element={<MainLayout setLogged={setLogged}/>}>
                         <Route path="/cidades" element={<Cidades/>}/>
