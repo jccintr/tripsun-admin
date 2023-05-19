@@ -69,10 +69,10 @@ import {
            w='full'
             align={'center'}
             justify={'center'}
-            bg={'gray.100'}
+            bg={['white','gray.100']}
         >
         
-        <Stack spacing={8} mx='auto'  maxW='xl' w={['full','full','full','full']}  py={12} px={6}>
+        <Stack spacing={8} mx='auto'  maxW='md' w={['full','full','full','full']}  py={12} >
           <Box
             rounded={'lg'}
             bg={'white'}

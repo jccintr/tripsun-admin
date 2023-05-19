@@ -1,6 +1,7 @@
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Login2 from "./pages/login2/Login2";
+import Login3 from "./pages/login3/Login3";
 import Cidades from "./pages/cidades/Cidades";
 import Categorias from "./pages/categorias/Categorias";
 import Subcategorias from "./pages/subcategorias/Subcategorias";
