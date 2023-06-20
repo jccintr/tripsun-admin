@@ -44,3 +44,9 @@
 .trashIcon {
   color: red;
 }
+
+.noRecordText {
+  color: red;
+  font-weight: bold;
+ }
+

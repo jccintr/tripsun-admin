@@ -146,7 +146,9 @@ return (
       
       {loadingData ? <div className={styles.spinner}>
               <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
-            </div>:<TableCategorias categorias={categorias} filter={filter} onEdit={onEdit}/>}
+            </div>:categorias.length>0&&<TableCategorias categorias={categorias} filter={filter} onEdit={onEdit}/>}
+
+      {!loadingData && categorias.length===0&&<div className={styles.spinner}><p className={styles.noRecordText}>Nenhum registro encontrado!</p></div>}
    
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

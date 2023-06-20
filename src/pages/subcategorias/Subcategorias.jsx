@@ -179,7 +179,8 @@ const onEdit = async (id) => {
            <Navbar onClick={onAdd} setFilter={setFilter} title="Subcategorias"/>
            {loadingData ? <div className={styles.spinner}>
               <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
-            </div>:<TableSubcategorias subCategorias={subcategorias} filter={filter} onEdit={onEdit}/>}
+            </div>:subcategorias.length>0&&<TableSubcategorias subCategorias={subcategorias} filter={filter} onEdit={onEdit}/>}
+            {!loadingData && subcategorias.length===0&&<div className={styles.spinner}><p className={styles.noRecordText}>Nenhum registro encontrado!</p></div>}
             <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>

@@ -39,10 +39,13 @@ const Agendamentos = () => {
         <div className={styles.container}>
             <Navbar onClick={onAdd} setFilter={setFilter} title="Agendamentos"/>
             
+            
             {loadingData ? <div className={styles.spinner}>
-                    <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
-                  </div>:<TableAgendamentos agendamentos={agendamentos}/>}
-         
+                               <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>
+                           </div>
+                           :agendamentos.length>0&&<TableAgendamentos agendamentos={agendamentos}/>}
+
+           {!loadingData && agendamentos.length===0&&<div className={styles.spinner}><p className={styles.noRecordText}>Nenhum registro encontrado!</p></div>}
            
         </div>
       )

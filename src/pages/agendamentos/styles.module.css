@@ -19,3 +19,8 @@
    align-items: center;
    justify-content: center;
  }
+
+ .noRecordText {
+  color: red;
+  font-weight: bold;
+ }
