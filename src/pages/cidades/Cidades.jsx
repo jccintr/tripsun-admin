@@ -4,18 +4,7 @@ import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
 import { useToast,Spinner } from '@chakra-ui/react'
 import styles from "./styles.module.css";
-import {useDisclosure,Input,Select,
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-} from '@chakra-ui/react'
+import {useDisclosure,Input,Select,Button,Modal,ModalOverlay,ModalContent,ModalHeader,ModalFooter,ModalBody,ModalCloseButton,FormControl,FormLabel,} from '@chakra-ui/react'
 import TableCidades from '../../components/tableCidades/TableCidades';
 
 const Cidades = () => {
@@ -91,23 +80,11 @@ const Cidades = () => {
           setEstado('');
           setImagem('');
           setCidades(json);
-          toast({
-            title: 'Parabéns !',
-            description: "Você adicionou uma nova cidade.",
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-          });
+          toast({title: 'Parabéns !',description: "Você adicionou uma nova cidade.",status: 'success',duration: 3000,isClosable: true,});
           onClose();
           setIsLoading(false);
       } else {
-        toast({
-          title: 'Atenção !',
-          description: "Preencha todos os campos por favor.",
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        })
+        toast({title: 'Atenção !',description: "Preencha todos os campos por favor.",status: 'error',duration: 3000,isClosable: true,})
       }
       setIsLoading(false);
   } else {
@@ -118,22 +95,10 @@ const Cidades = () => {
       setEstado('');
       setImagem('');
       setCidades(json);
-      toast({
-        title: 'Parabéns !',
-        description: "Você atualizou uma cidade.",
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast({title: 'Parabéns !',description: "Você atualizou uma cidade.",status: 'success',duration: 3000,isClosable: true,});
       onClose();
   } else {
-    toast({
-      title: 'Atenção !',
-      description: "Campos obrigatórios não informados.",
-      status: 'error',
-      duration: 3000,
-      isClosable: true,
-    })
+    toast({title: 'Atenção !',description: "Campos obrigatórios não informados.",status: 'error',duration: 3000,isClosable: true,})
   }
  setIsLoading(false);
   }

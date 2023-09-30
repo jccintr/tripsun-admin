@@ -20,7 +20,7 @@ const onLogout = () => {
     <div className='sidebar'>
         <div className="top">
             <img className="imgLogo" src={logo} alt="TripSun Logo" />
-            <span className="logo">Módulo de Administração</span>
+            <span className="logo">Admin</span>
         </div>
 
         <div className="center">

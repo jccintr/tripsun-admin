@@ -1,9 +1,10 @@
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Cidades from "./pages/cidades/Cidades";
-import Categorias from "./pages/categorias/Categorias";
-import Subcategorias from "./pages/subcategorias/Subcategorias";
-import Parceiros from "./pages/parceiros/Parceiros";
+import Cidades2 from "./pages/cidades/Cidades2";
+import Categorias2 from "./pages/categorias/Categorias2";
+import Subcategorias2 from "./pages/subcategorias/Subcategorias2";
+import Parceiros2 from "./pages/parceiros/Parceiros2";
 import Atividades from "./pages/atividades/Atividades";
 import Usuarios from "./pages/usuarios/Usuarios";
 //import UsuariosParceiros from "./pages/usuariosParceiros/UsuariosParceiros";
@@ -30,10 +31,10 @@ function App() {
                   <Route path="/" element={<Login />} />
                   <Route element={<PrivateRoutes />} >
                     <Route element={<MainLayout setLogged={setLogged}/>}>
-                        <Route path="/cidades" element={<Cidades/>}/>
-                        <Route path="/categorias" element={<Categorias/>}/>
-                        <Route path="/subcategorias" element={<Subcategorias/>}/>
-                        <Route path="/parceiros" element={<Parceiros/>}/>
+                        <Route path="/cidades" element={<Cidades2/>}/>
+                        <Route path="/categorias" element={<Categorias2/>}/>
+                        <Route path="/subcategorias" element={<Subcategorias2/>}/>
+                        <Route path="/parceiros" element={<Parceiros2/>}/>
                         <Route path="/atividades" element={<Atividades/>}/>
                         <Route path="/usuarios" element={<Usuarios/>}/>
                         <Route path="/agendamentos" element={<Agendamentos/>}/>

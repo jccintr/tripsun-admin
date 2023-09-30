@@ -23,7 +23,7 @@ return (
     <div style={{width: isOpen ? "300px" : "50px"}} className={styles.sidebar}>
         <div className={styles.top}>
             <img style={{display: isOpen ? "block" : "none"}} className="imgLogo" src={logo} alt="TripSun Logo" />
-            <span style={{display: isOpen ? "block" : "none"}} className={styles.title}>Módulo de Administração</span>
+            <span style={{display: isOpen ? "block" : "none"}} className={styles.title}>Admin</span>
             <FaBars className={styles.icon} onClick={()=>setIsOpen(!isOpen)} size={24}/>
         </div>
 

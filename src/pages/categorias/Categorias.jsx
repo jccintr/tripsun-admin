@@ -4,19 +4,8 @@ import Navbar from '../../components/navbar/Navbar';
 import { useNavigate } from "react-router-dom";
 import { useToast,Spinner } from '@chakra-ui/react'
 import styles from "./styles.module.css";
-import {useDisclosure,Input,Select,
-    Button,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    FormControl,
-    FormLabel,
-  } from '@chakra-ui/react';
-  import TableCategorias from '../../components/tableCategorias/TableCategorias';
+import {useDisclosure,Input,Select,Button,Modal,ModalOverlay,ModalContent,ModalHeader,ModalFooter,ModalBody,ModalCloseButton,FormControl,FormLabel,} from '@chakra-ui/react';
+import TableCategorias from '../../components/tableCategorias/TableCategorias';
 
 
 const Categorias = () => {

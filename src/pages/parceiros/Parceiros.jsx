@@ -44,7 +44,6 @@ const [password,setPassword] = useState('');
 const [imagem,setImagem] = useState('');
 const [imagemCarregada,setImagemCarregada] = useState(false);
 const imgRef = useRef();
-//const navigate = useNavigate();
 const toast = useToast();
 const [filter,setFilter] = useState('');
 const [editando,setEditando] = useState(false);
@@ -67,8 +66,7 @@ useEffect(()=>{
 
 useEffect(()=>{
   const getCidades = async () => {
-    
-        let json = await Api.getCidades();
+      let json = await Api.getCidades();
       setCidades(json);
    }
   getCidades();
@@ -90,7 +88,6 @@ getUsuariosParceiros();
 
     fd.append('nome',nome);
     fd.append('cidade_id',idCidade);
-   // fd.append('usuario_id',idUsuario);
     fd.append('logotipo',imagem);
     fd.append('endereco',endereco);
     fd.append('bairro',bairro);
@@ -122,24 +119,11 @@ getUsuariosParceiros();
             setIe('');
             setPassword('');
             setParceiros(json);
-            toast({
-            title: 'Parabéns !',
-            description: "Você adicionou uma novo parceiro.",
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-          });
+            toast({title: 'Parabéns !',description: "Você adicionou uma novo parceiro.",status: 'success',duration: 3000,isClosable: true,});
           onClose();
         } else {
         let json = await response.json();  
-        //console.log(response.status());
-        toast({
-          title: 'Atenção ! Ocorreu um erro.',
-          description: json.erro,
-          status: 'error',
-          duration: 3000,
-          isClosable: true,
-        })
+        toast({title: 'Atenção ! Ocorreu um erro.',description: json.erro,status: 'error',duration: 3000,isClosable: true,})
 
         }
         setIsLoading(false);
@@ -151,7 +135,6 @@ getUsuariosParceiros();
       setParceiros(json);
       setNome('');
       setIdCidade('');
-     // setIdUsuario('');
       setImagem('');
       setEndereco('');
       setBairro('');
@@ -161,23 +144,11 @@ getUsuariosParceiros();
       setTelefone('');
       setCnpj('');
       setIe('');
-      toast({
-        title: 'Parabéns !',
-        description: "Você atualizou um parceiro.",
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast({title: 'Parabéns !',description: "Você atualizou um parceiro.",status: 'success',duration: 3000,isClosable: true,});
       onClose();
       setIsLoading(false);
   } else {
-    toast({
-      title: 'Atenção !',
-      description: "Campos obrigatórios não informados.",
-      status: 'error',
-      duration: 3000,
-      isClosable: true,
-    })
+    toast({title: 'Atenção !',description: "Campos obrigatórios não informados.",status: 'error',duration: 3000,isClosable: true,})
     setIsLoading(false);
   }
   
@@ -214,8 +185,7 @@ getUsuariosParceiros();
     setPassword('');
     setImagem('');
     setIdCidade(null);
-   // setIdUsuario(null);
-    setEditando(false);
+     setEditando(false);
     onOpen();
   }
    
@@ -226,7 +196,6 @@ getUsuariosParceiros();
     setEndereco(json.endereco);
     setBairro(json.bairro);
     setIdCidade(json.cidade_id);
-    //setIdUsuario(json.usuario_id);
     setCep(json.cep);
     setContato(json.contato);
     setEmail(json.email);
@@ -274,11 +243,7 @@ getUsuariosParceiros();
                             onChange={e => setEndereco(e.target.value)}
                             placeholder='Endereço...'
                           />
-                          
                     </FormControl>
-                    
-
-                  
                     <HStack>
                         <FormControl style={{marginBottom:10}}>
                             <FormLabel>
@@ -301,7 +266,6 @@ getUsuariosParceiros();
                               />
                         </FormControl>
                     </HStack>
-                
                     <FormControl style={{marginBottom:10}} isRequired>
                     <FormLabel>
                       Cidade:
