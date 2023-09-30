@@ -112,7 +112,7 @@ const onSalvar = async (e) => {
   const fd = new FormData();
   
   fd.append('nome',parceiro.nome);
-  fd.append('cidade_id',idCidade);
+  fd.append('cidade_id',parceiro.cidade_id);
   fd.append('logotipo',parceiro.logotipo);
   fd.append('endereco',parceiro.endereco);
   fd.append('bairro',parceiro.bairro);
@@ -141,9 +141,10 @@ const onSalvar = async (e) => {
       }
       setIsLoading(false);
  } else {
-
-  let response = await Api.updateParceiro(idParceiro,fd);
+  
+  let response = await Api.updateParceiro(parceiro.id,fd);
   if(response.status===200){
+    
     let json = await Api.getParceiros();
     setParceiros(json);
     setParceiro({id:null,nome:'',cidade_id:null,logotipo:'',endereco:'',bairro:'',cep:'',contato:'',email:'',telefone:'',cnpj:'',ie:'',password:''});
@@ -167,8 +168,9 @@ const onAdd = () => {
     onOpen();
 }
  
-const onEdit = async (id) => {
-    let json = await Api.getParceirobyId(id);
+const onEdit = async (parceiro) => {
+    let json = await Api.getParceirobyId(parceiro.id);
+    //console.log(json);
     setParceiro(json);
     setEditando(true);
     onOpen(); 
