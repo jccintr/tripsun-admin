@@ -167,8 +167,6 @@ const formataData = (data) => {
 const onSalvar = async (e) => {
   setIsLoading(true);
   e.preventDefault();
-  //const fd = new FormData();
-  //fd.append('nome',nome);
   let categoria_id = idCategoria;
   let subcategoria_id = idSubcategoria;
   let cidade_id = idCidade;
@@ -178,10 +176,8 @@ const onSalvar = async (e) => {
   let descricao_curta = descricao;
   let ponto_encontro = pontoEncontro;
   let percentual_plataforma = percentualPlataforma;
-  //console.log('preco='+ preco);
   if(!editando){
       let response = await Api.addAtividade(nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,preco,vagas);
-      //alert(response.status);
       if(response.status===201){
           let json = await Api.getAtividades();
           ClearStates();
@@ -208,7 +204,6 @@ const onSalvar = async (e) => {
  } else {
 
   let response = await Api.updateAtividade(idServico,nome,categoria_id,subcategoria_id,cidade_id,prestador_id,descricao_curta,atrativos,duracao,itens_fornecidos,itens_obrigatorios,horario,latitude,longitude,destaque,ponto_encontro,endereco,percentual_plataforma,preco,vagas);
-  //alert(response.status);
   if(response.status===200){
     let json = await Api.getAtividades();
     setServicos(json);
@@ -293,6 +288,7 @@ const onAdd = () => {
 const onEdit = async (id) => {
 
   let json = await Api.getAtividadebyId(id);
+  console.log(json);
   setIdServico(json.id);
   setIdParceiro(json.prestador_id);
   setIdCategoria(json.categoria_id);

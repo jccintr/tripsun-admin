@@ -23,22 +23,8 @@ const Parceiros2 = () => {
     const [idParceiro,setIdParceiro] = useState(null);
     const [usuarios,setUsuarios] = useState([]);
     const [parceiro,setParceiro] = useState({});
-
-    // const [nome,setNome] = useState('');
-    // const [endereco,setEndereco] = useState('');
-    // const [bairro,setBairro] = useState('');
-    // const [cep,setCep] = useState('');
-    // const [contato,setContato] = useState('');
-    // const [email,setEmail] = useState('');
-    // const [telefone,setTelefone] = useState('');
-    // const [cnpj,setCnpj] = useState('');
-    // const [ie,setIe] = useState('');
-    // const [password,setPassword] = useState('');
-    // const [imagem,setImagem] = useState('');
-
     const toast = useToast();
     const [editando,setEditando] = useState(false);
-    
     const [isLoading,setIsLoading] = useState(false);
     const [loadingData,setLoadingData] = useState(false);
     const [searchText,setSearchText] = useState('');

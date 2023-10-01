@@ -71,7 +71,7 @@ const ModalCidade = ({isOpen,onClose,onSalvar,editando,cidade,setCidade,isLoadin
                     value={cidade.estado}
                     onChange={e => setCidade({...cidade,estado: e.target.value})}>
                        {estados.map((estado)=> (
-                        <option value={estado.sigla}>{estado.nome}</option>
+                        <option key={estado.sigla} value={estado.sigla}>{estado.nome}</option>
                       ))}
                 </Select>
             </FormControl>

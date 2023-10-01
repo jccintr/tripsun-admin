@@ -5,9 +5,8 @@ import Cidades2 from "./pages/cidades/Cidades2";
 import Categorias2 from "./pages/categorias/Categorias2";
 import Subcategorias2 from "./pages/subcategorias/Subcategorias2";
 import Parceiros2 from "./pages/parceiros/Parceiros2";
-import Atividades from "./pages/atividades/Atividades";
+import Atividades2 from "./pages/atividades/Atividades2";
 import Usuarios from "./pages/usuarios/Usuarios";
-//import UsuariosParceiros from "./pages/usuariosParceiros/UsuariosParceiros";
 import Agendamentos from "./pages/agendamentos/Agendamentos";
 import {BrowserRouter,Routes, Route } from "react-router-dom";
 //import Sidebar from "./components/sidebar/Sidebar";
@@ -35,7 +34,7 @@ function App() {
                         <Route path="/categorias" element={<Categorias2/>}/>
                         <Route path="/subcategorias" element={<Subcategorias2/>}/>
                         <Route path="/parceiros" element={<Parceiros2/>}/>
-                        <Route path="/atividades" element={<Atividades/>}/>
+                        <Route path="/atividades" element={<Atividades2/>}/>
                         <Route path="/usuarios" element={<Usuarios/>}/>
                         <Route path="/agendamentos" element={<Agendamentos/>}/>
                         <Route path="/home" element={<Home/>}/>
