@@ -6,6 +6,7 @@ import {Flex,Heading,Box} from '@chakra-ui/react'
 import DataTable from 'react-data-table-component';
 import ModalAtividade from '../../components/modals/ModalAtividade';
 import ModalIconeAtividade from '../../components/modals/ModalIconeAtividade';
+import ModalImagensAtividade from '../../components/modals/ModalImagensAtividade';
 import SearchField from '../../components/SearchField';
 
 const paginationComponentOptions = {
@@ -19,6 +20,7 @@ const paginationComponentOptions = {
 const Atividades2 = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen: isOpenModalIcone , onOpen: onOpenModalIcone, onClose: onCloseModalIcone } = useDisclosure()
+    const { isOpen: isOpenModalImagens , onOpen: onOpenModalImagens, onClose: onCloseModalImagens } = useDisclosure()
     const [atividades,setAtividades] = useState([]);
     const [atividade,setAtividade] = useState({});
     const [parceiros,setParceiros] = useState([]);
@@ -35,6 +37,9 @@ const Atividades2 = () => {
     const [novoIcone,setNovoIcone] = useState(null);
     const [novoIconeScreen,setNovoIconeScreen] = useState(null);
 
+    const [imagens,setImagens] = useState([]);
+    const [novaImagem,setNovaImagem] = useState('');
+
     const atividadesFiltrado = atividades.filter(atividade => atividade.nome && atividade.nome.toLowerCase().includes(searchText.toLowerCase()),);
 
   const customStyles = {
@@ -49,7 +54,10 @@ const Atividades2 = () => {
   };
 
   const columns = [
-    
+    // {
+    //   name: 'id',
+    //   selector: row => row.id,
+    // },
     {
       name: 'Nome',
       selector: row => row.nome,
@@ -69,6 +77,10 @@ const Atividades2 = () => {
     {
       name: '',
       cell: row =><Button m="2" onClick={()=>openModalIcon(row)} bg={'red.500'} color={'white'} _hover={{bg: 'red.600',}} size='xs'>ÍCONE</Button>
+    },
+    {
+      name: '',
+      cell: row =><Button m="2" onClick={()=>abreModalImagens(row)} bg={'red.500'} color={'white'} _hover={{bg: 'red.600',}} size='xs'>IMAGENS</Button>
     },
     
 ];
@@ -114,6 +126,35 @@ useEffect(()=>{
   }
   getSubcategorias();
   }, []);
+
+  const handlerImagem = async (e) => {
+    setNovaImagem(e.target.files[0]);
+    adicionaImagem();
+  }
+
+  const deleteImage = async (id) => {
+    let response = await Api.deleteImagem(id);
+    let json = await Api.getImagensByServico(atividade.id);
+   setImagens(json);
+ }
+
+ const adicionaImagem = async () => {
+  const fd = new FormData();
+   fd.append('servico_id',atividade.id);
+  fd.append('imagem',novaImagem);
+  let response = await Api.addImagem(fd);
+  if(response.status===201){
+    let json = await Api.getImagensByServico(atividade.id);
+    setImagens(json);
+  }
+}
+
+const abreModalImagens = async (atividade) => {
+  setAtividade(atividade);
+  let json = await Api.getImagensByServico(atividade.id);
+  setImagens(json);
+  onOpenModalImagens();
+}
 
   
 const onSalvar = async (e) => {
@@ -279,6 +320,13 @@ const onSalvar = async (e) => {
      novoIconeScreen={novoIconeScreen}
      isLoading={isLoading}
      icone={icone}
+    />
+    <ModalImagensAtividade 
+    isOpen={isOpenModalImagens}
+    onClose={onCloseModalImagens}
+    imagens={imagens}
+    deleteImage={deleteImage}
+    handlerImagem={handlerImagem}
     />
 </Flex>  
   )
