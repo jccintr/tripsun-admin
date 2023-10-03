@@ -162,7 +162,7 @@ const onAdd = () => {
 
 
 return (
-    <Flex w='full'  minH={'100vh'} height='100vh' direction='column' align={'center'} justify={'flex-start'} bg={['white','gray.100']} p='8'>
+    <Flex w='full'  minH={'100vh'} direction='column' align={'center'} justify={'flex-start'} bg={['white','gray.100']} p='8'>
         <Heading color='red.500' mb='4' fontSize={['1xl','2xl']}>Subcategorias</Heading>
         {loadingData ? <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>: <Box w={{ base: '350px', md: '500px', lg: '1000px' }} rounded={'lg'} bg={'white'} boxShadow={['none','lg']} p={[0,8]}>
           <Button onClick={onAdd} bg={'red.500'} color={'white'} _hover={{bg: 'red.600',}} size='sm'>ADICIONAR SUBCATEGORIA</Button>

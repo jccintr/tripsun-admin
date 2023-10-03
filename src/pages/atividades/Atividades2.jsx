@@ -8,6 +8,7 @@ import ModalAtividade from '../../components/modals/ModalAtividade';
 import ModalIconeAtividade from '../../components/modals/ModalIconeAtividade';
 import ModalImagensAtividade from '../../components/modals/ModalImagensAtividade';
 import SearchField from '../../components/SearchField';
+import ModalHorarios from '../../components/modals/ModalHorarios';
 
 const paginationComponentOptions = {
     rowsPerPageText: 'Registros por Página',
@@ -21,6 +22,7 @@ const Atividades2 = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen: isOpenModalIcone , onOpen: onOpenModalIcone, onClose: onCloseModalIcone } = useDisclosure()
     const { isOpen: isOpenModalImagens , onOpen: onOpenModalImagens, onClose: onCloseModalImagens } = useDisclosure()
+    const { isOpen: isOpenModalHorarios , onOpen: onOpenModalHorarios, onClose: onCloseModalHorarios } = useDisclosure()
     const [atividades,setAtividades] = useState([]);
     const [atividade,setAtividade] = useState({});
     const [parceiros,setParceiros] = useState([]);
@@ -39,6 +41,9 @@ const Atividades2 = () => {
 
     const [imagens,setImagens] = useState([]);
     const [novaImagem,setNovaImagem] = useState('');
+
+    const [horarios,setHorarios] = useState([]);
+    const [dataCalendario, setDataCalendario] = useState(new Date());
 
     const atividadesFiltrado = atividades.filter(atividade => atividade.nome && atividade.nome.toLowerCase().includes(searchText.toLowerCase()),);
 
@@ -63,8 +68,8 @@ const Atividades2 = () => {
       selector: row => row.nome,
     },
     {
-        name: 'Parceiro',
-        selector: row => row.prestador.nome,
+      name: 'Parceiro',
+      selector: row => row.prestador.nome,
       },
     {
       name: 'Cidade',
@@ -72,16 +77,35 @@ const Atividades2 = () => {
     },
     {
       name: '',
-      cell: row =><Button m="2" onClick={()=>onEdit(row)} bg={'red.500'} color={'white'} _hover={{bg: 'red.600',}} size='xs'>EDITAR</Button>
+      width:'340px',
+       cell: row =><><Button m="2"  onClick={()=>onEdit(row)} bg={'red.500'} color={'white'} _hover={{bg: 'red.600',}} size='xs' w='100'>EDITAR</Button>
+              <Button m="2" onClick={()=>openModalIcon(row)} bg={'blue.500'} color={'white'} _hover={{bg: 'blue.600',}} size='xs'>ÍCONE</Button>
+              <Button m="2"  onClick={()=>abreModalImagens(row)} bg={'green.500'} color={'white'} _hover={{bg: 'green.600',}} size='xs'>IMAGENS</Button>
+              <Button m="2"  onClick={()=>abreModalHorarios(row)} bg={'orange.500'} color={'white'} _hover={{bg: 'orange.600',}} size='xs'>HORÁRIOS</Button>
+                    </>
+    },
+    /*
+    {
+      name: '',
+       cell: row =><Button m="2"  onClick={()=>onEdit(row)} bg={'red.500'} color={'white'} _hover={{bg: 'red.600',}} size='xs' w='100'>EDITAR</Button>
+                    
     },
     {
       name: '',
-      cell: row =><Button m="2" onClick={()=>openModalIcon(row)} bg={'red.500'} color={'white'} _hover={{bg: 'red.600',}} size='xs'>ÍCONE</Button>
+       cell: row =><Button m="2" onClick={()=>openModalIcon(row)} bg={'blue.500'} color={'white'} _hover={{bg: 'blue.600',}} size='xs'>ÍCONE</Button>
+               
     },
     {
       name: '',
-      cell: row =><Button m="2" onClick={()=>abreModalImagens(row)} bg={'red.500'} color={'white'} _hover={{bg: 'red.600',}} size='xs'>IMAGENS</Button>
+       cell: row =><Button m="2"  onClick={()=>abreModalImagens(row)} bg={'green.500'} color={'white'} _hover={{bg: 'green.600',}} size='xs'>IMAGENS</Button>
+                  
     },
+    {
+      name: '',
+       cell: row =><Button m="2"  onClick={()=>abreModalHorarios(row)} bg={'orange.500'} color={'white'} _hover={{bg: 'orange.600',}} size='xs'>HORÁRIOS</Button>
+               
+    },
+   */
     
 ];
 
@@ -156,6 +180,15 @@ const abreModalImagens = async (atividade) => {
   onOpenModalImagens();
 }
 
+const abreModalHorarios = async (atividade) => {
+  setAtividade(atividade);
+  let mes = dataCalendario.getMonth() + 1;
+  let data = dataCalendario.getFullYear() + '-' + mes + '-' + dataCalendario.getDate();
+  let json = await Api.getHorariosByServico(atividade.id);
+  setHorarios(json);
+  onOpenModalHorarios();
+}
+
   
 const onSalvar = async (e) => {
     setIsLoading(true);
@@ -215,7 +248,6 @@ const onSalvar = async (e) => {
     setIcone(json.imagem);
     setNovoIcone(null);
     setNovoIconeScreen(null);
-    //setIdServico(idServico);
     onOpenModalIcone();
   }
 
@@ -279,12 +311,36 @@ const onSalvar = async (e) => {
         setNovoIconeScreen(URL.createObjectURL(e.target.files[0]));
        }
     }
+
+    const adicionaHorario = async (diaSemana,horas) => {
+
+      let response = await Api.addHorario(atividade.id,diaSemana,horas);
   
+      if(response.status===201){
+  
+        let json = await Api.getHorariosByServico(atividade.id);
+        setHorarios(json);
+        toast({
+          title: 'Parabéns !',
+          description: "Você adicionou um novo horário.",
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+  
+    }
+  
+    const onDeleteHorario = async (id) => {
+      let response = await Api.deleteHorario(id);
+      let json = await Api.getHorariosByServico(atividade.id);
+      setHorarios(json);
+    }
   
 
 
   return (
-    <Flex w='full'  minH={'100vh'} height='100vh' direction='column' align={'center'} justify={'flex-start'} bg={['white','gray.100']} p='8'>
+    <Flex w='full'  minH={'100vh'}  direction='column' align={'center'} justify={'flex-start'} bg={['white','gray.100']} p='8'>
     <Heading color='red.500' mb='4' fontSize={['1xl','2xl']}>Atividades</Heading>
     {loadingData ? <Spinner color='#EB0303' emptyColor='gray.200' thickness='4px' size='xl'/>: <Box w={{ base: '350px', md: '500px', lg: '1000px' }} rounded={'lg'} bg={'white'} boxShadow={['none','lg']} p={[0,8]}>
       <Button onClick={onAdd} bg={'red.500'} color={'white'} _hover={{bg: 'red.600',}} size='sm'>ADICIONAR ATIVIDADE</Button>
@@ -327,6 +383,13 @@ const onSalvar = async (e) => {
     imagens={imagens}
     deleteImage={deleteImage}
     handlerImagem={handlerImagem}
+    />
+    <ModalHorarios
+    isOpen={isOpenModalHorarios}
+    onClose={onCloseModalHorarios}
+    horarios={horarios}
+    onDeleteHorario={onDeleteHorario}
+    adicionaHorario={adicionaHorario}
     />
 </Flex>  
   )
